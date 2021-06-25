@@ -1,0 +1,44 @@
+{
+  "name": "tonstarter-token-distribution",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "solhint": "./node_modules/.bin/solhint -f table contracts/**/*.sol",
+    "prettier:solidity": "./node_modules/.bin/prettier --write contracts/**/*.sol",
+    "lint": "./node_modules/.bin/pretty-quick --pattern '**/*.*(sol)' --verbose",
+    "lint:check": "prettier --check **/*.sol",
+    "lint:fix": "pretty-quick --pattern '**/*.*(sol)' --staged --verbose",
+    "lint:write": "prettier --write **/*.sol **/*.json",
+    "docify": "node docify.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@digix/doxity": "^0.5.2",
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "chai": "^4.3.4",
+    "dotenv": "^10.0.0",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.3.1",
+    "hardhat": "^2.4.1",
+    "prettier": "^2.3.1",
+    "prettier-plugin-solidity": "^1.0.0-alpha.57",
+    "pretty-quick": "^3.1.1",
+    "solc": "^0.8.4",
+    "solhint": "^3.3.6",
+    "solhint-plugin-prettier": "^0.0.5",
+    "solidity-coverage": "^0.7.16",
+    "solidity-docgen": "^0.5.3"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.1.0",
+    "dotenv": "^10.0.0",
+    "eslint": "^7.25.0",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-standard": "^5.0.0"
+  }
+}
