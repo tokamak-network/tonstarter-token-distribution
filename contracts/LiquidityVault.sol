@@ -1,10 +1,10 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.4;
 
-import "./DesignateVault.sol";
+import "./DesignedVault.sol";
 
-contract LiquidityVault is DesignateVault {
+contract LiquidityVault is DesignedVault {
     constructor(address _tosAddress, uint256 _maxInputOnce)
-        DesignateVault("Liquidity", _tosAddress, _maxInputOnce)
+        DesignedVault("Liquidity", _tosAddress, _maxInputOnce)
     {}
 }

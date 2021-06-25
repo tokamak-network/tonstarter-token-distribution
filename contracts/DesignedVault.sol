@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 //import "hardhat/console.sol";
 
-contract DesignateVault is Ownable {
+contract DesignedVault is Ownable {
     using SafeERC20 for IERC20;
 
     struct ClaimedInfo {
