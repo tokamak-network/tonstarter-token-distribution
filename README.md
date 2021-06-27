@@ -18,7 +18,7 @@ To deploy,
 
 Using the [hardhat-etherscan plugin](https://hardhat.org/plugins/nomiclabs-hardhat-etherscan.html), add Etherscan API key to `hardhat.config.ts`, then run:
 
-`npx hardhat verify --network rinkeby --contract contracts/LiquidityVault.sol:LiquidityVault 0xc67c0BADB8f7837aC98d0151AD20DD0ef5380105 "0x73a54e5C054aA64C1AE7373C2B5474d8AFEa08bd" "10"`
+`npx hardhat verify --network rinkeby --contract contracts/LiquidityVault.sol:LiquidityVault 0x556F0b84c61Df67D15FC0732975fB79553638A9C "0x73a54e5C054aA64C1AE7373C2B5474d8AFEa08bd" "10"`
 
 
 ### lint

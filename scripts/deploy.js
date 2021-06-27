@@ -15,8 +15,8 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  let RINKEBY=false;
-  let LOCAL=true;
+  let RINKEBY=true;
+  let LOCAL=false;
 
     if(RINKEBY){
         const LiquidityVault = await hre.ethers.getContractFactory("LiquidityVault");
