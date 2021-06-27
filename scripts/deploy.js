@@ -15,12 +15,28 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const LiquidityVault = await hre.ethers.getContractFactory("LiquidityVault");
-  const liquidityVault = await LiquidityVault.deploy(process.env.RINKEBY_TOS_ADDRESS, 10);
+  let RINKEBY=false;
+  let LOCAL=true;
 
-  await liquidityVault.deployed();
+    if(RINKEBY){
+        const LiquidityVault = await hre.ethers.getContractFactory("LiquidityVault");
+        const liquidityVault = await LiquidityVault.deploy(process.env.RINKEBY_TOS_ADDRESS, 10);
 
-  console.log("LiquidityVault deployed to:", liquidityVault.address);
+        await liquidityVault.deployed();
+
+        console.log("LiquidityVault deployed to:", liquidityVault.address);
+    }
+     if(LOCAL){
+        const TOS = await hre.ethers.getContractFactory("TOS");
+        const tos = await TOS.deploy("TOS","TOS",1);
+        await tos.deployed();
+        console.log("tos deployed to:", tos.address);
+
+        const LiquidityVault = await hre.ethers.getContractFactory("LiquidityVault");
+        const liquidityVault = await LiquidityVault.deploy(tos.address, 10);
+        await liquidityVault.deployed();
+        console.log("LiquidityVault deployed to:", liquidityVault.address);
+     }
 }
 
 // We recommend this pattern to be able to use async/await everywhere
