@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 //import "hardhat/console.sol";
 
-contract DesignedVault is Ownable {
+contract WhitelistVault is Ownable {
     using SafeERC20 for IERC20;
 
     struct ClaimedInfo {
@@ -28,12 +28,10 @@ contract DesignedVault is Ownable {
     string public name;
     ///
     address public token;
-    address public claimer;
 
     uint256 public totalAllocatedAmount;
     uint256 public totalClaimedAmount;
-    uint256 public totalClaims;
-    uint256 public lastClaimedRound;
+    // uint256 public totalClaims;
 
     uint256 public startTime;
     uint256 public endTime;
@@ -45,21 +43,14 @@ contract DesignedVault is Ownable {
     /// round => TgeInfo
     mapping(uint256 => TgeInfo) public tgeInfos;
 
-    // for claimer
-    uint256 public oneClaimAmountByClaimer;
-    uint256 public totalClaimedCountByClaimer;
-
-    // round = time
-    mapping(uint256 => uint256) public claimedTimesOfRoundByCliamer;
-    bool public startedByClaimer;
 
     modifier nonZeroAddress(address _addr) {
-        require(_addr != address(0), "DesignateVault: zero address");
+        require(_addr != address(0), "WhitelistVault: zero address");
         _;
     }
 
     modifier nonZero(uint256 _value) {
-        require(_value > 0, "DesignateVault: zero value");
+        require(_value > 0, "WhitelistVault: zero value");
         _;
     }
 
@@ -106,19 +97,16 @@ contract DesignedVault is Ownable {
     ) {
         name = _name;
         token = _token;
-        claimer = msg.sender;
         maxInputOnceTime = _inputMaxOnce;
     }
 
     ///@dev initialization function
     ///@param _totalAllocatedAmount total allocated amount
-    ///@param _totalClaims total available claim count
     ///@param _totalTgeCount   total tge count
     ///@param _startTime start time
     ///@param _periodTimesPerCliam period time per claim
     function initialize(
         uint256 _totalAllocatedAmount,
-        uint256 _totalClaims,
         uint256 _totalTgeCount,
         uint256 _startTime,
         uint256 _periodTimesPerCliam
@@ -126,38 +114,24 @@ contract DesignedVault is Ownable {
         external
         onlyOwner
         nonZero(_totalAllocatedAmount)
-        nonZero(_totalClaims)
+        nonZero(_totalTgeCount)
         nonZero(_startTime)
         nonZero(_periodTimesPerCliam)
     {
         require(
             IERC20(token).balanceOf(address(this)) >= _totalAllocatedAmount,
-            "DesignateVault: balanceOf is insuffient"
+            "WhitelistVault: balanceOf is insuffient"
         );
 
         require(
             totalAllocatedAmount == 0,
-            "DesignateVault: already initialized"
+            "WhitelistVault: already initialized"
         );
         totalAllocatedAmount = _totalAllocatedAmount;
-        totalClaims = _totalClaims;
         totalTgeCount = _totalTgeCount;
         startTime = _startTime;
         periodTimesPerCliam = _periodTimesPerCliam;
-        endTime = _startTime + (_periodTimesPerCliam * _totalClaims);
-    }
-
-    ///@dev set claimer
-    ///@param _newClaimer new claimer
-    function setClaimer(address _newClaimer)
-        external
-        onlyOwner
-        nonZeroAddress(_newClaimer)
-    {
-        require(claimer != _newClaimer, "DesignateVault: same address");
-        claimer = _newClaimer;
-
-        emit SetNewClaimer(_newClaimer);
+        endTime = _startTime + (_periodTimesPerCliam * totalTgeCount);
     }
 
     ///@dev allocate amount for each round
@@ -171,15 +145,19 @@ contract DesignedVault is Ownable {
     {
         require(
             round <= totalTgeCount,
-            "DesignateVault: exceed available round"
+            "WhitelistVault: exceed available round"
+        );
+        require(
+            amount > 0 ,
+            "WhitelistVault: no amount"
         );
         require(
             totalTgeAmount + amount <= totalAllocatedAmount,
-            "DesignateVault: exceed total allocated amount"
+            "WhitelistVault: exceed total allocated amount"
         );
 
         TgeInfo storage tgeinfo = tgeInfos[round];
-        require(!tgeinfo.allocated, "DesignateVault: already allocated");
+        require(!tgeinfo.allocated, "WhitelistVault: already allocated");
         tgeinfo.allocated = true;
         tgeinfo.allocatedAmount = amount;
         totalTgeAmount += amount;
@@ -197,14 +175,14 @@ contract DesignedVault is Ownable {
     {
         require(
             round <= totalTgeCount,
-            "DesignateVault: exceed available round"
+            "WhitelistVault: exceed available round"
         );
         require(
             users.length > 0 && users.length <= maxInputOnceTime,
-            "DesignateVault: check user's count"
+            "WhitelistVault: check user's count"
         );
         TgeInfo storage tgeinfo = tgeInfos[round];
-        require(!tgeinfo.started, "DesignateVault: already started");
+        require(!tgeinfo.started, "WhitelistVault: already started");
 
         for (uint256 i = 0; i < users.length; i++) {
             if (users[i] != address(0) && !tgeinfo.claimedTime[users[i]].joined) {
@@ -222,54 +200,26 @@ contract DesignedVault is Ownable {
         external
         onlyOwner
         nonZero(round)
-        nonZero(totalClaims)
+        nonZero(totalTgeCount)
     {
         require(
             round <= totalTgeCount,
-            "DesignateVault: exceed available round"
+            "WhitelistVault: exceed available round"
         );
 
         TgeInfo storage tgeinfo = tgeInfos[round];
-        require(tgeinfo.allocated, "DesignateVault: no allocated");
-        require(!tgeinfo.started, "DesignateVault: already started");
+        require(tgeinfo.allocated && tgeinfo.allocatedAmount > 0, "WhitelistVault: no allocated");
+        require(!tgeinfo.started, "WhitelistVault: already started");
+        require(tgeinfo.whitelist.length > 0, "WhitelistVault: no whitelist");
         tgeinfo.started = true;
-        if (tgeinfo.allocatedAmount > 0 && tgeinfo.whitelist.length > 0 )
-            tgeinfo.amount = tgeinfo.allocatedAmount / tgeinfo.whitelist.length;
-        else tgeinfo.amount = tgeinfo.allocatedAmount;
+        tgeinfo.amount = tgeinfo.allocatedAmount / tgeinfo.whitelist.length;
 
         emit StartedRound(round);
     }
 
-    ///@dev start round for claimer , The amount charged at one time is determined.
-    function start() external onlyOwner nonZero(totalClaims) {
-        require(
-            !startedByClaimer,
-            "DesignateVault: already started by claimer"
-        );
-        for (uint256 i = 1; i <= totalTgeCount; i++) {
-            require(
-                tgeInfos[i].allocated,
-                "DesignateVault: previous round did't be allocated yet."
-            );
-        }
-        startedByClaimer = true;
-        oneClaimAmountByClaimer =
-            (totalAllocatedAmount - totalTgeAmount) /
-            (totalClaims - totalTgeCount);
-
-        emit Started();
-    }
-
     ///@dev next claimable start time
-    function nextClaimStartTime() external view returns (uint256 nextTime) {
-        nextTime = startTime + (periodTimesPerCliam * lastClaimedRound);
-        if (endTime < nextTime) nextTime = 0;
-    }
-
-    ///@dev next claimable round
-    function nextClaimRound() external view returns (uint256 nextRound) {
-        nextRound = lastClaimedRound + 1;
-        if (totalClaims < nextRound) nextRound = 0;
+    function startRoundTime(uint256 round) external view returns (uint256 start) {
+        if(round > 0 && round <= totalTgeCount) start = startTime + (periodTimesPerCliam * (round-1));
     }
 
     function currentRound() public view returns (uint256 round) {
@@ -291,31 +241,21 @@ contract DesignedVault is Ownable {
         amount = 0;
         if(block.timestamp > startTime){
             uint256 curRound = currentRound();
-            if (msg.sender == claimer) {
-                if (curRound > totalTgeCount) {
-                    if (lastClaimedRound >= totalTgeCount) {
-                        count = curRound - lastClaimedRound;
-                    } else {
-                        count = curRound - totalTgeCount;
-                    }
-                }
-                if (count > 0) amount = count * oneClaimAmountByClaimer;
-            } else {
-                for (uint256 i = 1; i <= totalTgeCount; i++) {
-                    if(curRound >= i){
-                        TgeInfo storage tgeinfo = tgeInfos[i];
-                        if ( tgeinfo.started ) {
-                            if (
-                                tgeinfo.claimedTime[msg.sender].joined &&
-                                tgeinfo.claimedTime[msg.sender].claimedTime == 0
-                            ) {
-                                count++;
-                                amount += tgeinfo.amount;
-                            }
+            for (uint256 i = 1; i <= totalTgeCount; i++) {
+                if(curRound >= i){
+                    TgeInfo storage tgeinfo = tgeInfos[i];
+                    if ( tgeinfo.started ) {
+                        if (
+                            tgeinfo.claimedTime[msg.sender].joined &&
+                            tgeinfo.claimedTime[msg.sender].claimedTime == 0
+                        ) {
+                            count++;
+                            amount += tgeinfo.amount;
                         }
                     }
                 }
             }
+
         }
     }
 
@@ -323,57 +263,32 @@ contract DesignedVault is Ownable {
     function claim() external {
         uint256 count = 0;
         uint256 amount = 0;
-        require(block.timestamp > startTime, "DesignateVault: not started yet");
+        require(block.timestamp > startTime, "WhitelistVault: not started yet");
 
-         uint256 curRound = currentRound();
-        if (msg.sender == claimer) {
-            if (lastClaimedRound > totalTgeCount) {
-                if (lastClaimedRound < curRound) {
-                    count = curRound - lastClaimedRound;
-                }
-            } else {
-                if (totalTgeCount < curRound) {
-                    count = curRound - totalTgeCount;
-                }
-            }
-
-            amount = count * oneClaimAmountByClaimer;
-            require(amount > 0 , "DesignateVault: no claimable amount");
-            lastClaimedRound = curRound;
-            totalClaimedAmount += amount;
-            totalClaimedCountByClaimer++;
-            claimedTimesOfRoundByCliamer[curRound] = block.timestamp;
-            require(
-                IERC20(token).transfer(msg.sender, amount),
-                "DesignateVault: transfer fail"
-            );
-
-        } else {
-            for (uint256 i = 1; i <= totalTgeCount; i++) {
-                if(curRound >= i){
-                    TgeInfo storage tgeinfo = tgeInfos[i];
-                    if (tgeinfo.started) {
-                        if (
-                            tgeinfo.claimedTime[msg.sender].joined &&
-                            tgeinfo.claimedTime[msg.sender].claimedTime == 0
-                        ) {
-                            tgeinfo.claimedTime[msg.sender].claimedTime = block.timestamp;
-                            tgeinfo.claimedCount++;
-                            amount += tgeinfo.amount;
-                            count++;
-                        }
+        uint256 curRound = currentRound();
+        for (uint256 i = 1; i <= totalTgeCount; i++) {
+            if(curRound >= i){
+                TgeInfo storage tgeinfo = tgeInfos[i];
+                if (tgeinfo.started) {
+                    if (
+                        tgeinfo.claimedTime[msg.sender].joined &&
+                        tgeinfo.claimedTime[msg.sender].claimedTime == 0
+                    ) {
+                        tgeinfo.claimedTime[msg.sender].claimedTime = block.timestamp;
+                        tgeinfo.claimedCount++;
+                        amount += tgeinfo.amount;
+                        count++;
                     }
                 }
             }
-
-            require(amount > 0 , "DesignateVault: no claimable amount");
-            totalClaimedAmount += amount;
-            if(lastClaimedRound < totalTgeCount && curRound < totalTgeCount ) lastClaimedRound = curRound;
-            require(
-                IERC20(token).transfer(msg.sender, amount),
-                "DesignateVault: transfer fail"
-            );
         }
+
+        require(amount > 0 , "WhitelistVault: no claimable amount");
+        totalClaimedAmount += amount;
+        require(
+            IERC20(token).transfer(msg.sender, amount),
+            "WhitelistVault: transfer fail"
+        );
 
         emit Claimed(msg.sender, amount, totalClaimedAmount);
     }
@@ -382,7 +297,7 @@ contract DesignedVault is Ownable {
     function availableWithdrawAmount() public view returns (uint256 amount) {
         uint256 balance = IERC20(token).balanceOf(address(this));
         uint256 remainSendAmount = totalAllocatedAmount - totalClaimedAmount;
-        require(balance >= remainSendAmount, "DesignateVault: insufficent");
+        require(balance >= remainSendAmount, "WhitelistVault: insufficent");
         amount = balance - remainSendAmount;
     }
 
@@ -390,10 +305,10 @@ contract DesignedVault is Ownable {
     ///@param to to address to send
     function withdraw(address to) external onlyOwner nonZeroAddress(to) {
         uint256 amount = availableWithdrawAmount();
-        require(amount > 0, "DesignateVault: no withdrawable amount");
+        require(amount > 0, "WhitelistVault: no withdrawable amount");
         require(
             IERC20(token).transfer(to, availableWithdrawAmount()),
-            "DesignateVault: transfer fail"
+            "WhitelistVault: transfer fail"
         );
 
         emit Withdrawal(msg.sender, amount);
@@ -415,7 +330,7 @@ contract DesignedVault is Ownable {
     {
         require(
             round <= totalTgeCount,
-            "DesignateVault: exceed available round"
+            "WhitelistVault: exceed available round"
         );
 
         TgeInfo storage tgeinfo = tgeInfos[round];
@@ -443,7 +358,7 @@ contract DesignedVault is Ownable {
     {
         require(
             round <= totalTgeCount,
-            "DesignateVault: exceed available round"
+            "WhitelistVault: exceed available round"
         );
 
         TgeInfo storage tgeinfo = tgeInfos[round];
