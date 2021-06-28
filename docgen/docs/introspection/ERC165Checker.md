@@ -6,4 +6,4 @@ Note that these functions return the actual result of the query: they do not
 
 what to do in these cases.
 
-# Functions:
+# Functions Summary:

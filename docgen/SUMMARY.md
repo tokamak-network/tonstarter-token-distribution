@@ -1,7 +1,6 @@
 # Summary
 * contracts
   * [DesignedVault](docs/DesignedVault.md)
-  * [Greeter](docs/Greeter.md)
   * [InitialContributorVault](docs/InitialContributorVault.md)
   * [LiquidityVault](docs/LiquidityVault.md)
   * [MarketingVault](docs/MarketingVault.md)

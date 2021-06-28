@@ -8,13 +8,13 @@ queried by others ({ERC165Checker}).
 
 For an implementation, see {ERC165}.
 
-# Functions:
+# Functions Summary:
 
- - [`supportsInterface(bytes4 interfaceId)`](#IERC165-supportsInterface-bytes4-)
+- [`supportsInterface(bytes4 interfaceId)`](#IERC165-supportsInterface-bytes4-)
 
 ###### *IERC165-supportsInterface-bytes4-*
 
-## Function `supportsInterface`
+# Function `supportsInterface`
 
 **supportsInterface(bytes4 interfaceId)**
 

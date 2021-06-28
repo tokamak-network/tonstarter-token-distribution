@@ -1,10 +1,10 @@
-# Functions:
+# Functions Summary:
 
- - [`constructor(address _tosAddress, uint256 _maxInputOnce)`](#MarketingVault-constructor-address-uint256-)
+- [`constructor(address _tosAddress, uint256 _maxInputOnce)`](#MarketingVault-constructor-address-uint256-)
 
 ###### *MarketingVault-constructor-address-uint256-*
 
-## Function `constructor`
+# Function `constructor`
 
 **constructor(address _tosAddress, uint256 _maxInputOnce)**
 

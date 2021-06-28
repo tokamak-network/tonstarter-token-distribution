@@ -1,38 +1,38 @@
-# Functions:
+# Functions Summary:
 
- - [`constructor(string _name, address _token, uint256 _inputMaxOnce)`](#DesignedVault-constructor-string-address-uint256-)
+- [`constructor(string _name, address _token, uint256 _inputMaxOnce)`](#DesignedVault-constructor-string-address-uint256-)
 
- - [`initialize(uint256 _totalAllocatedAmount, uint256 _totalClaims, uint256 _totalTgeCount, uint256 _startTime, uint256 _periodTimesPerCliam)`](#DesignedVault-initialize-uint256-uint256-uint256-uint256-uint256-)
+- [`initialize(uint256 _totalAllocatedAmount, uint256 _totalClaims, uint256 _totalTgeCount, uint256 _startTime, uint256 _periodTimesPerCliam)`](#DesignedVault-initialize-uint256-uint256-uint256-uint256-uint256-)
 
- - [`setClaimer(address _newClaimer)`](#DesignedVault-setClaimer-address-)
+- [`setClaimer(address _newClaimer)`](#DesignedVault-setClaimer-address-)
 
- - [`allocateAmount(uint256 round, uint256 amount)`](#DesignedVault-allocateAmount-uint256-uint256-)
+- [`allocateAmount(uint256 round, uint256 amount)`](#DesignedVault-allocateAmount-uint256-uint256-)
 
- - [`addWhitelist(uint256 round, address[] users)`](#DesignedVault-addWhitelist-uint256-address---)
+- [`addWhitelist(uint256 round, address[] users)`](#DesignedVault-addWhitelist-uint256-address---)
 
- - [`startRound(uint256 round)`](#DesignedVault-startRound-uint256-)
+- [`startRound(uint256 round)`](#DesignedVault-startRound-uint256-)
 
- - [`start()`](#DesignedVault-start--)
+- [`start()`](#DesignedVault-start--)
 
- - [`nextClaimStartTime()`](#DesignedVault-nextClaimStartTime--)
+- [`nextClaimStartTime()`](#DesignedVault-nextClaimStartTime--)
 
- - [`nextClaimRound()`](#DesignedVault-nextClaimRound--)
+- [`nextClaimRound()`](#DesignedVault-nextClaimRound--)
 
- - [`currentRound()`](#DesignedVault-currentRound--)
+- [`currentRound()`](#DesignedVault-currentRound--)
 
- - [`unclaimedInfos()`](#DesignedVault-unclaimedInfos--)
+- [`unclaimedInfos()`](#DesignedVault-unclaimedInfos--)
 
- - [`claim()`](#DesignedVault-claim--)
+- [`claim()`](#DesignedVault-claim--)
 
- - [`availableWithdrawAmount()`](#DesignedVault-availableWithdrawAmount--)
+- [`availableWithdrawAmount()`](#DesignedVault-availableWithdrawAmount--)
 
- - [`withdraw(address to)`](#DesignedVault-withdraw-address-)
+- [`withdraw(address to)`](#DesignedVault-withdraw-address-)
 
- - [`getTgeInfos(uint256 round)`](#DesignedVault-getTgeInfos-uint256-)
+- [`getTgeInfos(uint256 round)`](#DesignedVault-getTgeInfos-uint256-)
 
- - [`getWhitelistInfo(uint256 round, address user)`](#DesignedVault-getWhitelistInfo-uint256-address-)
+- [`getWhitelistInfo(uint256 round, address user)`](#DesignedVault-getWhitelistInfo-uint256-address-)
 
-# Events:
+# Events Summary:
 
 - [`SetNewClaimer(address newClaimer)`](#DesignedVault-SetNewClaimer-address-)
 
@@ -50,7 +50,7 @@
 
 ###### *DesignedVault-constructor-string-address-uint256-*
 
-## Function `constructor`
+# Function `constructor`
 
 **constructor(string _name, address _token, uint256 _inputMaxOnce)**
 
@@ -64,7 +64,7 @@ constructor
 
 ###### *DesignedVault-initialize-uint256-uint256-uint256-uint256-uint256-*
 
-## Function `initialize`
+# Function `initialize`
 
 **initialize(uint256 _totalAllocatedAmount, uint256 _totalClaims, uint256 _totalTgeCount, uint256 _startTime, uint256 _periodTimesPerCliam)**
 
@@ -84,7 +84,7 @@ initialization function
 
 ###### *DesignedVault-setClaimer-address-*
 
-## Function `setClaimer`
+# Function `setClaimer`
 
 **setClaimer(address _newClaimer)**
 
@@ -96,7 +96,7 @@ set claimer
 
 ###### *DesignedVault-allocateAmount-uint256-uint256-*
 
-## Function `allocateAmount`
+# Function `allocateAmount`
 
 **allocateAmount(uint256 round, uint256 amount)**
 
@@ -110,7 +110,7 @@ allocate amount for each round
 
 ###### *DesignedVault-addWhitelist-uint256-address---*
 
-## Function `addWhitelist`
+# Function `addWhitelist`
 
 **addWhitelist(uint256 round, address[] users)**
 
@@ -124,7 +124,7 @@ Register the white list for the round.
 
 ###### *DesignedVault-startRound-uint256-*
 
-## Function `startRound`
+# Function `startRound`
 
 **startRound(uint256 round)**
 
@@ -136,7 +136,7 @@ start round, Calculate how much the whitelisted people in the round can claim.
 
 ###### *DesignedVault-start--*
 
-## Function `start`
+# Function `start`
 
 **start()**
 
@@ -144,7 +144,7 @@ start round for claimer , The amount charged at one time is determined.
 
 ###### *DesignedVault-nextClaimStartTime--*
 
-## Function `nextClaimStartTime`
+# Function `nextClaimStartTime`
 
 **nextClaimStartTime()**
 
@@ -152,7 +152,7 @@ next claimable start time
 
 ###### *DesignedVault-nextClaimRound--*
 
-## Function `nextClaimRound`
+# Function `nextClaimRound`
 
 **nextClaimRound()**
 
@@ -160,7 +160,7 @@ next claimable round
 
 ###### *DesignedVault-currentRound--*
 
-## Function `currentRound`
+# Function `currentRound`
 
 **currentRound()**
 
@@ -168,7 +168,7 @@ No description
 
 ###### *DesignedVault-unclaimedInfos--*
 
-## Function `unclaimedInfos`
+# Function `unclaimedInfos`
 
 **unclaimedInfos()**
 
@@ -176,7 +176,7 @@ number of unclaimed
 
 ###### *DesignedVault-claim--*
 
-## Function `claim`
+# Function `claim`
 
 **claim()**
 
@@ -184,7 +184,7 @@ claim
 
 ###### *DesignedVault-availableWithdrawAmount--*
 
-## Function `availableWithdrawAmount`
+# Function `availableWithdrawAmount`
 
 **availableWithdrawAmount()**
 
@@ -192,7 +192,7 @@ Amount that can be withdrawn by the owner
 
 ###### *DesignedVault-withdraw-address-*
 
-## Function `withdraw`
+# Function `withdraw`
 
 **withdraw(address to)**
 
@@ -204,7 +204,7 @@ withdraw to whom
 
 ###### *DesignedVault-getTgeInfos-uint256-*
 
-## Function `getTgeInfos`
+# Function `getTgeInfos`
 
 **getTgeInfos(uint256 round)**
 
@@ -216,7 +216,7 @@ get Tge infos
 
 ###### *DesignedVault-getWhitelistInfo-uint256-address-*
 
-## Function `getWhitelistInfo`
+# Function `getWhitelistInfo`
 
 **getWhitelistInfo(uint256 round, address user)**
 
@@ -230,7 +230,9 @@ get the claim info of whitelist's person
 
 ###### *DesignedVault-SetNewClaimer-address-*
 
-## Event `SetNewClaimer(address newClaimer)`
+# Event `SetNewClaimer`
+
+**emit SetNewClaimer(address newClaimer)**
 
 event on set claimer
 
@@ -240,7 +242,9 @@ event on set claimer
 
 ###### *DesignedVault-AllocatedAmount-uint256-uint256-*
 
-## Event `AllocatedAmount(uint256 round, uint256 amount)`
+# Event `AllocatedAmount`
+
+**emit AllocatedAmount(uint256 round, uint256 amount)**
 
 event on allocate amount
 
@@ -252,7 +256,9 @@ event on allocate amount
 
 ###### *DesignedVault-AddedWhitelist-uint256-address---*
 
-## Event `AddedWhitelist(uint256 round, address[] users)`
+# Event `AddedWhitelist`
+
+**emit AddedWhitelist(uint256 round, address[] users)**
 
 event on add whitelist
 
@@ -264,7 +270,9 @@ event on add whitelist
 
 ###### *DesignedVault-StartedRound-uint256-*
 
-## Event `StartedRound(uint256 round)`
+# Event `StartedRound`
+
+**emit StartedRound(uint256 round)**
 
 event on start round
 
@@ -274,13 +282,17 @@ event on start round
 
 ###### *DesignedVault-Started--*
 
-## Event `Started()`
+# Event `Started`
+
+**emit Started()**
 
 event on start
 
 ###### *DesignedVault-Claimed-address-uint256-uint256-*
 
-## Event `Claimed(address caller, uint256 amount, uint256 totalClaimedAmount)`
+# Event `Claimed`
+
+**emit Claimed(address caller, uint256 amount, uint256 totalClaimedAmount)**
 
 event on claim
 
@@ -294,7 +306,9 @@ event on claim
 
 ###### *DesignedVault-Withdrawal-address-uint256-*
 
-## Event `Withdrawal(address caller, uint256 amount)`
+# Event `Withdrawal`
+
+**emit Withdrawal(address caller, uint256 amount)**
 
 event on withdraw
 

@@ -1,24 +1,24 @@
-# Functions:
+# Functions Summary:
 
- - [`constructor(string name_, string symbol_, string version_)`](#TOS-constructor-string-string-string-)
+- [`constructor(string name_, string symbol_, string version_)`](#TOS-constructor-string-string-string-)
 
- - [`DOMAIN_SEPARATOR()`](#TOS-DOMAIN_SEPARATOR--)
+- [`DOMAIN_SEPARATOR()`](#TOS-DOMAIN_SEPARATOR--)
 
- - [`transferOwnership(address newOwner)`](#TOS-transferOwnership-address-)
+- [`transferOwnership(address newOwner)`](#TOS-transferOwnership-address-)
 
- - [`mint(address to, uint256 amount)`](#TOS-mint-address-uint256-)
+- [`mint(address to, uint256 amount)`](#TOS-mint-address-uint256-)
 
- - [`burn(address from, uint256 amount)`](#TOS-burn-address-uint256-)
+- [`burn(address from, uint256 amount)`](#TOS-burn-address-uint256-)
 
- - [`permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)`](#TOS-permit-address-address-uint256-uint256-uint8-bytes32-bytes32-)
+- [`permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)`](#TOS-permit-address-address-uint256-uint256-uint8-bytes32-bytes32-)
 
- - [`verify(address signer, address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce, bytes32 sigR, bytes32 sigS, uint8 sigV)`](#TOS-verify-address-address-address-uint256-uint256-uint256-bytes32-bytes32-uint8-)
+- [`verify(address signer, address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce, bytes32 sigR, bytes32 sigS, uint8 sigV)`](#TOS-verify-address-address-address-uint256-uint256-uint256-bytes32-bytes32-uint8-)
 
- - [`hashPermit(address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce)`](#TOS-hashPermit-address-address-uint256-uint256-uint256-)
+- [`hashPermit(address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce)`](#TOS-hashPermit-address-address-uint256-uint256-uint256-)
 
 ###### *TOS-constructor-string-string-string-*
 
-## Function `constructor`
+# Function `constructor`
 
 **constructor(string name_, string symbol_, string version_)**
 
@@ -26,7 +26,7 @@ constructor of TOS, ERC20 Token
 
 ###### *TOS-DOMAIN_SEPARATOR--*
 
-## Function `DOMAIN_SEPARATOR`
+# Function `DOMAIN_SEPARATOR`
 
 **DOMAIN_SEPARATOR()**
 
@@ -34,7 +34,7 @@ No description
 
 ###### *TOS-transferOwnership-address-*
 
-## Function `transferOwnership`
+# Function `transferOwnership`
 
 **transferOwnership(address newOwner)**
 
@@ -46,7 +46,7 @@ transfer Ownership
 
 ###### *TOS-mint-address-uint256-*
 
-## Function `mint`
+# Function `mint`
 
 **mint(address to, uint256 amount)**
 
@@ -60,7 +60,7 @@ Issue a token.
 
 ###### *TOS-burn-address-uint256-*
 
-## Function `burn`
+# Function `burn`
 
 **burn(address from, uint256 amount)**
 
@@ -74,7 +74,7 @@ burn a token.
 
 ###### *TOS-permit-address-address-uint256-uint256-uint8-bytes32-bytes32-*
 
-## Function `permit`
+# Function `permit`
 
 **permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)**
 
@@ -100,7 +100,7 @@ The signature must have the owner's signature.
 
 ###### *TOS-verify-address-address-address-uint256-uint256-uint256-bytes32-bytes32-uint8-*
 
-## Function `verify`
+# Function `verify`
 
 **verify(address signer, address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce, bytes32 sigR, bytes32 sigS, uint8 sigV)**
 
@@ -128,7 +128,7 @@ verify the signature
 
 ###### *TOS-hashPermit-address-address-uint256-uint256-uint256-*
 
-## Function `hashPermit`
+# Function `hashPermit`
 
 **hashPermit(address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce)**
 

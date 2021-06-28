@@ -1,10 +1,10 @@
-# Functions:
+# Functions Summary:
 
- - [`constructor(address _tosAddress, uint256 _maxInputOnce)`](#LiquidityVault-constructor-address-uint256-)
+- [`constructor(address _tosAddress, uint256 _maxInputOnce)`](#LiquidityVault-constructor-address-uint256-)
 
 ###### *LiquidityVault-constructor-address-uint256-*
 
-## Function `constructor`
+# Function `constructor`
 
 **constructor(address _tosAddress, uint256 _maxInputOnce)**
 

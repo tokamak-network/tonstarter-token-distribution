@@ -1,22 +1,22 @@
-# Functions:
+# Functions Summary:
 
- - [`mint(address to, uint256 amount)`](#ITOS-mint-address-uint256-)
+- [`mint(address to, uint256 amount)`](#ITOS-mint-address-uint256-)
 
- - [`burn(address from, uint256 amount)`](#ITOS-burn-address-uint256-)
+- [`burn(address from, uint256 amount)`](#ITOS-burn-address-uint256-)
 
- - [`DOMAIN_SEPARATOR()`](#ITOS-DOMAIN_SEPARATOR--)
+- [`DOMAIN_SEPARATOR()`](#ITOS-DOMAIN_SEPARATOR--)
 
- - [`nonces(address owner)`](#ITOS-nonces-address-)
+- [`nonces(address owner)`](#ITOS-nonces-address-)
 
- - [`permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)`](#ITOS-permit-address-address-uint256-uint256-uint8-bytes32-bytes32-)
+- [`permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)`](#ITOS-permit-address-address-uint256-uint256-uint8-bytes32-bytes32-)
 
- - [`verify(address signer, address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce, bytes32 sigR, bytes32 sigS, uint8 sigV)`](#ITOS-verify-address-address-address-uint256-uint256-uint256-bytes32-bytes32-uint8-)
+- [`verify(address signer, address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce, bytes32 sigR, bytes32 sigS, uint8 sigV)`](#ITOS-verify-address-address-address-uint256-uint256-uint256-bytes32-bytes32-uint8-)
 
- - [`hashPermit(address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce)`](#ITOS-hashPermit-address-address-uint256-uint256-uint256-)
+- [`hashPermit(address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce)`](#ITOS-hashPermit-address-address-uint256-uint256-uint256-)
 
 ###### *ITOS-mint-address-uint256-*
 
-## Function `mint`
+# Function `mint`
 
 **mint(address to, uint256 amount)**
 
@@ -30,7 +30,7 @@ Issue a token.
 
 ###### *ITOS-burn-address-uint256-*
 
-## Function `burn`
+# Function `burn`
 
 **burn(address from, uint256 amount)**
 
@@ -44,7 +44,7 @@ No description
 
 ###### *ITOS-DOMAIN_SEPARATOR--*
 
-## Function `DOMAIN_SEPARATOR`
+# Function `DOMAIN_SEPARATOR`
 
 **DOMAIN_SEPARATOR()**
 
@@ -52,7 +52,7 @@ No description
 
 ###### *ITOS-nonces-address-*
 
-## Function `nonces`
+# Function `nonces`
 
 **nonces(address owner)**
 
@@ -60,7 +60,7 @@ No description
 
 ###### *ITOS-permit-address-address-uint256-uint256-uint8-bytes32-bytes32-*
 
-## Function `permit`
+# Function `permit`
 
 **permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)**
 
@@ -86,7 +86,7 @@ The signature must have the owner's signature.
 
 ###### *ITOS-verify-address-address-address-uint256-uint256-uint256-bytes32-bytes32-uint8-*
 
-## Function `verify`
+# Function `verify`
 
 **verify(address signer, address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce, bytes32 sigR, bytes32 sigS, uint8 sigV)**
 
@@ -114,7 +114,7 @@ verify the signature
 
 ###### *ITOS-hashPermit-address-address-uint256-uint256-uint256-*
 
-## Function `hashPermit`
+# Function `hashPermit`
 
 **hashPermit(address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce)**
 
