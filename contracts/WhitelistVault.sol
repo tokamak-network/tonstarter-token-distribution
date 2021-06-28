@@ -43,7 +43,6 @@ contract WhitelistVault is Ownable {
     /// round => TgeInfo
     mapping(uint256 => TgeInfo) public tgeInfos;
 
-
     modifier nonZeroAddress(address _addr) {
         require(_addr != address(0), "WhitelistVault: zero address");
         _;
@@ -79,13 +78,16 @@ contract WhitelistVault is Ownable {
     ///@param caller  claimer
     ///@param amount  the claimed amount of caller
     ///@param totalClaimedAmount  total claimed amount
-    event Claimed(address indexed caller, uint256 amount, uint256 totalClaimedAmount);
+    event Claimed(
+        address indexed caller,
+        uint256 amount,
+        uint256 totalClaimedAmount
+    );
 
     /// @dev event on withdraw
     ///@param caller  owner
     ///@param amount  the withdrawable amount of owner
     event Withdrawal(address indexed caller, uint256 amount);
-
 
     ///@dev constructor
     ///@param _name Vault's name
@@ -147,10 +149,7 @@ contract WhitelistVault is Ownable {
             round <= totalTgeCount,
             "WhitelistVault: exceed available round"
         );
-        require(
-            amount > 0 ,
-            "WhitelistVault: no amount"
-        );
+        require(amount > 0, "WhitelistVault: no amount");
         require(
             totalTgeAmount + amount <= totalAllocatedAmount,
             "WhitelistVault: exceed total allocated amount"
@@ -185,7 +184,9 @@ contract WhitelistVault is Ownable {
         require(!tgeinfo.started, "WhitelistVault: already started");
 
         for (uint256 i = 0; i < users.length; i++) {
-            if (users[i] != address(0) && !tgeinfo.claimedTime[users[i]].joined) {
+            if (
+                users[i] != address(0) && !tgeinfo.claimedTime[users[i]].joined
+            ) {
                 tgeinfo.claimedTime[users[i]].joined = true;
                 tgeinfo.whitelist.push(users[i]);
             }
@@ -208,7 +209,10 @@ contract WhitelistVault is Ownable {
         );
 
         TgeInfo storage tgeinfo = tgeInfos[round];
-        require(tgeinfo.allocated && tgeinfo.allocatedAmount > 0, "WhitelistVault: no allocated");
+        require(
+            tgeinfo.allocated && tgeinfo.allocatedAmount > 0,
+            "WhitelistVault: no allocated"
+        );
         require(!tgeinfo.started, "WhitelistVault: already started");
         require(tgeinfo.whitelist.length > 0, "WhitelistVault: no whitelist");
         tgeinfo.started = true;
@@ -218,13 +222,18 @@ contract WhitelistVault is Ownable {
     }
 
     ///@dev next claimable start time
-    function startRoundTime(uint256 round) external view returns (uint256 start) {
-        if(round > 0 && round <= totalTgeCount) start = startTime + (periodTimesPerCliam * (round-1));
+    function startRoundTime(uint256 round)
+        external
+        view
+        returns (uint256 start)
+    {
+        if (round > 0 && round <= totalTgeCount)
+            start = startTime + (periodTimesPerCliam * (round - 1));
     }
 
     function currentRound() public view returns (uint256 round) {
         if (block.timestamp < startTime) {
-           round = 0;
+            round = 0;
         } else {
             round = (block.timestamp - startTime) / periodTimesPerCliam;
             round++;
@@ -239,12 +248,12 @@ contract WhitelistVault is Ownable {
     {
         count = 0;
         amount = 0;
-        if(block.timestamp > startTime){
+        if (block.timestamp > startTime) {
             uint256 curRound = currentRound();
             for (uint256 i = 1; i <= totalTgeCount; i++) {
-                if(curRound >= i){
+                if (curRound >= i) {
                     TgeInfo storage tgeinfo = tgeInfos[i];
-                    if ( tgeinfo.started ) {
+                    if (tgeinfo.started) {
                         if (
                             tgeinfo.claimedTime[msg.sender].joined &&
                             tgeinfo.claimedTime[msg.sender].claimedTime == 0
@@ -255,7 +264,6 @@ contract WhitelistVault is Ownable {
                     }
                 }
             }
-
         }
     }
 
@@ -267,14 +275,15 @@ contract WhitelistVault is Ownable {
 
         uint256 curRound = currentRound();
         for (uint256 i = 1; i <= totalTgeCount; i++) {
-            if(curRound >= i){
+            if (curRound >= i) {
                 TgeInfo storage tgeinfo = tgeInfos[i];
                 if (tgeinfo.started) {
                     if (
                         tgeinfo.claimedTime[msg.sender].joined &&
                         tgeinfo.claimedTime[msg.sender].claimedTime == 0
                     ) {
-                        tgeinfo.claimedTime[msg.sender].claimedTime = block.timestamp;
+                        tgeinfo.claimedTime[msg.sender].claimedTime = block
+                        .timestamp;
                         tgeinfo.claimedCount++;
                         amount += tgeinfo.amount;
                         count++;
@@ -283,7 +292,7 @@ contract WhitelistVault is Ownable {
             }
         }
 
-        require(amount > 0 , "WhitelistVault: no claimable amount");
+        require(amount > 0, "WhitelistVault: no claimable amount");
         totalClaimedAmount += amount;
         require(
             IERC20(token).transfer(msg.sender, amount),
@@ -317,7 +326,8 @@ contract WhitelistVault is Ownable {
     ///@dev get Tge infos
     ///@param round  it is the period unit can claim once
     function getTgeInfos(uint256 round)
-        external view
+        external
+        view
         nonZero(round)
         returns (
             bool allocated,
@@ -349,12 +359,10 @@ contract WhitelistVault is Ownable {
     ///@param round  it is the period unit can claim once
     ///@param user person in whitelist
     function getWhitelistInfo(uint256 round, address user)
-        external view
+        external
+        view
         nonZero(round)
-        returns (
-            bool joined,
-            uint256 claimedTime
-        )
+        returns (bool joined, uint256 claimedTime)
     {
         require(
             round <= totalTgeCount,
@@ -362,8 +370,10 @@ contract WhitelistVault is Ownable {
         );
 
         TgeInfo storage tgeinfo = tgeInfos[round];
-        if(tgeinfo.claimedTime[user].joined) return (tgeinfo.claimedTime[user].joined, tgeinfo.claimedTime[user].claimedTime);
-
+        if (tgeinfo.claimedTime[user].joined)
+            return (
+                tgeinfo.claimedTime[user].joined,
+                tgeinfo.claimedTime[user].claimedTime
+            );
     }
-
 }

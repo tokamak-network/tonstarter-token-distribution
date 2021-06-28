@@ -88,13 +88,16 @@ contract DesignedVault is Ownable {
     ///@param caller  claimer
     ///@param amount  the claimed amount of caller
     ///@param totalClaimedAmount  total claimed amount
-    event Claimed(address indexed caller, uint256 amount, uint256 totalClaimedAmount);
+    event Claimed(
+        address indexed caller,
+        uint256 amount,
+        uint256 totalClaimedAmount
+    );
 
     /// @dev event on withdraw
     ///@param caller  owner
     ///@param amount  the withdrawable amount of owner
     event Withdrawal(address indexed caller, uint256 amount);
-
 
     ///@dev constructor
     ///@param _name Vault's name
@@ -207,7 +210,9 @@ contract DesignedVault is Ownable {
         require(!tgeinfo.started, "DesignateVault: already started");
 
         for (uint256 i = 0; i < users.length; i++) {
-            if (users[i] != address(0) && !tgeinfo.claimedTime[users[i]].joined) {
+            if (
+                users[i] != address(0) && !tgeinfo.claimedTime[users[i]].joined
+            ) {
                 tgeinfo.claimedTime[users[i]].joined = true;
                 tgeinfo.whitelist.push(users[i]);
             }
@@ -233,7 +238,7 @@ contract DesignedVault is Ownable {
         require(tgeinfo.allocated, "DesignateVault: no allocated");
         require(!tgeinfo.started, "DesignateVault: already started");
         tgeinfo.started = true;
-        if (tgeinfo.allocatedAmount > 0 && tgeinfo.whitelist.length > 0 )
+        if (tgeinfo.allocatedAmount > 0 && tgeinfo.whitelist.length > 0)
             tgeinfo.amount = tgeinfo.allocatedAmount / tgeinfo.whitelist.length;
         else tgeinfo.amount = tgeinfo.allocatedAmount;
 
@@ -274,7 +279,7 @@ contract DesignedVault is Ownable {
 
     function currentRound() public view returns (uint256 round) {
         if (block.timestamp < startTime) {
-           round = 0;
+            round = 0;
         } else {
             round = (block.timestamp - startTime) / periodTimesPerCliam;
             round++;
@@ -289,7 +294,7 @@ contract DesignedVault is Ownable {
     {
         count = 0;
         amount = 0;
-        if(block.timestamp > startTime){
+        if (block.timestamp > startTime) {
             uint256 curRound = currentRound();
             if (msg.sender == claimer) {
                 if (curRound > totalTgeCount) {
@@ -302,9 +307,9 @@ contract DesignedVault is Ownable {
                 if (count > 0) amount = count * oneClaimAmountByClaimer;
             } else {
                 for (uint256 i = 1; i <= totalTgeCount; i++) {
-                    if(curRound >= i){
+                    if (curRound >= i) {
                         TgeInfo storage tgeinfo = tgeInfos[i];
-                        if ( tgeinfo.started ) {
+                        if (tgeinfo.started) {
                             if (
                                 tgeinfo.claimedTime[msg.sender].joined &&
                                 tgeinfo.claimedTime[msg.sender].claimedTime == 0
@@ -325,7 +330,7 @@ contract DesignedVault is Ownable {
         uint256 amount = 0;
         require(block.timestamp > startTime, "DesignateVault: not started yet");
 
-         uint256 curRound = currentRound();
+        uint256 curRound = currentRound();
         if (msg.sender == claimer) {
             if (lastClaimedRound > totalTgeCount) {
                 if (lastClaimedRound < curRound) {
@@ -338,7 +343,7 @@ contract DesignedVault is Ownable {
             }
 
             amount = count * oneClaimAmountByClaimer;
-            require(amount > 0 , "DesignateVault: no claimable amount");
+            require(amount > 0, "DesignateVault: no claimable amount");
             lastClaimedRound = curRound;
             totalClaimedAmount += amount;
             totalClaimedCountByClaimer++;
@@ -347,17 +352,17 @@ contract DesignedVault is Ownable {
                 IERC20(token).transfer(msg.sender, amount),
                 "DesignateVault: transfer fail"
             );
-
         } else {
             for (uint256 i = 1; i <= totalTgeCount; i++) {
-                if(curRound >= i){
+                if (curRound >= i) {
                     TgeInfo storage tgeinfo = tgeInfos[i];
                     if (tgeinfo.started) {
                         if (
                             tgeinfo.claimedTime[msg.sender].joined &&
                             tgeinfo.claimedTime[msg.sender].claimedTime == 0
                         ) {
-                            tgeinfo.claimedTime[msg.sender].claimedTime = block.timestamp;
+                            tgeinfo.claimedTime[msg.sender].claimedTime = block
+                            .timestamp;
                             tgeinfo.claimedCount++;
                             amount += tgeinfo.amount;
                             count++;
@@ -366,9 +371,10 @@ contract DesignedVault is Ownable {
                 }
             }
 
-            require(amount > 0 , "DesignateVault: no claimable amount");
+            require(amount > 0, "DesignateVault: no claimable amount");
             totalClaimedAmount += amount;
-            if(lastClaimedRound < totalTgeCount && curRound < totalTgeCount ) lastClaimedRound = curRound;
+            if (lastClaimedRound < totalTgeCount && curRound < totalTgeCount)
+                lastClaimedRound = curRound;
             require(
                 IERC20(token).transfer(msg.sender, amount),
                 "DesignateVault: transfer fail"
@@ -402,7 +408,8 @@ contract DesignedVault is Ownable {
     ///@dev get Tge infos
     ///@param round  it is the period unit can claim once
     function getTgeInfos(uint256 round)
-        external view
+        external
+        view
         nonZero(round)
         returns (
             bool allocated,
@@ -434,12 +441,10 @@ contract DesignedVault is Ownable {
     ///@param round  it is the period unit can claim once
     ///@param user person in whitelist
     function getWhitelistInfo(uint256 round, address user)
-        external view
+        external
+        view
         nonZero(round)
-        returns (
-            bool joined,
-            uint256 claimedTime
-        )
+        returns (bool joined, uint256 claimedTime)
     {
         require(
             round <= totalTgeCount,
@@ -447,8 +452,10 @@ contract DesignedVault is Ownable {
         );
 
         TgeInfo storage tgeinfo = tgeInfos[round];
-        if(tgeinfo.claimedTime[user].joined) return (tgeinfo.claimedTime[user].joined, tgeinfo.claimedTime[user].claimedTime);
-
+        if (tgeinfo.claimedTime[user].joined)
+            return (
+                tgeinfo.claimedTime[user].joined,
+                tgeinfo.claimedTime[user].claimedTime
+            );
     }
-
 }

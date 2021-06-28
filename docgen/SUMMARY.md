@@ -1,9 +1,11 @@
 # Summary
 * contracts
+  * [AirdropVault](docs/AirdropVault.md)
   * [DesignedVault](docs/DesignedVault.md)
   * [InitialContributorVault](docs/InitialContributorVault.md)
   * [LiquidityVault](docs/LiquidityVault.md)
   * [MarketingVault](docs/MarketingVault.md)
+  * [WhitelistVault](docs/WhitelistVault.md)
   * interfaces
     * [ITOS](docs/interfaces/ITOS.md)
   * introspection
