@@ -63,6 +63,39 @@ contract DesignedVault is Ownable {
         _;
     }
 
+    /// @dev event on set claimer
+    /// @param newClaimer new claimer address
+    event SetNewClaimer(address newClaimer);
+
+    /// @dev event on allocate amount
+    ///@param round  it is the period unit can claim once
+    ///@param amount total claimable amount
+    event AllocatedAmount(uint256 round, uint256 amount);
+
+    /// @dev event on add whitelist
+    ///@param round  it is the period unit can claim once
+    ///@param users people who can claim in that round
+    event AddedWhitelist(uint256 round, address[] users);
+
+    /// @dev event on start round
+    ///@param round  it is the period unit can claim once
+    event StartedRound(uint256 round);
+
+    /// @dev event on start
+    event Started();
+
+    /// @dev event on claim
+    ///@param caller  claimer
+    ///@param amount  the claimed amount of caller
+    ///@param totalClaimedAmount  total claimed amount
+    event Claimed(address indexed caller, uint256 amount, uint256 totalClaimedAmount);
+
+    /// @dev event on withdraw
+    ///@param caller  owner
+    ///@param amount  the withdrawable amount of owner
+    event Withdrawal(address indexed caller, uint256 amount);
+
+
     ///@dev constructor
     ///@param _name Vault's name
     ///@param _token Allocated token address
@@ -123,6 +156,8 @@ contract DesignedVault is Ownable {
     {
         require(claimer != _newClaimer, "DesignateVault: same address");
         claimer = _newClaimer;
+
+        emit SetNewClaimer(_newClaimer);
     }
 
     ///@dev allocate amount for each round
@@ -148,6 +183,8 @@ contract DesignedVault is Ownable {
         tgeinfo.allocated = true;
         tgeinfo.allocatedAmount = amount;
         totalTgeAmount += amount;
+
+        emit AllocatedAmount(round, amount);
     }
 
     ///@dev Register the white list for the round.
@@ -175,6 +212,8 @@ contract DesignedVault is Ownable {
                 tgeinfo.whitelist.push(users[i]);
             }
         }
+
+        emit AddedWhitelist(round, users);
     }
 
     ///@dev start round, Calculate how much the whitelisted people in the round can claim.
@@ -198,6 +237,7 @@ contract DesignedVault is Ownable {
             tgeinfo.amount = tgeinfo.allocatedAmount / tgeinfo.whitelist.length;
         else tgeinfo.amount = tgeinfo.allocatedAmount;
 
+        emit StartedRound(round);
     }
 
     ///@dev start round for claimer , The amount charged at one time is determined.
@@ -216,6 +256,8 @@ contract DesignedVault is Ownable {
         oneClaimAmountByClaimer =
             (totalAllocatedAmount - totalTgeAmount) /
             (totalClaims - totalTgeCount);
+
+        emit Started();
     }
 
     ///@dev next claimable start time
@@ -334,6 +376,8 @@ contract DesignedVault is Ownable {
                 "DesignateVault: transfer fail"
             );
         }
+
+        emit Claimed(msg.sender, amount, totalClaimedAmount);
     }
 
     ///@dev Amount that can be withdrawn by the owner
@@ -347,10 +391,14 @@ contract DesignedVault is Ownable {
     ///@dev withdraw to whom
     ///@param to to address to send
     function withdraw(address to) external onlyOwner nonZeroAddress(to) {
+        uint256 amount = availableWithdrawAmount();
+        require(amount > 0, "DesignateVault: no withdrawable amount");
         require(
             IERC20(token).transfer(to, availableWithdrawAmount()),
             "DesignateVault: transfer fail"
         );
+
+        emit Withdrawal(msg.sender, amount);
     }
 
     ///@dev get Tge infos
