@@ -36,7 +36,6 @@ interface ITOS {
     ) external;
 
     /// @dev verify the signature
-    /// @param signer the signer address
     /// @param owner the token's owner
     /// @param spender the account that spend owner's token
     /// @param value the amount to be approve to spend
@@ -46,7 +45,6 @@ interface ITOS {
     /// @param sigS the owner's signature - s
     /// @param sigV the owner's signature - v
     function verify(
-        address signer,
         address owner,
         address spender,
         uint256 value,
