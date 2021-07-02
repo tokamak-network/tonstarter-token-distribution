@@ -18,16 +18,16 @@ async function main() {
   let RINKEBY=true;
   let LOCAL=false;
 
-  //let _name = "Liquidity";
+  //let _name = "Airdrop";
   let _maxInputOnce = 20;
 
     if(RINKEBY){
-        const LiquidityVault = await hre.ethers.getContractFactory("LiquidityVault");
-        const liquidityVault = await LiquidityVault.deploy(process.env.RINKEBY_TOS_ADDRESS, _maxInputOnce);
+        const AirdropVault = await hre.ethers.getContractFactory("AirdropVault");
+        const vault = await AirdropVault.deploy(process.env.RINKEBY_TOS_ADDRESS, _maxInputOnce);
 
-        await liquidityVault.deployed();
+        await vault.deployed();
 
-        console.log("Liquidity Vault deployed to:", liquidityVault.address);
+        console.log("AirdropVault Vault deployed to:", vault.address);
     }
      if(LOCAL){
         const TOS = await hre.ethers.getContractFactory("TOS");
@@ -35,10 +35,10 @@ async function main() {
         await tos.deployed();
         console.log("tos deployed to:", tos.address);
 
-        const LiquidityVault = await hre.ethers.getContractFactory("LiquidityVault");
-        const liquidityVault = await LiquidityVault.deploy(tos.address, _maxInputOnce);
-        await liquidityVault.deployed();
-        console.log("Liquidity Vault deployed to:", liquidityVault.address);
+        const AirdropVault = await hre.ethers.getContractFactory("AirdropVault");
+        const vault = await AirdropVault.deploy(tos.address, _maxInputOnce);
+        await vault.deployed();
+        console.log("AirdropVault Vault deployed to:", vault.address);
      }
 }
 
