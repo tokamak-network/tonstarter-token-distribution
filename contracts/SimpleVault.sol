@@ -13,34 +13,37 @@ contract SimpleVault is Ownable {
     address public tos;
     string public name;
 
-    constructor(address tosAddress, string memory _name)  {
+    constructor(address tosAddress, string memory _name) {
         require(tosAddress != address(0), "SimpleVault: zero address");
         tos = tosAddress;
         name = _name;
     }
 
     function claimTOS(address to, uint256 amount) external onlyOwner {
-        require(IERC20(tos).balanceOf(address(this)) >= amount, "SimpleVault: insufficent");
-        IERC20(tos).transfer(
-                to,
-                amount
-            );
+        require(
+            IERC20(tos).balanceOf(address(this)) >= amount,
+            "SimpleVault: insufficent"
+        );
+        IERC20(tos).transfer(to, amount);
     }
 
-    function claimERC20(address token, address to, uint256 amount) external onlyOwner {
-        require(IERC20(token).balanceOf(address(this)) >= amount, "SimpleVault: insufficent");
-        IERC20(token).safeTransfer(
-                to,
-                amount
-            );
+    function claimERC20(
+        address token,
+        address to,
+        uint256 amount
+    ) external onlyOwner {
+        require(
+            IERC20(token).balanceOf(address(this)) >= amount,
+            "SimpleVault: insufficent"
+        );
+        IERC20(token).safeTransfer(to, amount);
     }
 
-    function balanceTOS() external view returns (uint256){
+    function balanceTOS() external view returns (uint256) {
         return IERC20(tos).balanceOf(address(this));
     }
 
-    function balanceERC20(address token) external view returns (uint256){
+    function balanceERC20(address token) external view returns (uint256) {
         return IERC20(token).balanceOf(address(this));
     }
-
 }

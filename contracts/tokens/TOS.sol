@@ -19,7 +19,6 @@ contract TOS is ERC20, AccessControl, ITOS {
     bytes32 public constant PERMIT_TYPEHASH =
         0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9;
 
-
     modifier onlyOwner() {
         require(hasRole(ADMIN_ROLE, msg.sender), "TOS: Caller is not an admin");
         _;
@@ -31,22 +30,21 @@ contract TOS is ERC20, AccessControl, ITOS {
         string memory symbol_,
         string memory version_
     ) ERC20(name_, symbol_) {
-
         uint256 chainId;
         assembly {
             chainId := chainid()
         }
 
-        DOMAIN_SEPARATOR =  keccak256(
-                abi.encode(
-                    // keccak256('EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)')
-                    0x8b73c3c69bb8fe3d512ecc4cf759cc79239f7b179b0ffacaa9a75d522b39400f,
-                    keccak256(bytes(name_)),
-                    keccak256(bytes(version_)),
-                    chainId,
-                    address(this)
-                )
-            );
+        DOMAIN_SEPARATOR = keccak256(
+            abi.encode(
+                // keccak256('EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)')
+                0x8b73c3c69bb8fe3d512ecc4cf759cc79239f7b179b0ffacaa9a75d522b39400f,
+                keccak256(bytes(name_)),
+                keccak256(bytes(version_)),
+                chainId,
+                address(this)
+            )
+        );
 
         _setRoleAdmin(ADMIN_ROLE, ADMIN_ROLE);
         _setRoleAdmin(BURNER_ROLE, ADMIN_ROLE);
