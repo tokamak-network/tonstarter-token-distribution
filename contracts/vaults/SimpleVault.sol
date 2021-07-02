@@ -3,11 +3,12 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+//import "@openzeppelin/contracts/access/Ownable.sol";
+import "../common/AccessibleCommon.sol";
 
 //import "hardhat/console.sol";
 
-contract SimpleVault is Ownable {
+contract SimpleVault is AccessibleCommon {
     using SafeERC20 for IERC20;
 
     address public tos;
@@ -17,6 +18,8 @@ contract SimpleVault is Ownable {
         require(tosAddress != address(0), "SimpleVault: zero address");
         tos = tosAddress;
         name = _name;
+        _setRoleAdmin(ADMIN_ROLE, ADMIN_ROLE);
+        _setupRole(ADMIN_ROLE, msg.sender);
     }
 
     function claimTOS(address to, uint256 amount) external onlyOwner {

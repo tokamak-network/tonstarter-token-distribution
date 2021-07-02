@@ -48,10 +48,10 @@ describe("DesignedVault", function() {
     const TOS = await ethers.getContractFactory("TOS");
 
     tos = await TOS.deploy("TOS Token","TOS","1") ;
-    tos.deployed();
+    tos.connect(deployer).deployed();
 
     designedVault = await DesignedVault.deploy(name, tos.address, maxInputOnceTime);
-    designedVault.deployed();
+    designedVault.connect(deployer).deployed();
 
     provider = await ethers.getDefaultProvider();
 
@@ -86,40 +86,40 @@ describe("DesignedVault", function() {
             startTime,
             periodTimesPerCliam
         )
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      ).to.be.revertedWith("Accessible: Caller is not an admin");
 
     await expect(
         designedVault.connect(user1).setClaimer(
             user1.address
         )
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      ).to.be.revertedWith("Accessible: Caller is not an admin");
 
     await expect(
         designedVault.connect(user1).allocateAmount(
             1, 1000
         )
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      ).to.be.revertedWith("Accessible: Caller is not an admin");
 
     await expect(
         designedVault.connect(user1).addWhitelist(
             1, [user1.address]
         )
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      ).to.be.revertedWith("Accessible: Caller is not an admin");
 
     await expect(
         designedVault.connect(user1).startRound(
             1
         )
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      ).to.be.revertedWith("Accessible: Caller is not an admin");
 
 
     await expect(
         designedVault.connect(user1).start()
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      ).to.be.revertedWith("Accessible: Caller is not an admin");
 
     await expect(
         designedVault.connect(user1).withdraw(user1.address)
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      ).to.be.revertedWith("Accessible: Caller is not an admin");
 
 
   });
@@ -136,7 +136,7 @@ describe("DesignedVault", function() {
             startTime,
             periodTimesPerCliam
         )
-      ).to.be.revertedWith("DesignateVault: balanceOf is insuffient");
+      ).to.be.revertedWith("DesignedVault: balanceOf is insuffient");
   });
 
   it("initialize by owner : 관리자에 의해 초기 설정", async function() {
@@ -170,7 +170,7 @@ describe("DesignedVault", function() {
             startTime,
             periodTimesPerCliam
         )
-      ).to.be.revertedWith("DesignateVault: already initialized");
+      ).to.be.revertedWith("DesignedVault: already initialized");
   });
 
   it("set claimer : 변경되는 인출자 주소는 기존주소와 달라야 한다.", async function() {
@@ -178,7 +178,7 @@ describe("DesignedVault", function() {
         designedVault.connect(deployer).setClaimer(
             deployer.address
         )
-      ).to.be.revertedWith("DesignateVault: same address");
+      ).to.be.revertedWith("DesignedVault: same address");
   });
 
   it("set claimer :  ", async function() {
@@ -192,7 +192,7 @@ describe("DesignedVault", function() {
             totalTgeCount+1,
             1000
         )
-      ).to.be.revertedWith("DesignateVault: exceed available round");
+      ).to.be.revertedWith("DesignedVault: exceed available round");
   });
 
   it("allocateAmount : check amount: 할당액은 총 할당액을 초과할 수 없다.", async function() {
@@ -201,7 +201,7 @@ describe("DesignedVault", function() {
             1,
             totalAllocatedAmount+1
         )
-      ).to.be.revertedWith("DesignateVault: exceed total allocated amount");
+      ).to.be.revertedWith("DesignedVault: exceed total allocated amount");
   });
 
   it("allocateAmount by owner : round 1 ", async function() {
@@ -219,7 +219,7 @@ describe("DesignedVault", function() {
             tgeRound[i].round,
             tgeRound[i].amount
         )
-      ).to.be.revertedWith("DesignateVault: already allocated");
+      ).to.be.revertedWith("DesignedVault: already allocated");
   });
   it("addWhitelist : check round: 입력 라운드는 설정된 totalTgeCount 보다 클수 없다.", async function() {
     let i = 1;
@@ -228,7 +228,7 @@ describe("DesignedVault", function() {
             totalTgeCount+1,
             tgeRound[i].whishlist
         )
-    ).to.be.revertedWith("DesignateVault: exceed available round");
+    ).to.be.revertedWith("DesignedVault: exceed available round");
   });
 
   it("addWhitelist : check input users length: 추가되는 화이트리스트는 한번에 정해진 개수(maxInputOnceTime)씩만 가능하다. ", async function() {
@@ -238,7 +238,7 @@ describe("DesignedVault", function() {
             tgeRound[i].round,
             tgeRound[i].whishlist
         )
-    ).to.be.revertedWith("DesignateVault: check user's count");
+    ).to.be.revertedWith("DesignedVault: check user's count");
   });
 
   it("addWhitelist ", async function() {
@@ -288,7 +288,7 @@ describe("DesignedVault", function() {
             tgeRound[i].round,
             [person5.address]
         )
-    ).to.be.revertedWith("DesignateVault: already started");
+    ).to.be.revertedWith("DesignedVault: already started");
   });
 
   it("startRound : check round: 입력 라운드는 설정된 totalTgeCount 보다 클수 없다.", async function() {
@@ -296,7 +296,7 @@ describe("DesignedVault", function() {
        designedVault.connect(deployer).startRound(
             totalTgeCount+1
         )
-    ).to.be.revertedWith("DesignateVault: exceed available round");
+    ).to.be.revertedWith("DesignedVault: exceed available round");
   });
 
   it("startRound : 이미 시작된 라운드는 실행할 수 없다.", async function() {
@@ -305,7 +305,7 @@ describe("DesignedVault", function() {
        designedVault.connect(deployer).startRound(
             tgeRound[i].round
         )
-    ).to.be.revertedWith("DesignateVault: already started");
+    ).to.be.revertedWith("DesignedVault: already started");
   });
 
   it("startRound : 할당금액이 없는 라운드는 시작할 수 없다.", async function() {
@@ -314,13 +314,13 @@ describe("DesignedVault", function() {
        designedVault.connect(deployer).startRound(
             tgeRound[i].round
         )
-    ).to.be.revertedWith("DesignateVault: no allocated");
+    ).to.be.revertedWith("DesignedVault: no allocated");
   });
 
   it("start : 인출자의 인출시작 요청 호출 전에 모든 Tge라운드는 이전에 금액 할당이 모두 끝나야 한다. ", async function() {
     await  expect(
        designedVault.connect(deployer).start()
-    ).to.be.revertedWith("DesignateVault: previous round did't be allocated yet.");
+    ).to.be.revertedWith("DesignedVault: previous round did't be allocated yet.");
   });
 
   it("allocateAmount by owner : round 2 ", async function() {
@@ -357,7 +357,7 @@ describe("DesignedVault", function() {
   it("start : 이미 시작되었으면 다시 함수 호출할 수 없다. ", async function() {
     await  expect(
        designedVault.connect(deployer).start()
-    ).to.be.revertedWith("DesignateVault: already started by claimer");
+    ).to.be.revertedWith("DesignedVault: already started by claimer");
   });
 
   // it("nextClaimStartTime : 클래임을 시작 할 수 있는 다음 라운드 시작 시간(초)을 리턴한다. ", async function() {
@@ -405,7 +405,7 @@ describe("DesignedVault", function() {
   it("claim : 인출자는 tge기간에는 클래임을 할 금액이 없다.", async function() {
     await expect(
       designedVault.connect(user1).claim()
-    ).to.be.revertedWith("DesignateVault: no claimable amount");
+    ).to.be.revertedWith("DesignedVault: no claimable amount");
   });
 
   it("claim : tge 등록자, 2라운드만 있는 사용자가 2라운드 클래임을 한다.", async function() {
