@@ -2,8 +2,6 @@
 
 - [`constructor(string name_, string symbol_, string version_)`](#TOS-constructor-string-string-string-)
 
-- [`DOMAIN_SEPARATOR()`](#TOS-DOMAIN_SEPARATOR--)
-
 - [`transferOwnership(address newOwner)`](#TOS-transferOwnership-address-)
 
 - [`mint(address to, uint256 amount)`](#TOS-mint-address-uint256-)
@@ -12,7 +10,7 @@
 
 - [`permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)`](#TOS-permit-address-address-uint256-uint256-uint8-bytes32-bytes32-)
 
-- [`verify(address signer, address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce, bytes32 sigR, bytes32 sigS, uint8 sigV)`](#TOS-verify-address-address-address-uint256-uint256-uint256-bytes32-bytes32-uint8-)
+- [`verify(address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce, bytes32 sigR, bytes32 sigS, uint8 sigV)`](#TOS-verify-address-address-uint256-uint256-uint256-bytes32-bytes32-uint8-)
 
 - [`hashPermit(address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce)`](#TOS-hashPermit-address-address-uint256-uint256-uint256-)
 
@@ -23,14 +21,6 @@
 **constructor(string name_, string symbol_, string version_)**
 
 constructor of TOS, ERC20 Token
-
-###### *TOS-DOMAIN_SEPARATOR--*
-
-# Function `DOMAIN_SEPARATOR`
-
-**DOMAIN_SEPARATOR()**
-
-No description
 
 ###### *TOS-transferOwnership-address-*
 
@@ -98,17 +88,15 @@ The signature must have the owner's signature.
 
 - `s`: the owner's signature - s
 
-###### *TOS-verify-address-address-address-uint256-uint256-uint256-bytes32-bytes32-uint8-*
+###### *TOS-verify-address-address-uint256-uint256-uint256-bytes32-bytes32-uint8-*
 
 # Function `verify`
 
-**verify(address signer, address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce, bytes32 sigR, bytes32 sigS, uint8 sigV)**
+**verify(address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce, bytes32 sigR, bytes32 sigS, uint8 sigV)**
 
 verify the signature
 
 ### Parameters:
-
-- `signer`: the signer address
 
 - `owner`: the token's owner
 

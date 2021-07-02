@@ -5,7 +5,9 @@
   * [InitialContributorVault](docs/InitialContributorVault.md)
   * [LiquidityVault](docs/LiquidityVault.md)
   * [MarketingVault](docs/MarketingVault.md)
+  * [SimpleVault](docs/SimpleVault.md)
   * [WhitelistVault](docs/WhitelistVault.md)
+  * artifacts
   * interfaces
     * [ITOS](docs/interfaces/ITOS.md)
   * introspection
@@ -17,3 +19,4 @@
   * tokens
     * [OnApprove](docs/tokens/OnApprove.md)
     * [TOS](docs/tokens/TOS.md)
+    * artifacts

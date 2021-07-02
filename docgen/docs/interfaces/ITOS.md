@@ -10,7 +10,7 @@
 
 - [`permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)`](#ITOS-permit-address-address-uint256-uint256-uint8-bytes32-bytes32-)
 
-- [`verify(address signer, address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce, bytes32 sigR, bytes32 sigS, uint8 sigV)`](#ITOS-verify-address-address-address-uint256-uint256-uint256-bytes32-bytes32-uint8-)
+- [`verify(address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce, bytes32 sigR, bytes32 sigS, uint8 sigV)`](#ITOS-verify-address-address-uint256-uint256-uint256-bytes32-bytes32-uint8-)
 
 - [`hashPermit(address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce)`](#ITOS-hashPermit-address-address-uint256-uint256-uint256-)
 
@@ -84,17 +84,15 @@ The signature must have the owner's signature.
 
 - `s`: the owner's signature - s
 
-###### *ITOS-verify-address-address-address-uint256-uint256-uint256-bytes32-bytes32-uint8-*
+###### *ITOS-verify-address-address-uint256-uint256-uint256-bytes32-bytes32-uint8-*
 
 # Function `verify`
 
-**verify(address signer, address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce, bytes32 sigR, bytes32 sigS, uint8 sigV)**
+**verify(address owner, address spender, uint256 value, uint256 deadline, uint256 _nounce, bytes32 sigR, bytes32 sigS, uint8 sigV)**
 
 verify the signature
 
 ### Parameters:
-
-- `signer`: the signer address
 
 - `owner`: the token's owner
 
