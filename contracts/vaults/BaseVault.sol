@@ -51,8 +51,8 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
         external
         onlyOwner
         nonZero(_maxInputOnceTime)
+        nonSame(maxInputOnceTime, _maxInputOnceTime)
     {
-        require(maxInputOnceTime != _maxInputOnceTime, "BaseVault: same value");
         maxInputOnceTime = _maxInputOnceTime;
     }
 
@@ -63,15 +63,10 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
         external
         onlyOwner
         nonZero(round)
+        validTgeRound(round)
+        validMaxInputOnceTime(users.length)
     {
-        require(
-            round <= totalTgeCount,
-            "BaseVault: exceed available round"
-        );
-        require(
-            users.length > 0 && users.length <= maxInputOnceTime,
-            "BaseVault: check user's count"
-        );
+
         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
         require(!tgeinfo.started, "BaseVault: already started");
 
@@ -120,10 +115,17 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
 
     ///@dev get Tge infos
     ///@param round  it is the period unit can claim once
+    ///@return allocated whether allocated
+    ///@return started whether started
+    ///@return allocatedAmount allocated amount
+    ///@return claimedCount claimed  count
+    ///@return amount the claimeable amount by person in TGE period
+    ///@return whitelist who can claim in TGE period
     function getTgeInfos(uint256 round)
         external
         view
         nonZero(round)
+        validTgeRound(round)
         returns (
             bool allocated,
             bool started,
@@ -133,10 +135,6 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
             address[] memory whitelist
         )
     {
-        require(
-            round <= totalTgeCount,
-            "BaseVault: exceed available round"
-        );
 
         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
 
@@ -153,17 +151,15 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
     ///@dev get the claim info of whitelist's person
     ///@param round  it is the period unit can claim once
     ///@param user person in whitelist
+    ///@return joined whether joined
+    ///@return claimedTime the claimed time
     function getWhitelistInfo(uint256 round, address user)
         external
         view
         nonZero(round)
+        validTgeRound(round)
         returns (bool joined, uint256 claimedTime)
     {
-        require(
-            round <= totalTgeCount,
-            "BaseVault: exceed available round"
-        );
-
         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
         if (tgeinfo.claimedTime[user].joined)
             return (
@@ -171,5 +167,20 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
                 tgeinfo.claimedTime[user].claimedTime
             );
     }
+
+    ///@dev get the claim info of whitelist's person
+    ///@param round  it is the period unit can claim once
+    ///@return total the total count of whitelist in TGE round
+    function totalWhitelist(uint256 round)
+        external
+        view
+        nonZero(round)
+        validTgeRound(round)
+        returns (
+            uint256 total
+        ){
+            ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
+            total = tgeinfo.whitelist.length;
+        }
 
 }

@@ -56,12 +56,8 @@ contract WhitelistVault is BaseVault {
         onlyOwner
         nonZero(round)
         nonZero(amount)
+        validTgeRound(round)
     {
-        require(
-            round <= totalTgeCount,
-            "WhitelistVault: exceed available round"
-        );
-        require(amount > 0, "WhitelistVault: no amount");
         require(
             totalTgeAmount + amount <= totalAllocatedAmount,
             "WhitelistVault: exceed total allocated amount"
@@ -84,11 +80,8 @@ contract WhitelistVault is BaseVault {
         onlyOwner
         nonZero(round)
         nonZero(totalTgeCount)
+        validTgeRound(round)
     {
-        require(
-            round <= totalTgeCount,
-            "WhitelistVault: exceed available round"
-        );
 
         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
         require(

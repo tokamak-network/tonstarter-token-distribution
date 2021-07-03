@@ -170,7 +170,7 @@ describe("DesignedVault", function() {
             startTime,
             periodTimesPerCliam
         )
-      ).to.be.revertedWith("DesignedVault: already initialized");
+      ).to.be.revertedWith("BaseVault: already initialized");
   });
 
   it("set claimer : 변경되는 인출자 주소는 기존주소와 달라야 한다.", async function() {
@@ -178,7 +178,7 @@ describe("DesignedVault", function() {
         designedVault.connect(deployer).setClaimer(
             deployer.address
         )
-      ).to.be.revertedWith("DesignedVault: same address");
+      ).to.be.revertedWith("BaseVault: same address");
   });
 
   it("set claimer :  ", async function() {
@@ -192,7 +192,7 @@ describe("DesignedVault", function() {
             totalTgeCount+1,
             1000
         )
-      ).to.be.revertedWith("DesignedVault: exceed available round");
+      ).to.be.revertedWith("BaseVault: exceed available round");
   });
 
   it("allocateAmount : check amount: 할당액은 총 할당액을 초과할 수 없다.", async function() {
@@ -228,7 +228,7 @@ describe("DesignedVault", function() {
             totalTgeCount+1,
             tgeRound[i].whishlist
         )
-    ).to.be.revertedWith("DesignedVault: exceed available round");
+    ).to.be.revertedWith("BaseVault: exceed available round");
   });
 
   it("addWhitelist : check input users length: 추가되는 화이트리스트는 한번에 정해진 개수(maxInputOnceTime)씩만 가능하다. ", async function() {
@@ -238,7 +238,7 @@ describe("DesignedVault", function() {
             tgeRound[i].round,
             tgeRound[i].whishlist
         )
-    ).to.be.revertedWith("DesignedVault: check user's count");
+    ).to.be.revertedWith("BaseVault: check input count at once time");
   });
 
   it("addWhitelist ", async function() {
@@ -296,7 +296,7 @@ describe("DesignedVault", function() {
        designedVault.connect(deployer).startRound(
             totalTgeCount+1
         )
-    ).to.be.revertedWith("DesignedVault: exceed available round");
+    ).to.be.revertedWith("BaseVault: exceed available round");
   });
 
   it("startRound : 이미 시작된 라운드는 실행할 수 없다.", async function() {

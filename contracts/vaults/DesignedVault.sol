@@ -48,10 +48,7 @@ contract DesignedVault is BaseVault, VaultClaimStorage  {
     )
         external
         onlyOwner
-        nonZero(_totalAllocatedAmount)
         nonZero(_totalClaims)
-        nonZero(_startTime)
-        nonZero(_periodTimesPerCliam)
     {
         initializeBase(
              _totalAllocatedAmount,
@@ -68,8 +65,8 @@ contract DesignedVault is BaseVault, VaultClaimStorage  {
         external
         onlyOwner
         nonZeroAddress(_newClaimer)
+        nonSameAddress(claimer, _newClaimer)
     {
-        require(claimer != _newClaimer, "DesignedVault: same address");
         claimer = _newClaimer;
 
         emit SetNewClaimer(_newClaimer);
@@ -83,11 +80,8 @@ contract DesignedVault is BaseVault, VaultClaimStorage  {
         onlyOwner
         nonZero(round)
         nonZero(amount)
+        validTgeRound(round)
     {
-        require(
-            round <= totalTgeCount,
-            "DesignedVault: exceed available round"
-        );
         require(
             totalTgeAmount + amount <= totalAllocatedAmount,
             "DesignedVault: exceed total allocated amount"
@@ -110,11 +104,8 @@ contract DesignedVault is BaseVault, VaultClaimStorage  {
         onlyOwner
         nonZero(round)
         nonZero(totalClaims)
+        validTgeRound(round)
     {
-        require(
-            round <= totalTgeCount,
-            "DesignedVault: exceed available round"
-        );
 
         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
         require(tgeinfo.allocated, "DesignedVault: no allocated");

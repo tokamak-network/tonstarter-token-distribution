@@ -36,4 +36,24 @@ contract BaseVaultStorage {
         _;
     }
 
+    modifier nonSame(uint256 _value1, uint256 _value2) {
+        require(_value1 != _value2, "BaseVault: same value");
+        _;
+    }
+
+    modifier nonSameAddress(address _value1, address _value2) {
+        require(_value1 != _value2, "BaseVault: same address");
+        _;
+    }
+
+    modifier validTgeRound(uint256 _round) {
+        require(_round <= totalTgeCount, "BaseVault: exceed available round");
+        _;
+    }
+
+    modifier validMaxInputOnceTime(uint256 _length) {
+        require(_length > 0 && _length <= maxInputOnceTime,
+            "BaseVault: check input count at once time");
+        _;
+    }
 }
