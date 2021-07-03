@@ -44,14 +44,17 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
         uint256 _totalTgeCount,
         uint256 _startTime,
         uint256 _periodTimesPerCliam
-    ) external onlyOwner nonZero(_totalClaims) {
+    )
+        external
+        onlyOwner
+    {
         initializeBase(
-            _totalAllocatedAmount,
-            _totalTgeCount,
-            _startTime,
-            _periodTimesPerCliam
+             _totalAllocatedAmount,
+             _totalClaims,
+             _totalTgeCount,
+             _startTime,
+             _periodTimesPerCliam
         );
-        totalClaims = _totalClaims;
     }
 
     ///@dev set claimer

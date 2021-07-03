@@ -18,6 +18,7 @@ contract BaseVaultStorage {
     uint256 public endTime;
     uint256 public periodTimesPerCliam;
 
+    uint256 public totalClaims;
     uint256 public totalTgeCount;
     uint256 public totalTgeAmount;
 

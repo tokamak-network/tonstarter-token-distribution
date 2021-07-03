@@ -6,7 +6,6 @@ import "../libraries/ClaimVaultLib.sol";
 contract VaultClaimStorage {
     address public claimer;
 
-    uint256 public totalClaims;
     uint256 public lastClaimedRound;
 
     // for claimer

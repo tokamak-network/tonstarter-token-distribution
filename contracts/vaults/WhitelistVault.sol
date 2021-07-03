@@ -39,10 +39,11 @@ contract WhitelistVault is BaseVault {
         uint256 _periodTimesPerCliam
     ) external onlyOwner {
         initializeBase(
-            _totalAllocatedAmount,
-            _totalTgeCount,
-            _startTime,
-            _periodTimesPerCliam
+             _totalAllocatedAmount,
+             _totalTgeCount,
+             _totalTgeCount,
+             _startTime,
+             _periodTimesPerCliam
         );
     }
 
