@@ -3,7 +3,6 @@ pragma solidity ^0.8.4;
 
 /// @title Function for getting the current chain ID
 library ClaimVaultLib {
-
     struct ClaimedInfo {
         bool joined;
         uint256 claimedTime;

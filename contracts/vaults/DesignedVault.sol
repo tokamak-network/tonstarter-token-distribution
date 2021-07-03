@@ -13,9 +13,8 @@ import "./BaseVault.sol";
 
 //import "hardhat/console.sol";
 
-contract DesignedVault is BaseVault, VaultClaimStorage  {
+contract DesignedVault is BaseVault, VaultClaimStorage {
     using SafeERC20 for IERC20;
-
 
     ///@dev constructor
     ///@param _name Vault's name
@@ -45,16 +44,12 @@ contract DesignedVault is BaseVault, VaultClaimStorage  {
         uint256 _totalTgeCount,
         uint256 _startTime,
         uint256 _periodTimesPerCliam
-    )
-        external
-        onlyOwner
-        nonZero(_totalClaims)
-    {
+    ) external onlyOwner nonZero(_totalClaims) {
         initializeBase(
-             _totalAllocatedAmount,
-             _totalTgeCount,
-             _startTime,
-             _periodTimesPerCliam
+            _totalAllocatedAmount,
+            _totalTgeCount,
+            _startTime,
+            _periodTimesPerCliam
         );
         totalClaims = _totalClaims;
     }
@@ -96,7 +91,6 @@ contract DesignedVault is BaseVault, VaultClaimStorage  {
         emit AllocatedAmount(round, amount);
     }
 
-
     ///@dev start round, Calculate how much the whitelisted people in the round can claim.
     ///@param round  it is the period unit can claim once
     function startRound(uint256 round)
@@ -106,7 +100,6 @@ contract DesignedVault is BaseVault, VaultClaimStorage  {
         nonZero(totalClaims)
         validTgeRound(round)
     {
-
         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
         require(tgeinfo.allocated, "DesignedVault: no allocated");
         require(!tgeinfo.started, "DesignedVault: already started");
@@ -120,10 +113,7 @@ contract DesignedVault is BaseVault, VaultClaimStorage  {
 
     ///@dev start round for claimer , The amount charged at one time is determined.
     function start() external onlyOwner nonZero(totalClaims) {
-        require(
-            !startedByClaimer,
-            "DesignedVault: already started by claimer"
-        );
+        require(!startedByClaimer, "DesignedVault: already started by claimer");
         for (uint256 i = 1; i <= totalTgeCount; i++) {
             require(
                 tgeInfos[i].allocated,
@@ -149,7 +139,6 @@ contract DesignedVault is BaseVault, VaultClaimStorage  {
         nextRound = lastClaimedRound + 1;
         if (totalClaims < nextRound) nextRound = 0;
     }
-
 
     ///@dev number of unclaimed
     function unclaimedInfos()
@@ -248,5 +237,4 @@ contract DesignedVault is BaseVault, VaultClaimStorage  {
 
         emit Claimed(msg.sender, amount, totalClaimedAmount);
     }
-
 }

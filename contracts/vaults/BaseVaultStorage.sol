@@ -4,7 +4,6 @@ pragma solidity ^0.8.4;
 import "../libraries/ClaimVaultLib.sol";
 
 contract BaseVaultStorage {
-
     uint256 public maxInputOnceTime;
     ///
     string public name;
@@ -21,7 +20,6 @@ contract BaseVaultStorage {
 
     uint256 public totalTgeCount;
     uint256 public totalTgeAmount;
-
 
     /// round => TgeInfo
     mapping(uint256 => ClaimVaultLib.TgeInfo) public tgeInfos;
@@ -52,8 +50,10 @@ contract BaseVaultStorage {
     }
 
     modifier validMaxInputOnceTime(uint256 _length) {
-        require(_length > 0 && _length <= maxInputOnceTime,
-            "BaseVault: check input count at once time");
+        require(
+            _length > 0 && _length <= maxInputOnceTime,
+            "BaseVault: check input count at once time"
+        );
         _;
     }
 }

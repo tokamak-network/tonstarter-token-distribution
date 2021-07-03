@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 //import "@openzeppelin/contracts/access/Ownable.sol";
 import "../libraries/ClaimVaultLib.sol";
 import "./BaseVault.sol";
+
 //import "hardhat/console.sol";
 
 contract WhitelistVault is BaseVault {
@@ -36,15 +37,12 @@ contract WhitelistVault is BaseVault {
         uint256 _totalTgeCount,
         uint256 _startTime,
         uint256 _periodTimesPerCliam
-    )
-        external
-        onlyOwner
-    {
+    ) external onlyOwner {
         initializeBase(
-             _totalAllocatedAmount,
-             _totalTgeCount,
-             _startTime,
-             _periodTimesPerCliam
+            _totalAllocatedAmount,
+            _totalTgeCount,
+            _startTime,
+            _periodTimesPerCliam
         );
     }
 
@@ -72,7 +70,6 @@ contract WhitelistVault is BaseVault {
         emit AllocatedAmount(round, amount);
     }
 
-
     ///@dev start round, Calculate how much the whitelisted people in the round can claim.
     ///@param round  it is the period unit can claim once
     function startRound(uint256 round)
@@ -82,7 +79,6 @@ contract WhitelistVault is BaseVault {
         nonZero(totalTgeCount)
         validTgeRound(round)
     {
-
         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
         require(
             tgeinfo.allocated && tgeinfo.allocatedAmount > 0,

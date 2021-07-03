@@ -4,7 +4,6 @@ pragma solidity ^0.8.4;
 import "../libraries/ClaimVaultLib.sol";
 
 contract VaultClaimStorage {
-
     address public claimer;
 
     uint256 public totalClaims;
@@ -17,5 +16,4 @@ contract VaultClaimStorage {
     // round = time
     mapping(uint256 => uint256) public claimedTimesOfRoundByCliamer;
     bool public startedByClaimer;
-
 }

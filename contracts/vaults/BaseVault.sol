@@ -8,8 +8,7 @@ import "../common/AccessibleCommon.sol";
 import "./BaseVaultStorage.sol";
 import "./VaultEvent.sol";
 
-contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
-
+contract BaseVault is BaseVaultStorage, AccessibleCommon, VaultEvent {
     ///@dev initialization function
     ///@param _totalAllocatedAmount total allocated amount
     ///@param _totalTgeCount   total tge count
@@ -33,17 +32,13 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
             "BaseVault: balanceOf is insuffient"
         );
 
-        require(
-            totalAllocatedAmount == 0,
-            "BaseVault: already initialized"
-        );
+        require(totalAllocatedAmount == 0, "BaseVault: already initialized");
         totalAllocatedAmount = _totalAllocatedAmount;
         totalTgeCount = _totalTgeCount;
         startTime = _startTime;
         periodTimesPerCliam = _periodTimesPerCliam;
         endTime = _startTime + (_periodTimesPerCliam * totalTgeCount);
     }
-
 
     ///@dev set max input at once time of whitelist
     ///@param _maxInputOnceTime  max input at once time
@@ -66,7 +61,6 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
         validTgeRound(round)
         validMaxInputOnceTime(users.length)
     {
-
         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
         require(!tgeinfo.started, "BaseVault: already started");
 
@@ -112,7 +106,6 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
         emit Withdrawal(msg.sender, amount);
     }
 
-
     ///@dev get Tge infos
     ///@param round  it is the period unit can claim once
     ///@return allocated whether allocated
@@ -135,7 +128,6 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
             address[] memory whitelist
         )
     {
-
         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
 
         return (
@@ -176,11 +168,9 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
         view
         nonZero(round)
         validTgeRound(round)
-        returns (
-            uint256 total
-        ){
-            ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
-            total = tgeinfo.whitelist.length;
-        }
-
+        returns (uint256 total)
+    {
+        ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
+        total = tgeinfo.whitelist.length;
+    }
 }

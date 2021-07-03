@@ -1,9 +1,7 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.4;
 
-
-contract VaultEvent  {
-
+contract VaultEvent {
     /// @dev event on set claimer
     /// @param newClaimer new claimer address
     event SetNewClaimer(address newClaimer);
@@ -39,5 +37,4 @@ contract VaultEvent  {
     ///@param caller  owner
     ///@param amount  the withdrawable amount of owner
     event Withdrawal(address indexed caller, uint256 amount);
-
 }
