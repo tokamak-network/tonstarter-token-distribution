@@ -17,6 +17,7 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
     ///@param _periodTimesPerCliam period time per claim
     function initializeBase(
         uint256 _totalAllocatedAmount,
+        uint256 _totalClaims,
         uint256 _totalTgeCount,
         uint256 _startTime,
         uint256 _periodTimesPerCliam
@@ -24,6 +25,7 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
         public
         onlyOwner
         nonZero(_totalAllocatedAmount)
+        nonZero(_totalClaims)
         nonZero(_totalTgeCount)
         nonZero(_startTime)
         nonZero(_periodTimesPerCliam)
@@ -38,10 +40,11 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon , VaultEvent{
             "BaseVault: already initialized"
         );
         totalAllocatedAmount = _totalAllocatedAmount;
+        totalClaims = _totalClaims;
         totalTgeCount = _totalTgeCount;
         startTime = _startTime;
         periodTimesPerCliam = _periodTimesPerCliam;
-        endTime = _startTime + (_periodTimesPerCliam * totalTgeCount);
+        endTime = _startTime + (_periodTimesPerCliam * _totalClaims);
     }
 
 

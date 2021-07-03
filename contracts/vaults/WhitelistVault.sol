@@ -43,6 +43,7 @@ contract WhitelistVault is BaseVault {
         initializeBase(
              _totalAllocatedAmount,
              _totalTgeCount,
+             _totalTgeCount,
              _startTime,
              _periodTimesPerCliam
         );
