@@ -136,7 +136,7 @@ describe("DesignedVault", function() {
             startTime,
             periodTimesPerCliam
         )
-      ).to.be.revertedWith("DesignedVault: balanceOf is insuffient");
+      ).to.be.revertedWith("BaseVault: balanceOf is insuffient");
   });
 
   it("initialize by owner : 관리자에 의해 초기 설정", async function() {
@@ -288,7 +288,7 @@ describe("DesignedVault", function() {
             tgeRound[i].round,
             [person5.address]
         )
-    ).to.be.revertedWith("DesignedVault: already started");
+    ).to.be.revertedWith("BaseVault: already started");
   });
 
   it("startRound : check round: 입력 라운드는 설정된 totalTgeCount 보다 클수 없다.", async function() {

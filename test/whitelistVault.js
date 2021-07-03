@@ -102,29 +102,29 @@ describe("WhitelistVault", function() {
             startTime,
             periodTimesPerCliam
         )
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      ).to.be.revertedWith("Accessible: Caller is not an admin");
 
     await expect(
         whitelistVault.connect(user1).allocateAmount(
             1, 1000
         )
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      ).to.be.revertedWith("Accessible: Caller is not an admin");
 
     await expect(
         whitelistVault.connect(user1).addWhitelist(
             1, [user1.address]
         )
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      ).to.be.revertedWith("Accessible: Caller is not an admin");
 
     await expect(
         whitelistVault.connect(user1).startRound(
             1
         )
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      ).to.be.revertedWith("Accessible: Caller is not an admin");
 
     await expect(
         whitelistVault.connect(user1).withdraw(user1.address)
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      ).to.be.revertedWith("Accessible: Caller is not an admin");
 
 
   });
@@ -140,7 +140,7 @@ describe("WhitelistVault", function() {
             startTime,
             periodTimesPerCliam
         )
-      ).to.be.revertedWith("WhitelistVault: balanceOf is insuffient");
+      ).to.be.revertedWith("BaseVault: balanceOf is insuffient");
   });
 
   it("initialize by owner : 관리자에 의해 초기 설정", async function() {
@@ -171,7 +171,7 @@ describe("WhitelistVault", function() {
             startTime,
             periodTimesPerCliam
         )
-      ).to.be.revertedWith("WhitelistVault: already initialized");
+      ).to.be.revertedWith("BaseVault: already initialized");
   });
 
   it("allocateAmount : check round: 입력 라운드는 설정된 totalTgeCount 보다 클수 없다.", async function() {
@@ -180,7 +180,7 @@ describe("WhitelistVault", function() {
             totalTgeCount+1,
             1000
         )
-      ).to.be.revertedWith("WhitelistVault: exceed available round");
+      ).to.be.revertedWith("BaseVault: exceed available round");
   });
 
   it("allocateAmount : check amount: 할당액은 총 할당액을 초과할 수 없다.", async function() {
@@ -217,7 +217,7 @@ describe("WhitelistVault", function() {
             totalTgeCount+1,
             tgeRound[i].whishlist
         )
-    ).to.be.revertedWith("WhitelistVault: exceed available round");
+    ).to.be.revertedWith("BaseVault: exceed available round");
   });
 
   it("addWhitelist : check input users length: 추가되는 화이트리스트는 한번에 정해진 개수(maxInputOnceTime)씩만 가능하다. ", async function() {
@@ -227,7 +227,7 @@ describe("WhitelistVault", function() {
             tgeRound[i].round,
             tgeRound[i].whishlist
         )
-    ).to.be.revertedWith("WhitelistVault: check user's count");
+    ).to.be.revertedWith("BaseVault: check input count at once time");
   });
 
   it("addWhitelist ", async function() {
@@ -277,7 +277,7 @@ describe("WhitelistVault", function() {
             tgeRound[i].round,
             [person5.address]
         )
-    ).to.be.revertedWith("WhitelistVault: already started");
+    ).to.be.revertedWith("BaseVault: already started");
   });
 
   it("startRound : check round: 입력 라운드는 설정된 totalTgeCount 보다 클수 없다.", async function() {
@@ -285,7 +285,7 @@ describe("WhitelistVault", function() {
        whitelistVault.connect(deployer).startRound(
             totalTgeCount+1
         )
-    ).to.be.revertedWith("WhitelistVault: exceed available round");
+    ).to.be.revertedWith("BaseVault: exceed available round");
   });
 
   it("startRound : 이미 시작된 라운드는 실행할 수 없다.", async function() {
