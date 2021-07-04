@@ -1,13 +1,13 @@
 # Summary
 * contracts
   * [AirdropVault](docs/AirdropVault.md)
-  * [DesignedVault](docs/DesignedVault.md)
   * [InitialContributorVault](docs/InitialContributorVault.md)
   * [LiquidityVault](docs/LiquidityVault.md)
   * [MarketingVault](docs/MarketingVault.md)
-  * [SimpleVault](docs/SimpleVault.md)
-  * [WhitelistVault](docs/WhitelistVault.md)
-  * artifacts
+  * common
+    * [AccessRoleCommon](docs/common/AccessRoleCommon.md)
+    * [AccessibleCommon](docs/common/AccessibleCommon.md)
+    * [AccessiblePlusCommon](docs/common/AccessiblePlusCommon.md)
   * interfaces
     * [ITOS](docs/interfaces/ITOS.md)
   * introspection
@@ -16,7 +16,15 @@
     * [IERC165](docs/introspection/IERC165.md)
   * libraries
     * [ChainId](docs/libraries/ChainId.md)
+    * [ClaimVaultLib](docs/libraries/ClaimVaultLib.md)
   * tokens
     * [OnApprove](docs/tokens/OnApprove.md)
     * [TOS](docs/tokens/TOS.md)
-    * artifacts
+  * vaults
+    * [BaseVault](docs/vaults/BaseVault.md)
+    * [BaseVaultStorage](docs/vaults/BaseVaultStorage.md)
+    * [DesignedVault](docs/vaults/DesignedVault.md)
+    * [SimpleVault](docs/vaults/SimpleVault.md)
+    * [VaultClaimStorage](docs/vaults/VaultClaimStorage.md)
+    * [VaultEvent](docs/vaults/VaultEvent.md)
+    * [WhitelistVault](docs/vaults/WhitelistVault.md)

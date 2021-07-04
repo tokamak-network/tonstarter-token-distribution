@@ -2,8 +2,6 @@
 
 - [`constructor(string name_, string symbol_, string version_)`](#TOS-constructor-string-string-string-)
 
-- [`transferOwnership(address newOwner)`](#TOS-transferOwnership-address-)
-
 - [`mint(address to, uint256 amount)`](#TOS-mint-address-uint256-)
 
 - [`burn(address from, uint256 amount)`](#TOS-burn-address-uint256-)
@@ -21,18 +19,6 @@
 **constructor(string name_, string symbol_, string version_)**
 
 constructor of TOS, ERC20 Token
-
-###### *TOS-transferOwnership-address-*
-
-# Function `transferOwnership`
-
-**transferOwnership(address newOwner)**
-
-transfer Ownership
-
-### Parameters:
-
-- `newOwner`: new owner address
 
 ###### *TOS-mint-address-uint256-*
 
@@ -80,7 +66,7 @@ The signature must have the owner's signature.
 
 - `value`: the amount to be approve to spend
 
-- `deadline`: the deadline that vaild the owner's signature
+- `deadline`: the deadline that valid the owner's signature
 
 - `v`: the owner's signature - v
 
@@ -104,7 +90,7 @@ verify the signature
 
 - `value`: the amount to be approve to spend
 
-- `deadline`: the deadline that vaild the owner's signature
+- `deadline`: the deadline that valid the owner's signature
 
 - `_nounce`: the _nounce
 
@@ -130,6 +116,6 @@ the hash of Permit
 
 - `value`: the amount to be approve to spend
 
-- `deadline`: the deadline that vaild the owner's signature
+- `deadline`: the deadline that valid the owner's signature
 
 - `_nounce`: the _nounce

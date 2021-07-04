@@ -76,7 +76,7 @@ The signature must have the owner's signature.
 
 - `value`: the amount to be approve to spend
 
-- `deadline`: the deadline that vaild the owner's signature
+- `deadline`: the deadline that valid the owner's signature
 
 - `v`: the owner's signature - v
 
@@ -126,6 +126,6 @@ the hash of Permit
 
 - `value`: the amount to be approve to spend
 
-- `deadline`: the deadline that vaild the owner's signature
+- `deadline`: the deadline that valid the owner's signature
 
 - `_nounce`: the _nounce
