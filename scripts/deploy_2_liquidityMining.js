@@ -33,7 +33,7 @@ async function main() {
         console.log("tos deployed to:", tos.address);
 
         const SimpleVault = await hre.ethers.getContractFactory("SimpleVault");
-        const liquidityMining = await SimpleVault.deploy(tos.address, "DAOVault");
+        const liquidityMining = await SimpleVault.deploy(tos.address, "Liquidity Mining");
         await liquidityMining.deployed();
         console.log("LiquidityMining deployed to:", liquidityMining.address);
      }

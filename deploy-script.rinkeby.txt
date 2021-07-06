@@ -1,0 +1,31 @@
+/// DAO Vault
+npx hardhat run --network rinkeby scripts/deploy_1_dao.js
+DAOVault deployed to: 0xAe3624aaD9094ca4614D1123a01a4eA58783Bc6E
+npx hardhat verify --network rinkeby --contract contracts/vaults/SimpleVault.sol:SimpleVault 0xAe3624aaD9094ca4614D1123a01a4eA58783Bc6E "0x73a54e5C054aA64C1AE7373C2B5474d8AFEa08bd" "DAO Fund"
+
+/// Liquidity Mining Vault
+npx hardhat run --network rinkeby scripts/deploy_2_liquidityMining.js
+LiquidityMining deployed to: 0xcA70BdAedb9e013CECE6e92E2C57eda3D3bBb137
+npx hardhat verify --network rinkeby --contract contracts/vaults/SimpleVault.sol:SimpleVault 0xcA70BdAedb9e013CECE6e92E2C57eda3D3bBb137 "0x73a54e5C054aA64C1AE7373C2B5474d8AFEa08bd" "Liquidity Mining"
+
+/// Liquidity  Vault
+npx hardhat run --network rinkeby scripts/deploy_3_liquidity.js
+Liquidity Vault deployed to: 0x44c48887B829703Fd286d5069B67ec56d3604978
+npx hardhat verify --network rinkeby --contract contracts/LiquidityVault.sol:LiquidityVault 0x44c48887B829703Fd286d5069B67ec56d3604978 "0x73a54e5C054aA64C1AE7373C2B5474d8AFEa08bd" "20"
+
+/// Initial ContributorVault  Vault
+npx hardhat run --network rinkeby scripts/deploy_4_InitialContributor.js
+InitialContributor Vault deployed to: 0x3a31eDbD2349256Cd7849a18Bb8791ceE3eeB526
+npx hardhat verify --network rinkeby --contract contracts/InitialContributorVault.sol:InitialContributorVault 0x3a31eDbD2349256Cd7849a18Bb8791ceE3eeB526 "0x73a54e5C054aA64C1AE7373C2B5474d8AFEa08bd" "20"
+
+
+/// MarketingVault  Vault
+npx hardhat run --network rinkeby scripts/deploy_5_Marketing.js
+MarketingVault Vault deployed to: 0xb3BeD97C8D7B0D81Ed46bf4FbA79cd624d344C33
+npx hardhat verify --network rinkeby --contract contracts/MarketingVault.sol:MarketingVault 0xb3BeD97C8D7B0D81Ed46bf4FbA79cd624d344C33 "0x73a54e5C054aA64C1AE7373C2B5474d8AFEa08bd" "20"
+
+
+/// AirdropVault  Vault
+npx hardhat run --network rinkeby scripts/deploy_6_Airdrop.js
+AirdropVault Vault deployed to: 0x43874C4fffB5AB7C74944b5A1F7Feecf2C0154c0
+npx hardhat verify --network rinkeby --contract contracts/AirdropVault.sol:AirdropVault 0x43874C4fffB5AB7C74944b5A1F7Feecf2C0154c0 "0x73a54e5C054aA64C1AE7373C2B5474d8AFEa08bd" "20"

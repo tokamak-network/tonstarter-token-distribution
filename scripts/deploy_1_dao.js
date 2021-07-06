@@ -33,7 +33,7 @@ async function main() {
         console.log("tos deployed to:", tos.address);
 
         const SimpleVault = await hre.ethers.getContractFactory("SimpleVault");
-        const daoVault = await SimpleVault.deploy(tos.address, "DAOVault");
+        const daoVault = await SimpleVault.deploy(tos.address, "DAO Fund");
         await daoVault.deployed();
         console.log("DAOVault deployed to:", daoVault.address);
      }

@@ -4,7 +4,7 @@
 
 - [`initialize(uint256 _totalAllocatedAmount, uint256 _totalTgeCount, uint256 _startTime, uint256 _periodTimesPerCliam)`](#WhitelistVault-initialize-uint256-uint256-uint256-uint256-)
 
-- [`allocateAmount(uint256 round, uint256 amount)`](#WhitelistVault-allocateAmount-uint256-uint256-)
+- [`allocateAmountTGE(uint256 amount)`](#WhitelistVault-allocateAmountTGE-uint256-)
 
 - [`startRound(uint256 round)`](#WhitelistVault-startRound-uint256-)
 
@@ -46,17 +46,15 @@ initialization function
 
 - `_periodTimesPerCliam`: period time per claim
 
-###### *WhitelistVault-allocateAmount-uint256-uint256-*
+###### *WhitelistVault-allocateAmountTGE-uint256-*
 
-# Function `allocateAmount`
+# Function `allocateAmountTGE`
 
-**allocateAmount(uint256 round, uint256 amount)**
+**allocateAmountTGE(uint256 amount)**
 
-allocate amount for each round
+allocate amount for first round (TGE)
 
 ### Parameters:
-
-- `round`:  it is the period unit can claim once
 
 - `amount`: total claimable amount
 

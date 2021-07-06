@@ -27,4 +27,5 @@
     * [SimpleVault](docs/vaults/SimpleVault.md)
     * [VaultClaimStorage](docs/vaults/VaultClaimStorage.md)
     * [VaultEvent](docs/vaults/VaultEvent.md)
+    * [VaultWhitelistStorage](docs/vaults/VaultWhitelistStorage.md)
     * [WhitelistVault](docs/vaults/WhitelistVault.md)
