@@ -6,10 +6,11 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 //import "@openzeppelin/contracts/access/Ownable.sol";
 import "../libraries/ClaimVaultLib.sol";
 import "./BaseVault.sol";
+import "./VaultWhitelistStorage.sol";
 
 //import "hardhat/console.sol";
 
-contract WhitelistVault is BaseVault {
+contract WhitelistVault is BaseVault, VaultWhitelistStorage {
     using SafeERC20 for IERC20;
 
     ///@dev constructor
@@ -38,6 +39,7 @@ contract WhitelistVault is BaseVault {
         uint256 _startTime,
         uint256 _periodTimesPerCliam
     ) external onlyOwner {
+
         initializeBase(
             _totalAllocatedAmount,
             _totalTgeCount,
@@ -45,28 +47,60 @@ contract WhitelistVault is BaseVault {
             _startTime,
             _periodTimesPerCliam
         );
+
     }
 
-    ///@dev allocate amount for each round
-    ///@param round  it is the period unit can claim once
+    ///@dev allocate amount for first round (TGE)
     ///@param amount total claimable amount
-    function allocateAmount(uint256 round, uint256 amount)
+    function allocateAmountTGE(uint256 amount)
         external
         onlyOwner
-        nonZero(round)
         nonZero(amount)
-        validTgeRound(round)
+        validTgeRound(1)
     {
         require(
             totalTgeAmount + amount <= totalAllocatedAmount,
             "WhitelistVault: exceed total allocated amount"
         );
-
+        uint256 round = 1;
         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
         require(!tgeinfo.allocated, "WhitelistVault: already allocated");
         tgeinfo.allocated = true;
         tgeinfo.allocatedAmount = amount;
         totalTgeAmount += amount;
+        lastClaimedRound = round;
+
+        if(totalTgeCount > 1 )  allocatedAmountForRound =  (totalAllocatedAmount - amount) / (totalTgeCount - 1);
+
+        emit AllocatedAmount(round, amount);
+    }
+
+    ///@dev allocate amount for each round (except TGE)
+    ///@param round  it is the period unit can claim once
+    function allocateAmountRound(uint256 round)
+        internal
+        nonZero(lastClaimedRound)
+        nonZero(allocatedAmountForRound)
+    {
+        require(
+            round > 1 && round <= totalTgeCount ,
+            "WhitelistVault: no available round"
+        );
+
+        uint256 calcRound = (block.timestamp - startTime) / periodTimesPerCliam;
+
+        /// It can be set only during each round.
+        require(round == calcRound+1, "WhitelistVault: no current round period");
+
+
+        ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
+        require(!tgeinfo.allocated, "WhitelistVault: already allocated");
+
+        uint256 amount = (round - lastClaimedRound) * allocatedAmountForRound;
+        tgeinfo.allocated = true;
+        tgeinfo.allocatedAmount = amount ;
+        totalTgeAmount += amount;
+        lastClaimedRound = round;
 
         emit AllocatedAmount(round, amount);
     }
@@ -80,6 +114,7 @@ contract WhitelistVault is BaseVault {
         nonZero(totalTgeCount)
         validTgeRound(round)
     {
+        if(round > 1) allocateAmountRound(round);
         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
         require(
             tgeinfo.allocated && tgeinfo.allocatedAmount > 0,
@@ -87,6 +122,7 @@ contract WhitelistVault is BaseVault {
         );
         require(!tgeinfo.started, "WhitelistVault: already started");
         require(tgeinfo.whitelist.length > 0, "WhitelistVault: no whitelist");
+
         tgeinfo.started = true;
         tgeinfo.amount = tgeinfo.allocatedAmount / tgeinfo.whitelist.length;
 
