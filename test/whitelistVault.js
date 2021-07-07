@@ -80,17 +80,7 @@ describe("WhitelistVault", function() {
   });
 
   it("Check onlyOwner Function : 관리자 권한 함수 확인 : 일반사용자가 실행시 거부됨 ", async function() {
-
-    /** onlyOwner Functions
-      initialize
-      setClaimer
-      allocateAmount
-      addWhitelist
-      startRound
-      start
-      withdraw
-     */
-
+    this.timeout(1000000);
     let curBlock = await ethers.provider.getBlock();
     startTime = curBlock.timestamp ;
 
@@ -124,9 +114,8 @@ describe("WhitelistVault", function() {
     await expect(
         whitelistVault.connect(user1).withdraw(user1.address)
       ).to.be.revertedWith("Accessible: Caller is not an admin");
-
-
   });
+
 
   it("initialize : check balance : 볼트의 토큰(TOS) 잔액이 totalAllocatedAmount보다 작으면 실패 ", async function() {
 
@@ -383,6 +372,11 @@ describe("WhitelistVault", function() {
       expect(ethers.BigNumber.from(infos.amount).toString()).to.equal(amount.toString());
 
       let person2UnclaimedInfo = await whitelistVault.connect(person2).unclaimedInfos();
+      let person2UnclaimedInfosDetails = await whitelistVault.connect(person2).unclaimedInfosDetails();
+
+
+      expect(person2UnclaimedInfosDetails._rounds[0].toString()).to.equal('1');
+      expect(person2UnclaimedInfosDetails._amounts[0].toString()).to.equal(amount.toString());
       expect(person2UnclaimedInfo.count).to.equal(1);
       expect(ethers.BigNumber.from(person2UnclaimedInfo.amount).toString()).to.equal(amount.toString());
   });

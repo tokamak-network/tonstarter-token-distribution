@@ -141,7 +141,7 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
 
     ///@dev number of unclaimed
     function unclaimedInfos()
-        external
+        public
         view
         returns (uint256 count, uint256 amount)
     {
@@ -165,6 +165,44 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
             }
         }
     }
+
+    ///@dev number of unclaimed
+    function unclaimedInfosDetails()
+        external
+        view
+        returns (uint256[] memory _rounds, uint256[] memory _amounts)
+    {
+
+        (uint256 size,) = unclaimedInfos();
+        uint256[] memory counts = new uint256[](size);
+        uint256[] memory amounts = new uint256[](size);
+
+        if(size > 0){
+
+
+            uint256 k = 0;
+            if (block.timestamp > startTime) {
+                uint256 curRound = currentRound();
+                for (uint256 i = 1; i <= totalTgeCount; i++) {
+                    if (curRound >= i) {
+                        ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
+                        if (tgeinfo.started) {
+                            if (
+                                tgeinfo.claimedTime[msg.sender].joined &&
+                                tgeinfo.claimedTime[msg.sender].claimedTime == 0
+                            ) {
+                                counts[k] = i;
+                                amounts[k] = tgeinfo.amount;
+                                k++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return (counts, amounts);
+    }
+
 
     ///@dev claim
     function claim() external {
