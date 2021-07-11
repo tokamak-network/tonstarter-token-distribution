@@ -163,9 +163,9 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon, VaultEvent {
             );
     }
 
-    ///@dev get the claim info of whitelist's person
+    ///@dev get the total count of whitelist in round
     ///@param round  it is the period unit can claim once
-    ///@return total the total count of whitelist in TGE round
+    ///@return total the total count of whitelist in round
     function totalWhitelist(uint256 round)
         external
         view
