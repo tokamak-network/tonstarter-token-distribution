@@ -107,7 +107,7 @@ describe("WhitelistVault", function() {
 
     await expect(
         whitelistVault.connect(user1).startRound(
-            1
+          //  1
         )
       ).to.be.revertedWith("Accessible: Caller is not an admin");
 
@@ -170,9 +170,9 @@ describe("WhitelistVault", function() {
   it("startRound : round 2: allocateAmountTGE 이 호출되기 전에 라운드가 호출될 수 없다. ", async function() {
     await  expect(
         whitelistVault.connect(deployer).startRound(
-            2
+          //  2
         )
-      ).to.be.revertedWith("BaseVaultStorage: zero value");
+      ).to.be.revertedWith("WhitelistVault: no allocated");
   });
 
   it("allocateAmountTGE : check amount: 할당액은 총 할당액을 초과할 수 없다.", async function() {
@@ -242,7 +242,7 @@ describe("WhitelistVault", function() {
     let i = 0;
     await  expect(
         whitelistVault.connect(deployer).startRound(
-            tgeRound[i].round
+          //  tgeRound[i].round
         )
     ).to.be.revertedWith("WhitelistVault: no whitelist");
   });
@@ -269,7 +269,7 @@ describe("WhitelistVault", function() {
     let i = 0;
 
     await whitelistVault.connect(deployer).startRound(
-            tgeRound[i].round
+          //  tgeRound[i].round
         );
     let infos = await whitelistVault.getTgeInfos(tgeRound[i].round);
     expect(infos.started).to.equal(true);
@@ -289,16 +289,16 @@ describe("WhitelistVault", function() {
   it("startRound : check round: 입력 라운드는 설정된 totalTgeCount 보다 클수 없다.", async function() {
     await  expect(
        whitelistVault.connect(deployer).startRound(
-            totalTgeCount+1
+         //   totalTgeCount+1
         )
-    ).to.be.revertedWith("BaseVault: exceed available round");
+    ).to.be.revertedWith("WhitelistVault: already started");
   });
 
   it("startRound : 1 round  : 이미 시작된 라운드는 실행할 수 없다.", async function() {
     let i = 0;
     await  expect(
        whitelistVault.connect(deployer).startRound(
-            tgeRound[i].round
+         //   tgeRound[i].round
         )
     ).to.be.revertedWith("WhitelistVault: already started");
   });
@@ -333,9 +333,9 @@ describe("WhitelistVault", function() {
     let i = 2;
     await  expect(
        whitelistVault.connect(deployer).startRound(
-            i
+          //  i
         )
-    ).to.be.revertedWith("WhitelistVault: no current round period");
+    ).to.be.revertedWith("WhitelistVault: already started");
   });
 
   it("startRound : 2 round  ", async function() {
@@ -356,7 +356,9 @@ describe("WhitelistVault", function() {
       await ethers.provider.send("evm_increaseTime", [increaseTime]);
       await ethers.provider.send("evm_mine");
     }
-    await whitelistVault.connect(deployer).startRound(i);
+    await whitelistVault.connect(deployer).startRound(
+      //i
+      );
     let infos = await whitelistVault.getTgeInfos(i);
 
     expect(infos.started).to.equal(true);
@@ -523,7 +525,9 @@ describe("WhitelistVault", function() {
         sumOfAmount += tgeRound[i-1].amount;
       }
 
-      await whitelistVault.connect(deployer).startRound(i);
+      await whitelistVault.connect(deployer).startRound(
+        //i
+        );
       let infos = await whitelistVault.getTgeInfos(i);
       expect(infos.started).to.equal(true);
       expect(infos.allocated).to.equal(true);

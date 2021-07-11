@@ -106,15 +106,16 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
     }
 
     ///@dev start round, Calculate how much the whitelisted people in the round can claim.
-    ///@param round  it is the period unit can claim once
-    function startRound(uint256 round)
+    function startRound()
         external
         onlyOwner
-        nonZero(round)
+        //nonZero(round)
         nonZero(totalTgeCount)
-        validTgeRound(round)
+        //validTgeRound(round)
     {
+        uint256 round = currentRound();
         if(round > 1) allocateAmountRound(round);
+
         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
         require(
             tgeinfo.allocated && tgeinfo.allocatedAmount > 0,
