@@ -203,7 +203,7 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
 
     ///@dev claim
     function claim() external {
-        uint256 count = 0;
+
         uint256 amount = 0;
         require(block.timestamp > startTime, "WhitelistVault: not started yet");
 
@@ -219,7 +219,6 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
                     .timestamp;
                     tgeinfo.claimedCount++;
                     amount += tgeinfo.amount;
-                    count++;
                 }
             }
         }
