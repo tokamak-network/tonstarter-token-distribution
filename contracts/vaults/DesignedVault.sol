@@ -18,14 +18,14 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
 
     ///@dev constructor
     ///@param _name Vault's name
-    ///@param _token Allocated token address
+    ///@param _tos Allocated tos address
     constructor(
         string memory _name,
-        address _token,
+        address _tos,
         uint256 _inputMaxOnce
     ) {
         name = _name;
-        token = _token;
+        tos = _tos;
         claimer = msg.sender;
         maxInputOnceTime = _inputMaxOnce;
         _setRoleAdmin(ADMIN_ROLE, ADMIN_ROLE);
@@ -203,7 +203,7 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
             totalClaimedCountByClaimer++;
             claimedTimesOfRoundByCliamer[curRound] = block.timestamp;
             require(
-                IERC20(token).transfer(msg.sender, amount),
+                IERC20(tos).transfer(msg.sender, amount),
                 "DesignedVault: transfer fail"
             );
         } else {
@@ -230,7 +230,7 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
             if (lastClaimedRound < totalTgeCount && curRound < totalTgeCount)
                 lastClaimedRound = curRound;
             require(
-                IERC20(token).transfer(msg.sender, amount),
+                IERC20(tos).transfer(msg.sender, amount),
                 "DesignedVault: transfer fail"
             );
         }

@@ -15,14 +15,14 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
 
     ///@dev constructor
     ///@param _name Vault's name
-    ///@param _token Allocated token address
+    ///@param _tos Allocated tos address
     constructor(
         string memory _name,
-        address _token,
+        address _tos,
         uint256 _inputMaxOnce
     ) {
         name = _name;
-        token = _token;
+        tos = _tos;
         maxInputOnceTime = _inputMaxOnce;
         _setRoleAdmin(ADMIN_ROLE, ADMIN_ROLE);
         _setupRole(ADMIN_ROLE, msg.sender);
@@ -232,7 +232,7 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
         require(amount > 0, "WhitelistVault: no claimable amount");
         totalClaimedAmount += amount;
         require(
-            IERC20(token).transfer(msg.sender, amount),
+            IERC20(tos).transfer(msg.sender, amount),
             "WhitelistVault: transfer fail"
         );
 

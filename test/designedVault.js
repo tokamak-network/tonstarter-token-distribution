@@ -57,9 +57,9 @@ describe("DesignedVault", function() {
 
   });
 
-  it("check name, token ", async function() {
+  it("check name, tos ", async function() {
     expect(await designedVault.name()).to.equal(name);
-    expect(await designedVault.token()).to.equal(tos.address);
+    expect(await designedVault.tos()).to.equal(tos.address);
     expect(await designedVault.maxInputOnceTime()).to.equal(maxInputOnceTime);
   });
 

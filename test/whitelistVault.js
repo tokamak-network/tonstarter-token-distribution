@@ -73,9 +73,9 @@ describe("WhitelistVault", function() {
 
   });
 
-  it("check name, token ", async function() {
+  it("check name, tos ", async function() {
     expect(await whitelistVault.name()).to.equal(name);
-    expect(await whitelistVault.token()).to.equal(tos.address);
+    expect(await whitelistVault.tos()).to.equal(tos.address);
     expect(await whitelistVault.maxInputOnceTime()).to.equal(maxInputOnceTime);
   });
 

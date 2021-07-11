@@ -30,7 +30,7 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon, VaultEvent {
         nonZero(_periodTimesPerCliam)
     {
         require(
-            IERC20(token).balanceOf(address(this)) >= _totalAllocatedAmount,
+            IERC20(tos).balanceOf(address(this)) >= _totalAllocatedAmount,
             "BaseVault: balanceOf is insuffient"
         );
 
@@ -90,7 +90,7 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon, VaultEvent {
 
     ///@dev Amount that can be withdrawn by the owner
     function availableWithdrawAmount() public view returns (uint256 amount) {
-        uint256 balance = IERC20(token).balanceOf(address(this));
+        uint256 balance = IERC20(tos).balanceOf(address(this));
         uint256 remainSendAmount = totalAllocatedAmount - totalClaimedAmount;
         require(balance >= remainSendAmount, "BaseVault: insufficent");
         amount = balance - remainSendAmount;
@@ -102,7 +102,7 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon, VaultEvent {
         uint256 amount = availableWithdrawAmount();
         require(amount > 0, "BaseVault: no withdrawable amount");
         require(
-            IERC20(token).transfer(to, availableWithdrawAmount()),
+            IERC20(tos).transfer(to, availableWithdrawAmount()),
             "BaseVault: transfer fail"
         );
 

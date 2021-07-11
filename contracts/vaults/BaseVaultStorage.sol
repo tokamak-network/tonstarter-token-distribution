@@ -8,7 +8,7 @@ contract BaseVaultStorage {
     ///
     string public name;
     ///
-    address public token;
+    address public tos;
 
     uint256 public totalAllocatedAmount;
     uint256 public totalClaimedAmount;
