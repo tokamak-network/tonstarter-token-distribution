@@ -91,22 +91,7 @@ contract TOS is ERC20, AccessiblePlusCommon, ITOS {
     ) external override {
         require(deadline >= block.timestamp, "TOS: permit EXPIRED");
 
-        bytes32 digest = keccak256(
-            abi.encodePacked(
-                "\x19\x01",
-                DOMAIN_SEPARATOR,
-                keccak256(
-                    abi.encode(
-                        PERMIT_TYPEHASH,
-                        owner,
-                        spender,
-                        value,
-                        nonces[owner]++,
-                        deadline
-                    )
-                )
-            )
-        );
+        bytes32 digest = hashPermit(owner, spender, value, deadline, nonces[owner]++);
 
         require(owner != spender, "TOS: approval to current owner");
 
