@@ -18,7 +18,7 @@ describe("WhitelistVault", function() {
   let totalAllocatedAmount=100000;
   let totalTgeCount=5;
   let startTime, endTime;
-  let periodTimesPerCliam = 60 * 10; // 10 mins
+  let periodTimesPerClaim = 60 * 10; // 10 mins
 
   let tgeRound = [
       {
@@ -89,7 +89,7 @@ describe("WhitelistVault", function() {
             totalAllocatedAmount,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
         )
       ).to.be.revertedWith("Accessible: Caller is not an admin");
 
@@ -128,7 +128,7 @@ describe("WhitelistVault", function() {
             totalAllocatedAmount,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
         )
       ).to.be.revertedWith("BaseVault: balanceOf is insuffient");
   });
@@ -138,19 +138,19 @@ describe("WhitelistVault", function() {
 
       let curBlock = await provider.getBlock();
       startTime = curBlock.timestamp + 15;
-      endTime = startTime+(periodTimesPerCliam*totalTgeCount);
+      endTime = startTime+(periodTimesPerClaim*totalTgeCount);
 
       await tos.mint(whitelistVault.address, totalAllocatedAmount);
       await whitelistVault.connect(deployer).initialize(
             totalAllocatedAmount,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
       );
       expect(await whitelistVault.totalAllocatedAmount()).to.equal(totalAllocatedAmount);
       expect(await whitelistVault.totalTgeCount()).to.equal(totalTgeCount);
       expect(await whitelistVault.startTime()).to.equal(startTime);
-      expect(await whitelistVault.periodTimesPerCliam()).to.equal(periodTimesPerCliam);
+      expect(await whitelistVault.periodTimesPerClaim()).to.equal(periodTimesPerClaim);
       expect(await whitelistVault.endTime()).to.equal(endTime);
   });
 
@@ -161,7 +161,7 @@ describe("WhitelistVault", function() {
             totalAllocatedAmount,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
         )
       ).to.be.revertedWith("BaseVault: already initialized");
 
@@ -401,7 +401,7 @@ describe("WhitelistVault", function() {
 
 
   it("claim : tge 등록자, 2라운드만 있는 사용자 person6 가 2라운드 클래임을 한다.", async function() {
-      // await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+      // await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
       // await ethers.provider.send('evm_mine');
       let currentRound = await whitelistVault.connect(person6).currentRound();
       expect(currentRound).to.equal(2);
@@ -418,7 +418,7 @@ describe("WhitelistVault", function() {
   });
 
   it("claim : tge 등록자, person1 , 3라운드에서 지난 라운드것을 한번에 클래임을 한다. 3라운드 스타트를 안한상태이다.", async function() {
-      await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+      await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
       await ethers.provider.send('evm_mine');
       let currentRound = await whitelistVault.connect(person1).currentRound();
       expect(currentRound).to.equal(3);
@@ -493,7 +493,7 @@ describe("WhitelistVault", function() {
       let targetRound = 5;
       let loop = true;
       while(loop){
-        await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+        await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
         await ethers.provider.send('evm_mine');
         let currentRound = await whitelistVault.currentRound();
         if(currentRound == targetRound ) loop = false;

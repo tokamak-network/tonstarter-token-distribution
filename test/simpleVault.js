@@ -20,7 +20,7 @@ describe("SimpleVault", function() {
   let totalClaims=10;
   let totalTgeCount=2;
   let startTime, endTime;
-  let periodTimesPerCliam = 60 * 10; // 5 mins
+  let periodTimesPerClaim = 60 * 10; // 5 mins
 
   let tgeRound = [
       {

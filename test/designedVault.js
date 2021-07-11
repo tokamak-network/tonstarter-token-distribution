@@ -20,7 +20,7 @@ describe("DesignedVault", function() {
   let totalClaims=10;
   let totalTgeCount=2;
   let startTime, endTime;
-  let periodTimesPerCliam = 60 * 10; // 5 mins
+  let periodTimesPerClaim = 60 * 10; // 5 mins
 
   let tgeRound = [
       {
@@ -84,7 +84,7 @@ describe("DesignedVault", function() {
             totalClaims,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
         )
       ).to.be.revertedWith("Accessible: Caller is not an admin");
 
@@ -134,7 +134,7 @@ describe("DesignedVault", function() {
             totalClaims,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
         )
       ).to.be.revertedWith("BaseVault: balanceOf is insuffient");
   });
@@ -142,7 +142,7 @@ describe("DesignedVault", function() {
   it("initialize by owner : 관리자에 의해 초기 설정", async function() {
       let curBlock = await provider.getBlock();
       startTime = curBlock.timestamp + 15;
-      endTime = startTime+(periodTimesPerCliam*totalClaims);
+      endTime = startTime+(periodTimesPerClaim*totalClaims);
 
       await tos.mint(designedVault.address, totalAllocatedAmount);
       await designedVault.connect(deployer).initialize(
@@ -150,13 +150,13 @@ describe("DesignedVault", function() {
             totalClaims,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
       );
       expect(await designedVault.totalAllocatedAmount()).to.equal(totalAllocatedAmount);
       expect(await designedVault.totalClaims()).to.equal(totalClaims);
       expect(await designedVault.totalTgeCount()).to.equal(totalTgeCount);
       expect(await designedVault.startTime()).to.equal(startTime);
-      expect(await designedVault.periodTimesPerCliam()).to.equal(periodTimesPerCliam);
+      expect(await designedVault.periodTimesPerClaim()).to.equal(periodTimesPerClaim);
       expect(await designedVault.endTime()).to.equal(endTime);
   });
 
@@ -168,7 +168,7 @@ describe("DesignedVault", function() {
             totalClaims,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
         )
       ).to.be.revertedWith("BaseVault: already initialized");
   });
@@ -409,7 +409,7 @@ describe("DesignedVault", function() {
   });
 
   it("claim : tge 등록자, 2라운드만 있는 사용자가 2라운드 클래임을 한다.", async function() {
-      await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+      await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
       await ethers.provider.send('evm_mine');
       let currentRound = await designedVault.connect(person6).currentRound();
       expect(currentRound).to.equal(2);
@@ -449,7 +449,7 @@ describe("DesignedVault", function() {
   });
 
   it("claim : tge 등록자, 3라운드에서 지난 라운드것을 한번에 클래임을 한다.", async function() {
-      await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+      await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
       await ethers.provider.send('evm_mine');
       let currentRound = await designedVault.connect(person1).currentRound();
       expect(currentRound).to.equal(3);
@@ -485,9 +485,9 @@ describe("DesignedVault", function() {
   });
 
   it("claim : 인출자는 인출하지 못한 라운드의 금액을 한번에 인출할 수 있다. ", async function() {
-    await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+    await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
     await ethers.provider.send('evm_mine');
-    await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+    await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
     await ethers.provider.send('evm_mine');
     let currentRound = await designedVault.connect(user1).currentRound();
     let oneClaimAmountByClaimer = await designedVault.oneClaimAmountByClaimer();
@@ -505,7 +505,7 @@ describe("DesignedVault", function() {
   });
 
   it("claim : 인출자는 특정 라운드에서 클래임을 한다.", async function() {
-    await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+    await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
     await ethers.provider.send('evm_mine');
     let user1UnclaimedInfo = await designedVault.connect(user1).unclaimedInfos();
     let preTosBalance = await tos.balanceOf(user1.address);

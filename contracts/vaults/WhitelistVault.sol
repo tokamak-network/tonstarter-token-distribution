@@ -32,12 +32,12 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
     ///@param _totalAllocatedAmount total allocated amount
     ///@param _totalTgeCount   total tge count
     ///@param _startTime start time
-    ///@param _periodTimesPerCliam period time per claim
+    ///@param _periodTimesPerClaim period time per claim
     function initialize(
         uint256 _totalAllocatedAmount,
         uint256 _totalTgeCount,
         uint256 _startTime,
-        uint256 _periodTimesPerCliam
+        uint256 _periodTimesPerClaim
     ) external onlyOwner {
 
         initializeBase(
@@ -45,7 +45,7 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
             _totalTgeCount,
             _totalTgeCount,
             _startTime,
-            _periodTimesPerCliam
+            _periodTimesPerClaim
         );
 
     }
@@ -87,7 +87,7 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
             "WhitelistVault: no available round"
         );
 
-        uint256 calcRound = (block.timestamp - startTime) / periodTimesPerCliam;
+        uint256 calcRound = (block.timestamp - startTime) / periodTimesPerClaim;
 
         /// It can be set only during each round.
         require(round == calcRound+1, "WhitelistVault: no current round period");
@@ -137,7 +137,7 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
         returns (uint256 start)
     {
         if (round > 0 && round <= totalTgeCount)
-            start = startTime + (periodTimesPerCliam * (round - 1));
+            start = startTime + (periodTimesPerClaim * (round - 1));
     }
 
     ///@dev number of unclaimed

@@ -13,13 +13,13 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon, VaultEvent {
     ///@param _totalAllocatedAmount total allocated amount
     ///@param _totalTgeCount   total tge count
     ///@param _startTime start time
-    ///@param _periodTimesPerCliam period time per claim
+    ///@param _periodTimesPerClaim period time per claim
     function initializeBase(
         uint256 _totalAllocatedAmount,
         uint256 _totalClaims,
         uint256 _totalTgeCount,
         uint256 _startTime,
-        uint256 _periodTimesPerCliam
+        uint256 _periodTimesPerClaim
     )
         public
         onlyOwner
@@ -27,7 +27,7 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon, VaultEvent {
         nonZero(_totalClaims)
         nonZero(_totalTgeCount)
         nonZero(_startTime)
-        nonZero(_periodTimesPerCliam)
+        nonZero(_periodTimesPerClaim)
     {
         require(
             IERC20(tos).balanceOf(address(this)) >= _totalAllocatedAmount,
@@ -39,8 +39,8 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon, VaultEvent {
         totalClaims = _totalClaims;
         totalTgeCount = _totalTgeCount;
         startTime = _startTime;
-        periodTimesPerCliam = _periodTimesPerCliam;
-        endTime = _startTime + (_periodTimesPerCliam * _totalClaims);
+        periodTimesPerClaim = _periodTimesPerClaim;
+        endTime = _startTime + (_periodTimesPerClaim * _totalClaims);
     }
 
     ///@dev set max input at once time of whitelist
@@ -83,7 +83,7 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon, VaultEvent {
         if (block.timestamp < startTime) {
             round = 0;
         } else {
-            round = (block.timestamp - startTime) / periodTimesPerCliam;
+            round = (block.timestamp - startTime) / periodTimesPerClaim;
             round++;
         }
     }

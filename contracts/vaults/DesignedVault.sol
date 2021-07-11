@@ -37,20 +37,20 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
     ///@param _totalClaims total available claim count
     ///@param _totalTgeCount   total tge count
     ///@param _startTime start time
-    ///@param _periodTimesPerCliam period time per claim
+    ///@param _periodTimesPerClaim period time per claim
     function initialize(
         uint256 _totalAllocatedAmount,
         uint256 _totalClaims,
         uint256 _totalTgeCount,
         uint256 _startTime,
-        uint256 _periodTimesPerCliam
+        uint256 _periodTimesPerClaim
     ) external onlyOwner {
         initializeBase(
             _totalAllocatedAmount,
             _totalClaims,
             _totalTgeCount,
             _startTime,
-            _periodTimesPerCliam
+            _periodTimesPerClaim
         );
     }
 
@@ -130,7 +130,7 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
 
     ///@dev next claimable start time
     function nextClaimStartTime() external view returns (uint256 nextTime) {
-        nextTime = startTime + (periodTimesPerCliam * lastClaimedRound);
+        nextTime = startTime + (periodTimesPerClaim * lastClaimedRound);
         if (endTime < nextTime) nextTime = 0;
     }
 
