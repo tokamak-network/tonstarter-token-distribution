@@ -153,14 +153,12 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
             for (uint256 i = 1; i <= curRound; i++) {
                 if (curRound >= i) {
                     ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
-                    if (tgeinfo.started) {
-                        if (
-                            tgeinfo.claimedTime[msg.sender].joined &&
-                            tgeinfo.claimedTime[msg.sender].claimedTime == 0
-                        ) {
+                    if (tgeinfo.started &&
+                        tgeinfo.claimedTime[msg.sender].joined &&
+                        tgeinfo.claimedTime[msg.sender].claimedTime == 0)
+                    {
                             count++;
                             amount += tgeinfo.amount;
-                        }
                     }
                 }
             }
@@ -187,15 +185,13 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
                 for (uint256 i = 1; i <= curRound; i++) {
                     if (curRound >= i) {
                         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
-                        if (tgeinfo.started) {
-                            if (
-                                tgeinfo.claimedTime[msg.sender].joined &&
-                                tgeinfo.claimedTime[msg.sender].claimedTime == 0
-                            ) {
-                                counts[k] = i;
-                                amounts[k] = tgeinfo.amount;
-                                k++;
-                            }
+                        if (tgeinfo.started &&
+                            tgeinfo.claimedTime[msg.sender].joined &&
+                            tgeinfo.claimedTime[msg.sender].claimedTime == 0
+                        ) {
+                            counts[k] = i;
+                            amounts[k] = tgeinfo.amount;
+                            k++;
                         }
                     }
                 }
@@ -215,17 +211,15 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
         for (uint256 i = 1; i <= curRound; i++) {
             if (curRound >= i) {
                 ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
-                if (tgeinfo.started) {
-                    if (
-                        tgeinfo.claimedTime[msg.sender].joined &&
-                        tgeinfo.claimedTime[msg.sender].claimedTime == 0
-                    ) {
-                        tgeinfo.claimedTime[msg.sender].claimedTime = block
-                        .timestamp;
-                        tgeinfo.claimedCount++;
-                        amount += tgeinfo.amount;
-                        count++;
-                    }
+                if (tgeinfo.started &&
+                    tgeinfo.claimedTime[msg.sender].joined &&
+                    tgeinfo.claimedTime[msg.sender].claimedTime == 0
+                ) {
+                    tgeinfo.claimedTime[msg.sender].claimedTime = block
+                    .timestamp;
+                    tgeinfo.claimedCount++;
+                    amount += tgeinfo.amount;
+                    count++;
                 }
             }
         }
