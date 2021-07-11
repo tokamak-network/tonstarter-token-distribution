@@ -102,7 +102,7 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon, VaultEvent {
         uint256 amount = availableWithdrawAmount();
         require(amount > 0, "BaseVault: no withdrawable amount");
         require(
-            IERC20(tos).transfer(to, availableWithdrawAmount()),
+            IERC20(tos).transfer(to, amount),
             "BaseVault: transfer fail"
         );
 
