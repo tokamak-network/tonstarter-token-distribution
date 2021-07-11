@@ -149,7 +149,7 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
         amount = 0;
         if (block.timestamp > startTime) {
             uint256 curRound = currentRound();
-            for (uint256 i = 1; i <= totalTgeCount; i++) {
+            for (uint256 i = 1; i <= curRound; i++) {
                 if (curRound >= i) {
                     ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
                     if (tgeinfo.started) {
@@ -183,7 +183,7 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
             uint256 k = 0;
             if (block.timestamp > startTime) {
                 uint256 curRound = currentRound();
-                for (uint256 i = 1; i <= totalTgeCount; i++) {
+                for (uint256 i = 1; i <= curRound; i++) {
                     if (curRound >= i) {
                         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
                         if (tgeinfo.started) {
@@ -211,7 +211,7 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
         require(block.timestamp > startTime, "WhitelistVault: not started yet");
 
         uint256 curRound = currentRound();
-        for (uint256 i = 1; i <= totalTgeCount; i++) {
+        for (uint256 i = 1; i <= curRound; i++) {
             if (curRound >= i) {
                 ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
                 if (tgeinfo.started) {
