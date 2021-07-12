@@ -6,35 +6,42 @@
 const hre = require("hardhat");
 require('dotenv').config()
 const save = require("./save_deployed");
-const loadDeployed = require("./load_deployed");
 
 async function main() {
+  // Hardhat always runs the compile task when running scripts with its command
+  // line interface.
+  //
+  // If this script is run directly using `node` you may want to call compile
+  // manually to make sure everything is compiled
+  // await hre.run('compile');
 
-  let inputInfo = {
-    name: 'Liquidity',
-    maxInputOnce: 20
+  // We get the contract to deploy
+
+  let tosInfo = {
+    name: 'TONStarter',
+    symbol: 'TOS',
+    version: '1.0',
   }
 
   let deployInfo = {
-      name : "LiquidityVault",
+      name : "TOS",
       address : ""
     }
+
   console.log("----------- deploy   ", deployInfo.name );
-  const tostoken = loadDeployed(process.env.NETWORK, "TOS");
-  console.log("tostoken:", tostoken);
+  //console.log("process.env.NETWORK:", process.env.NETWORK );
 
-  const LiquidityVault = await hre.ethers.getContractFactory("LiquidityVault");
-  const vault = await LiquidityVault.deploy(tostoken, inputInfo.maxInputOnce);
+  const TOS = await hre.ethers.getContractFactory("TOS");
+  const tos = await TOS.deploy(tosInfo.name, tosInfo.symbol, tosInfo.version);
 
-  await vault.deployed();
-  deployInfo.address = vault.address;
+  await tos.deployed();
 
+  deployInfo.address = tos.address;
   console.log("deployed to:", deployInfo);
 
   if(deployInfo.address != null && deployInfo.address.length > 0  ){
     save(process.env.NETWORK, deployInfo);
   }
-
 }
 
 // We recommend this pattern to be able to use async/await everywhere

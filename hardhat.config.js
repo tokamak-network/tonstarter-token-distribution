@@ -47,6 +47,15 @@ module.exports = {
           `${process.env.ACCOUNT2_PK}`
           ],
       gasMultiplier: 1.25
+    },
+    mainnet: {
+      url: `https://rinkeby.infura.io/v3/${process.env.InfuraKey}`,
+      accounts: [
+          `${process.env.ACCOUNT0_PK}`,
+          `${process.env.ACCOUNT1_PK}`,
+          `${process.env.ACCOUNT2_PK}`
+          ],
+      gasMultiplier: 1.25
     }
   },
   etherscan: {
