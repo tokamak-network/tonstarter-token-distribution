@@ -12,7 +12,7 @@ async function main() {
 
   let inputInfo = {
     name: 'Liquidity',
-    maxInputOnce: 20
+    maxInputOnce: process.env.maxInputOnce
   }
 
   let deployInfo = {

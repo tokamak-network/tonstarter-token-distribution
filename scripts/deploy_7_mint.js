@@ -30,33 +30,24 @@ async function main() {
 
   const tos = await ethers.getContractAt("TOS", tostoken);
 
- // await tos.mint(DAOVault, utils.parseUnits(process.env.DAOFundAllocate + "." + "0".repeat(18), 18));
-  let balance_DAOVault = await tos.balanceOf(DAOVault);
-  //console.log('balance_DAOVault' , balance_DAOVault.toString());
+  let tx1 = await tos.mint(DAOVault, utils.parseUnits(process.env.DAOFundAllocate + "." + "0".repeat(18), 18));
+  console.log('mint_DAOVault' , tx1.hash );
 
- // await tos.mint(LiquidityMiningVault, utils.parseUnits(process.env.LiquidityMiningAllocate + "." + "0".repeat(18), 18));
-  let balance_LiquidityMiningVault = await tos.balanceOf(LiquidityMiningVault);
-  //console.log('balance_LiquidityMiningVault' , balance_LiquidityMiningVault.toString());
+  let tx2 = await tos.mint(LiquidityMiningVault, utils.parseUnits(process.env.LiquidityMiningAllocate + "." + "0".repeat(18), 18));
+  console.log('mint_LiquidityMiningVault' , tx2.hash);
 
- // await tos.mint(LiquidityVault, utils.parseUnits(process.env.LiquidityAllocate + "." + "0".repeat(18), 18));
-  let balance_LiquidityVault = await tos.balanceOf(LiquidityVault);
-  //console.log('balance_LiquidityVault' , balance_LiquidityVault.toString());
+  let tx3 = await tos.mint(LiquidityVault, utils.parseUnits(process.env.LiquidityAllocate + "." + "0".repeat(18), 18));
+  console.log('mint_LiquidityVault' , tx3.hash);
 
- // await tos.mint(InitialContributorVault, utils.parseUnits(process.env.InitialContributorAllocate + "." + "0".repeat(18), 18));
-  let balance_InitialContributorVault = await tos.balanceOf(InitialContributorVault);
-  //console.log('balance_InitialContributorVault' , balance_InitialContributorVault.toString());
+  let tx4 = await tos.mint(InitialContributorVault, utils.parseUnits(process.env.InitialContributorAllocate + "." + "0".repeat(18), 18));
+  console.log('mint_InitialContributorVault' , tx4.hash);
 
-////  await tos.mint(MarketingVault, utils.parseUnits(process.env.MarketingFundAllocate + "." + "0".repeat(18), 18));
-  let balance_MarketingVault = await tos.balanceOf(MarketingVault);
-  //console.log('balance_MarketingVault' , balance_MarketingVault.toString());
+  let tx5 = await tos.mint(MarketingVault, utils.parseUnits(process.env.MarketingFundAllocate + "." + "0".repeat(18), 18));
+  console.log('mint_MarketingVault' , tx5.hash);
 
- // await tos.mint(AirdropVault, utils.parseUnits(process.env.AirdropAllocate + "." + "0".repeat(18), 18));
-  let balance_AirdropVault = await tos.balanceOf(AirdropVault);
-  //console.log('balance_AirdropVault' , balance_AirdropVault.toString());
+  let tx6 = await tos.mint(AirdropVault, utils.parseUnits(process.env.AirdropAllocate + "." + "0".repeat(18), 18));
+  console.log('mint_AirdropVault' , tx6.hash);
 
-
-  let totalSupply = await tos.totalSupply();
-  //console.log('totalSupply' , totalSupply.toString());
   console.log("----------- TOS.mint  end ");
 }
 
