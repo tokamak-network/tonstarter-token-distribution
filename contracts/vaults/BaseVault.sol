@@ -25,7 +25,6 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon, VaultEvent {
         onlyOwner
         nonZero(_totalAllocatedAmount)
         nonZero(_totalClaims)
-        nonZero(_totalTgeCount)
         nonZero(_startTime)
         nonZero(_periodTimesPerClaim)
     {

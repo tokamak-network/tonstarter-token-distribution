@@ -109,11 +109,11 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
     function startRound()
         external
         onlyOwner
-        //nonZero(round)
         nonZero(totalTgeCount)
-        //validTgeRound(round)
     {
         uint256 round = currentRound();
+        require(round > 0 && round <= totalTgeCount, "WhitelistVault: non-valid round");
+
         if(round > 1) allocateAmountRound(round);
 
         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
