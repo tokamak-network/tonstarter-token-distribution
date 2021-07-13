@@ -53,7 +53,7 @@ describe("DesignedVault", function() {
     designedVault = await DesignedVault.deploy(name, tos.address, maxInputOnceTime);
     designedVault.connect(deployer).deployed();
 
-    provider = await ethers.getDefaultProvider();
+    provider = ethers.provider;
 
   });
 
@@ -64,16 +64,6 @@ describe("DesignedVault", function() {
   });
 
   it("Check onlyOwner Function : 관리자 권한 함수 확인 : 일반사용자가 실행시 거부됨 ", async function() {
-
-    /** onlyOwner Functions
-      initialize
-      setClaimer
-      allocateAmount
-      addWhitelist
-      startRound
-      start
-      withdraw
-     */
 
     let curBlock = await ethers.provider.getBlock();
     startTime = curBlock.timestamp ;

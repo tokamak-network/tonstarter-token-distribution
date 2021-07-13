@@ -53,8 +53,7 @@ describe("SimpleVault", function() {
         simpleVault = await SimpleVault.deploy(tos.address, name);
         simpleVault.connect(deployer).deployed();
 
-        provider = await ethers.getDefaultProvider();
-
+        provider = ethers.provider;
     });
 
     it("check name, token ", async function() {

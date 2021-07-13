@@ -69,8 +69,7 @@ describe("WhitelistVault", function() {
     whitelistVault = await WhitelistVault.deploy(name, tos.address, maxInputOnceTime);
     whitelistVault.deployed();
 
-    provider = await ethers.getDefaultProvider();
-
+    provider = ethers.provider;
   });
 
   it("check name, tos ", async function() {
@@ -172,7 +171,7 @@ describe("WhitelistVault", function() {
         whitelistVault.connect(deployer).startRound(
           //  2
         )
-      ).to.be.revertedWith("WhitelistVault: no allocated");
+      ).to.be.revertedWith("WhitelistVault: non-valid round");
   });
 
   it("allocateAmountTGE : check amount: 할당액은 총 할당액을 초과할 수 없다.", async function() {
@@ -244,7 +243,7 @@ describe("WhitelistVault", function() {
         whitelistVault.connect(deployer).startRound(
           //  tgeRound[i].round
         )
-    ).to.be.revertedWith("WhitelistVault: no whitelist");
+    ).to.be.revertedWith("WhitelistVault: non-valid round");
   });
 
   it("addWhitelist : 1 round:  추가되는 화이트리스트는 이미 중복된 주소가 있어도 에러를 리턴하지 않는다.", async function() {
