@@ -23,12 +23,18 @@ task("accounts", "Prints the list of accounts", async () => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  defaultNetwork: "hardhat",
+  defaultNetwork: "localhost",
   networks: {
     localhost: {
       gas: 9500000,
       gasMultiplier: 100,
       blockGasLimit: 124500000,
+      accounts: {
+        mnemonic: process.env.MNEMONIC_HARDHAT,
+        count: 30,
+        initialIndex: 0,
+        accountsBalance: '10000000000000000000000',
+      },
     },
     hardhat: {
       accounts: {

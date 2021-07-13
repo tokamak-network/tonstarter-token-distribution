@@ -10,6 +10,10 @@ const loadDeployed = require("./load_deployed");
 const utils = ethers.utils;
 
 async function main() {
+  const [deployer, user1] = await ethers.getSigners();
+  const users = await ethers.getSigners();
+  console.log("Deploying contracts with the account:", deployer.address);
+  console.log("Account balance:", (await deployer.getBalance()).toString());
 
   console.log("----------- TOS.mint   ",  );
   const tostoken = loadDeployed(process.env.NETWORK, "TOS");
@@ -49,6 +53,7 @@ async function main() {
   console.log('mint_AirdropVault' , tx6.hash);
 
   console.log("----------- TOS.mint  end ");
+
 }
 
 // We recommend this pattern to be able to use async/await everywhere
