@@ -13,34 +13,43 @@ const utils = ethers.utils;
 
 async function main() {
 
+  const TOS = loadDeployed(process.env.NETWORK, "TOS");
+  const tos = await ethers.getContractAt("TOS", TOS);
+  let tx = await tos.transferAdmin(process.env.TOS_ADMIN);
+  console.log("TOS transferAdmin ", tx.hash);
+
+  const DAOVault = loadDeployed(process.env.NETWORK, "DAOVault");
+  const daoVault = await ethers.getContractAt("SimpleVault", DAOVault);
+  let tx = await daoVault.transferAdmin(process.env.NEW_ADMIN);
+  console.log("DAOVault transferAdmin ", tx.hash);
+
+  const LiquidityMiningVault = loadDeployed(process.env.NETWORK, "LiquidityMiningVault");
+  const liquidityMiningVault = await ethers.getContractAt("SimpleVault", LiquidityMiningVault);
+  let tx = await airdropVault.transferAdmin(process.env.NEW_ADMIN);
+  console.log("LiquidityMiningVault transferAdmin ", tx.hash);
+
   const LiquidityVault = loadDeployed(process.env.NETWORK, "LiquidityVault");
   const liquidityVault = await ethers.getContractAt("DesignedVault", LiquidityVault);
-  let getTgeInfos = await liquidityVault.getTgeInfos(1) ;
-  let startedByClaimer1 = await liquidityVault.startedByClaimer() ;
-  let oneClaimAmountByClaimer1 = await liquidityVault.oneClaimAmountByClaimer() ;
+  tx = await liquidityVault.transferAdmin(process.env.NEW_ADMIN);
+  console.log("LiquidityVault transferAdmin ", tx.hash);
 
-  console.log("LiquidityVault getTgeInfos(1) ", getTgeInfoMap(getTgeInfos));
-  console.log("LiquidityVault startedByClaimer ", startedByClaimer1 );
-  console.log("LiquidityVault oneClaimAmountByClaimer ",  utils.formatUnits(oneClaimAmountByClaimer1.toString(),18));
-  /*
+
   const MarketingVault = loadDeployed(process.env.NETWORK, "MarketingVault");
   const marketingVault = await ethers.getContractAt("DesignedVault", MarketingVault);
-  let getTgeInfos3 = await marketingVault.getTgeInfos(1) ;
-  let startedByClaimer2 = await liquidityVault.startedByClaimer() ;
-  let oneClaimAmountByClaimer2= await liquidityVault.oneClaimAmountByClaimer() ;
-
-  console.log("MarketingVault getTgeInfos(1) ", getTgeInfoMap(getTgeInfos3));
-  console.log("MarketingVault startedByClaimer ", startedByClaimer2 );
-  console.log("MarketingVault oneClaimAmountByClaimer ",  utils.formatUnits(oneClaimAmountByClaimer2.toString(),18));
+  tx = await marketingVault.transferAdmin(process.env.NEW_ADMIN);
+  console.log("MarketingVault transferAdmin ", tx.hash);
 
   const InitialContributorVault = loadDeployed(process.env.NETWORK, "InitialContributorVault");
   const initialContributorVault = await ethers.getContractAt("DesignedVault", InitialContributorVault);
-  let startedByClaimer = await initialContributorVault.startedByClaimer() ;
-  let oneClaimAmountByClaimer = await initialContributorVault.oneClaimAmountByClaimer() ;
+  tx = await initialContributorVault.transferAdmin(process.env.NEW_ADMIN);
+  console.log("InitialContributorVault transferAdmin ", tx.hash);
 
-  console.log("InitialContributorVault startedByClaimer ", startedByClaimer );
-  console.log("InitialContributorVault oneClaimAmountByClaimer ",  utils.formatUnits(oneClaimAmountByClaimer.toString(),18));
-  */
+  const AirdropVault = loadDeployed(process.env.NETWORK, "AirdropVault");
+  const airdropVault = await ethers.getContractAt("WhitelistVault", AirdropVault);
+  tx = await airdropVault.transferAdmin(process.env.NEW_ADMIN);
+  console.log("AirdropVault transferAdmin ", tx.hash);
+
+
 }
 
 

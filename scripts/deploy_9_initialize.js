@@ -62,7 +62,6 @@ async function main() {
   }
   inputInfo_AirdropVault.unixTimestamp = Math.floor(new Date(inputInfo_AirdropVault.startTime).getTime()/1000);
 
-let web3.getBlockTime();
   // console.log("----------- inputInfo_LiquidityVault  ", inputInfo_LiquidityVault );
   // console.log("----------- inputInfo_InitialContributorVault  ", inputInfo_InitialContributorVault );
   // console.log("----------- inputInfo_MarketingVault  ", inputInfo_MarketingVault );
@@ -79,7 +78,7 @@ let web3.getBlockTime();
         parseInt(inputInfo_LiquidityVault.periodTimesPerClaim)
     );
   console.log("LiquidityVault initialize tx.hash ", tx1.hash );
-
+ /*
   const InitialContributorVault = loadDeployed(process.env.NETWORK, "InitialContributorVault");
   const initialContributorVault = await ethers.getContractAt("DesignedVault", InitialContributorVault);
   let tx2 = await initialContributorVault.initialize(
@@ -112,7 +111,7 @@ let web3.getBlockTime();
         parseInt(inputInfo_AirdropVault.periodTimesPerClaim)
     );
   console.log("AirdropVault initialize tx.hash ", tx4.hash );
-
+  */
 }
 
 

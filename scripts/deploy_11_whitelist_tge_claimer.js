@@ -13,18 +13,35 @@ const utils = ethers.utils;
 
 async function main() {
 
+
   const LiquidityVault = loadDeployed(process.env.NETWORK, "LiquidityVault");
   const liquidityVault = await ethers.getContractAt("DesignedVault", LiquidityVault);
-  let tx2 = await liquidityVault.startRound(1);
-  console.log("LiquidityVault startRound tx.hash ", tx2.hash );
+  let tx2 = await liquidityVault.addWhitelist(1,
+      [
+        process.env.claimer
+      ]);
+  console.log("LiquidityVault addWhitelist tx.hash ", tx2.hash );
+
+  tx2 = await liquidityVault.setClaimer(process.env.claimer);
+  console.log("LiquidityVault setClaimer tx.hash ", tx2.hash );
 
   /*
   const MarketingVault = loadDeployed(process.env.NETWORK, "MarketingVault");
   const marketingVault = await ethers.getContractAt("DesignedVault", MarketingVault);
-  let tx3 = await marketingVault.startRound(1);
-  console.log("MarketingVault startRound tx.hash ", tx3.hash );
-  */
+  let tx3 = await marketingVault.addWhitelist(1,
+      [
+        process.env.claimer
+      ]);
+  console.log("MarketingVault addWhitelist tx.hash ", tx3.hash );
+  tx3 =  await marketingVault.setClaimer(process.env.claimer);
+  console.log("MarketingVault setClaimer tx.hash ", tx3.hash );
 
+
+  const InitialContributorVault = loadDeployed(process.env.NETWORK, "InitialContributorVault");
+  const initialContributorVault = await ethers.getContractAt("DesignedVault", MarketingVault);
+  tx3 =  await initialContributorVault.setClaimer(process.env.claimer);
+  console.log("InitialContributorVault setClaimer tx.hash ", tx3.hash );
+  */
 }
 
 

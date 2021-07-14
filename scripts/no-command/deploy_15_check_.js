@@ -16,22 +16,21 @@ async function main() {
   const LiquidityVault = loadDeployed(process.env.NETWORK, "LiquidityVault");
   const liquidityVault = await ethers.getContractAt("DesignedVault", LiquidityVault);
   let getTgeInfos = await liquidityVault.getTgeInfos(1) ;
-  let startedByClaimer1 = await liquidityVault.startedByClaimer() ;
-  let oneClaimAmountByClaimer1 = await liquidityVault.oneClaimAmountByClaimer() ;
 
   console.log("LiquidityVault getTgeInfos(1) ", getTgeInfoMap(getTgeInfos));
-  console.log("LiquidityVault startedByClaimer ", startedByClaimer1 );
-  console.log("LiquidityVault oneClaimAmountByClaimer ",  utils.formatUnits(oneClaimAmountByClaimer1.toString(),18));
-  /*
+
   const MarketingVault = loadDeployed(process.env.NETWORK, "MarketingVault");
   const marketingVault = await ethers.getContractAt("DesignedVault", MarketingVault);
   let getTgeInfos3 = await marketingVault.getTgeInfos(1) ;
-  let startedByClaimer2 = await liquidityVault.startedByClaimer() ;
-  let oneClaimAmountByClaimer2= await liquidityVault.oneClaimAmountByClaimer() ;
 
   console.log("MarketingVault getTgeInfos(1) ", getTgeInfoMap(getTgeInfos3));
-  console.log("MarketingVault startedByClaimer ", startedByClaimer2 );
-  console.log("MarketingVault oneClaimAmountByClaimer ",  utils.formatUnits(oneClaimAmountByClaimer2.toString(),18));
+
+  const AirdropVault = loadDeployed(process.env.NETWORK, "AirdropVault");
+  const airdropVault = await ethers.getContractAt("WhitelistVault", AirdropVault);
+  let getTgeInfos4 = await airdropVault.getTgeInfos(1) ;
+
+  console.log("AirdropVault getTgeInfos(1) ", getTgeInfoMap(getTgeInfos4));
+
 
   const InitialContributorVault = loadDeployed(process.env.NETWORK, "InitialContributorVault");
   const initialContributorVault = await ethers.getContractAt("DesignedVault", InitialContributorVault);
@@ -40,7 +39,7 @@ async function main() {
 
   console.log("InitialContributorVault startedByClaimer ", startedByClaimer );
   console.log("InitialContributorVault oneClaimAmountByClaimer ",  utils.formatUnits(oneClaimAmountByClaimer.toString(),18));
-  */
+
 }
 
 
