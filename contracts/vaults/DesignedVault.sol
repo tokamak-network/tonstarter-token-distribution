@@ -141,7 +141,7 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
     }
 
     ///@dev number of unclaimed
-    function unclaimedInfos()
+    function unclaimedInfos(address _user)
         external
         view
         returns (uint256 count, uint256 amount)
@@ -150,7 +150,7 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
         amount = 0;
         if (block.timestamp > startTime) {
             uint256 curRound = currentRound();
-            if (msg.sender == claimer) {
+            if (_user == claimer) {
                 if (curRound > totalTgeCount) {
                     if (lastClaimedRound >= totalTgeCount) {
                         count = curRound - lastClaimedRound;
@@ -165,8 +165,8 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
                         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
                         if (tgeinfo.started) {
                             if (
-                                tgeinfo.claimedTime[msg.sender].joined &&
-                                tgeinfo.claimedTime[msg.sender].claimedTime == 0
+                                tgeinfo.claimedTime[_user].joined &&
+                                tgeinfo.claimedTime[_user].claimedTime == 0
                             ) {
                                 count++;
                                 amount += tgeinfo.amount;
@@ -179,12 +179,13 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
     }
 
     ///@dev claim
-    function claim() external {
+    function claim() external  {
         uint256 count = 0;
         uint256 amount = 0;
         require(block.timestamp > startTime, "DesignedVault: not started yet");
 
         uint256 curRound = currentRound();
+
         if (msg.sender == claimer) {
             if (lastClaimedRound > totalTgeCount) {
                 if (lastClaimedRound < curRound) {
@@ -200,6 +201,9 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
             require(amount > 0, "DesignedVault: no claimable amount");
             lastClaimedRound = curRound;
             totalClaimedAmount += amount;
+
+            userClaimedAmount[msg.sender] += amount;
+
             totalClaimedCountByClaimer++;
             claimedTimesOfRoundByCliamer[curRound] = block.timestamp;
             require(
@@ -227,6 +231,9 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
 
             require(amount > 0, "DesignedVault: no claimable amount");
             totalClaimedAmount += amount;
+
+            userClaimedAmount[msg.sender] += amount;
+
             if (lastClaimedRound < totalTgeCount && curRound < totalTgeCount)
                 lastClaimedRound = curRound;
             require(

@@ -62,6 +62,7 @@ async function main() {
   }
   inputInfo_AirdropVault.unixTimestamp = Math.floor(new Date(inputInfo_AirdropVault.startTime).getTime()/1000);
 
+let web3.getBlockTime();
   // console.log("----------- inputInfo_LiquidityVault  ", inputInfo_LiquidityVault );
   // console.log("----------- inputInfo_InitialContributorVault  ", inputInfo_InitialContributorVault );
   // console.log("----------- inputInfo_MarketingVault  ", inputInfo_MarketingVault );

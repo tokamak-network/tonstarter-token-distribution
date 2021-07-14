@@ -141,7 +141,7 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
     }
 
     ///@dev number of unclaimed
-    function unclaimedInfos()
+    function unclaimedInfos(address _user)
         public
         view
         returns (uint256 count, uint256 amount)
@@ -154,8 +154,8 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
                 if (curRound >= i) {
                     ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
                     if (tgeinfo.started &&
-                        tgeinfo.claimedTime[msg.sender].joined &&
-                        tgeinfo.claimedTime[msg.sender].claimedTime == 0)
+                        tgeinfo.claimedTime[_user].joined &&
+                        tgeinfo.claimedTime[_user].claimedTime == 0)
                     {
                             count++;
                             amount += tgeinfo.amount;
@@ -166,19 +166,17 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
     }
 
     ///@dev number of unclaimed
-    function unclaimedInfosDetails()
+    function unclaimedInfosDetails(address _user)
         external
         view
         returns (uint256[] memory _rounds, uint256[] memory _amounts)
     {
 
-        (uint256 size,) = unclaimedInfos();
+        (uint256 size,) = unclaimedInfos(_user);
         uint256[] memory counts = new uint256[](size);
         uint256[] memory amounts = new uint256[](size);
 
         if(size > 0){
-
-
             uint256 k = 0;
             if (block.timestamp > startTime) {
                 uint256 curRound = currentRound();
@@ -186,8 +184,8 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
                     if (curRound >= i) {
                         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
                         if (tgeinfo.started &&
-                            tgeinfo.claimedTime[msg.sender].joined &&
-                            tgeinfo.claimedTime[msg.sender].claimedTime == 0
+                            tgeinfo.claimedTime[_user].joined &&
+                            tgeinfo.claimedTime[_user].claimedTime == 0
                         ) {
                             counts[k] = i;
                             amounts[k] = tgeinfo.amount;
@@ -215,8 +213,7 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
                     tgeinfo.claimedTime[msg.sender].joined &&
                     tgeinfo.claimedTime[msg.sender].claimedTime == 0
                 ) {
-                    tgeinfo.claimedTime[msg.sender].claimedTime = block
-                    .timestamp;
+                    tgeinfo.claimedTime[msg.sender].claimedTime = block.timestamp;
                     tgeinfo.claimedCount++;
                     amount += tgeinfo.amount;
                 }
@@ -225,6 +222,9 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
 
         require(amount > 0, "WhitelistVault: no claimable amount");
         totalClaimedAmount += amount;
+
+        userClaimedAmount[msg.sender] += amount;
+
         require(
             IERC20(tos).transfer(msg.sender, amount),
             "WhitelistVault: transfer fail"
