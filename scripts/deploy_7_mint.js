@@ -33,16 +33,16 @@ async function main() {
   // console.log("AirdropVault:", AirdropVault);
 
   const tos = await ethers.getContractAt("TOS", tostoken);
-/*
+
   let tx1 = await tos.mint(DAOVault, utils.parseUnits(process.env.DAOFundAllocate + "." + "0".repeat(18), 18));
   console.log('mint_DAOVault' , tx1.hash );
 
   let tx2 = await tos.mint(LiquidityMiningVault, utils.parseUnits(process.env.LiquidityMiningAllocate + "." + "0".repeat(18), 18));
   console.log('mint_LiquidityMiningVault' , tx2.hash);
-  */
+
   let tx3 = await tos.mint(LiquidityVault, utils.parseUnits(process.env.LiquidityAllocate + "." + "0".repeat(18), 18));
   console.log('mint_LiquidityVault' , tx3.hash);
-/*
+
   let tx4 = await tos.mint(InitialContributorVault, utils.parseUnits(process.env.InitialContributorAllocate + "." + "0".repeat(18), 18));
   console.log('mint_InitialContributorVault' , tx4.hash);
 
@@ -51,7 +51,7 @@ async function main() {
 
   let tx6 = await tos.mint(AirdropVault, utils.parseUnits(process.env.AirdropAllocate + "." + "0".repeat(18), 18));
   console.log('mint_AirdropVault' , tx6.hash);
-  */
+
   console.log("----------- TOS.mint  end ");
 
 }

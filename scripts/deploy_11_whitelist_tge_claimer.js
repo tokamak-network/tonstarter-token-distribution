@@ -25,7 +25,6 @@ async function main() {
   tx2 = await liquidityVault.setClaimer(process.env.claimer);
   console.log("LiquidityVault setClaimer tx.hash ", tx2.hash );
 
-  /*
   const MarketingVault = loadDeployed(process.env.NETWORK, "MarketingVault");
   const marketingVault = await ethers.getContractAt("DesignedVault", MarketingVault);
   let tx3 = await marketingVault.addWhitelist(1,
@@ -41,7 +40,7 @@ async function main() {
   const initialContributorVault = await ethers.getContractAt("DesignedVault", MarketingVault);
   tx3 =  await initialContributorVault.setClaimer(process.env.claimer);
   console.log("InitialContributorVault setClaimer tx.hash ", tx3.hash );
-  */
+
 }
 
 

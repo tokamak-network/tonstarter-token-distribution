@@ -21,7 +21,7 @@ async function main() {
         utils.parseUnits(process.env.LiquidityVault_TGE1_AMOUNT + "." + "0".repeat(18), 18)
     );
   console.log("LiquidityVault allocateAmount tx.hash ", tx2.hash );
-  /*
+
   const MarketingVault = loadDeployed(process.env.NETWORK, "MarketingVault");
   const marketingVault = await ethers.getContractAt("DesignedVault", MarketingVault);
   let tx3 = await marketingVault.allocateAmount(
@@ -37,7 +37,7 @@ async function main() {
         utils.parseUnits(process.env.AirdropVault_TGE1_AMOUNT + "." + "0".repeat(18), 18)
     );
   console.log("AirdropVault allocateAmountTGE tx.hash ", tx1.hash );
-  */
+
 }
 
 

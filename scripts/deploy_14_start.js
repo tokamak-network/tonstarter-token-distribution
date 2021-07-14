@@ -18,7 +18,6 @@ async function main() {
   let tx1 = await liquidityVault.start();
   console.log("LiquidityVault start tx.hash ", tx1.hash );
 
-  /*
   const MarketingVault = loadDeployed(process.env.NETWORK, "MarketingVault");
   const marketingVault = await ethers.getContractAt("DesignedVault", MarketingVault);
   let tx2 = await marketingVault.start();
@@ -30,7 +29,6 @@ async function main() {
   let tx3 = await initialContributorVault.start();
   console.log("InitialContributorVault start tx.hash ", tx2.hash );
 
-  */
 }
 
 

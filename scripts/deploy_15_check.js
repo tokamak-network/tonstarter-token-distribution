@@ -22,7 +22,7 @@ async function main() {
   console.log("LiquidityVault getTgeInfos(1) ", getTgeInfoMap(getTgeInfos));
   console.log("LiquidityVault startedByClaimer ", startedByClaimer1 );
   console.log("LiquidityVault oneClaimAmountByClaimer ",  utils.formatUnits(oneClaimAmountByClaimer1.toString(),18));
-  /*
+
   const MarketingVault = loadDeployed(process.env.NETWORK, "MarketingVault");
   const marketingVault = await ethers.getContractAt("DesignedVault", MarketingVault);
   let getTgeInfos3 = await marketingVault.getTgeInfos(1) ;
@@ -40,7 +40,7 @@ async function main() {
 
   console.log("InitialContributorVault startedByClaimer ", startedByClaimer );
   console.log("InitialContributorVault oneClaimAmountByClaimer ",  utils.formatUnits(oneClaimAmountByClaimer.toString(),18));
-  */
+
 }
 
 

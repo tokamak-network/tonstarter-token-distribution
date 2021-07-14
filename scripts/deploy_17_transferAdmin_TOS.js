@@ -13,20 +13,24 @@ const utils = ethers.utils;
 
 async function main() {
 
-  const LiquidityVault = loadDeployed(process.env.NETWORK, "LiquidityVault");
-  const liquidityVault = await ethers.getContractAt("DesignedVault", LiquidityVault);
-  let tx2 = await liquidityVault.startRound(1);
-  console.log("LiquidityVault startRound tx.hash ", tx2.hash );
-
-
-  const MarketingVault = loadDeployed(process.env.NETWORK, "MarketingVault");
-  const marketingVault = await ethers.getContractAt("DesignedVault", MarketingVault);
-  let tx3 = await marketingVault.startRound(1);
-  console.log("MarketingVault startRound tx.hash ", tx3.hash );
-
+  const TOS = loadDeployed(process.env.NETWORK, "TOS");
+  const tos = await ethers.getContractAt("TOS", TOS);
+  let tx = await tos.transferAdmin(process.env.TOS_ADMIN);
+  console.log("TOS transferAdmin ", tx.hash);
 
 }
 
+
+function getTgeInfoMap (data){
+  return {
+    allocated : data.allocated,
+    started : data.started,
+    allocatedAmount : utils.formatUnits(data.allocatedAmount.toString(),18),
+    claimedCount : data.claimedCount.toString(),
+    amount : utils.formatUnits(data.claimedCount.toString(),18),
+    whitelist : data.whitelist
+  };
+}
 
 main()
   .then(() => process.exit(0))

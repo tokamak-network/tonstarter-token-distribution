@@ -78,7 +78,7 @@ async function main() {
         parseInt(inputInfo_LiquidityVault.periodTimesPerClaim)
     );
   console.log("LiquidityVault initialize tx.hash ", tx1.hash );
- /*
+
   const InitialContributorVault = loadDeployed(process.env.NETWORK, "InitialContributorVault");
   const initialContributorVault = await ethers.getContractAt("DesignedVault", InitialContributorVault);
   let tx2 = await initialContributorVault.initialize(
@@ -111,7 +111,7 @@ async function main() {
         parseInt(inputInfo_AirdropVault.periodTimesPerClaim)
     );
   console.log("AirdropVault initialize tx.hash ", tx4.hash );
-  */
+
 }
 
 

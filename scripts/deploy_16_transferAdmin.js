@@ -13,11 +13,6 @@ const utils = ethers.utils;
 
 async function main() {
 
-  const TOS = loadDeployed(process.env.NETWORK, "TOS");
-  const tos = await ethers.getContractAt("TOS", TOS);
-  let tx = await tos.transferAdmin(process.env.TOS_ADMIN);
-  console.log("TOS transferAdmin ", tx.hash);
-
   const DAOVault = loadDeployed(process.env.NETWORK, "DAOVault");
   const daoVault = await ethers.getContractAt("SimpleVault", DAOVault);
   let tx = await daoVault.transferAdmin(process.env.NEW_ADMIN);
@@ -25,7 +20,7 @@ async function main() {
 
   const LiquidityMiningVault = loadDeployed(process.env.NETWORK, "LiquidityMiningVault");
   const liquidityMiningVault = await ethers.getContractAt("SimpleVault", LiquidityMiningVault);
-  let tx = await airdropVault.transferAdmin(process.env.NEW_ADMIN);
+   tx = await liquidityMiningVault.transferAdmin(process.env.NEW_ADMIN);
   console.log("LiquidityMiningVault transferAdmin ", tx.hash);
 
   const LiquidityVault = loadDeployed(process.env.NETWORK, "LiquidityVault");
