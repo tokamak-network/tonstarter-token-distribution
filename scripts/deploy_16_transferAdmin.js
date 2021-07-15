@@ -48,17 +48,6 @@ async function main() {
 }
 
 
-function getTgeInfoMap (data){
-  return {
-    allocated : data.allocated,
-    started : data.started,
-    allocatedAmount : utils.formatUnits(data.allocatedAmount.toString(),18),
-    claimedCount : data.claimedCount.toString(),
-    amount : utils.formatUnits(data.claimedCount.toString(),18),
-    whitelist : data.whitelist
-  };
-}
-
 main()
   .then(() => process.exit(0))
   .catch(error => {

@@ -37,7 +37,7 @@ async function main() {
 
 
   const InitialContributorVault = loadDeployed(process.env.NETWORK, "InitialContributorVault");
-  const initialContributorVault = await ethers.getContractAt("DesignedVault", MarketingVault);
+  const initialContributorVault = await ethers.getContractAt("DesignedVault", InitialContributorVault);
   tx3 =  await initialContributorVault.setClaimer(process.env.claimer);
   console.log("InitialContributorVault setClaimer tx.hash ", tx3.hash );
 

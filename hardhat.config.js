@@ -52,7 +52,8 @@ module.exports = {
           `${process.env.ACCOUNT1_PK}`,
           `${process.env.ACCOUNT2_PK}`
           ],
-      gasMultiplier: 1.25
+      gasMultiplier: 1.25,
+      gasPrice: 10000000000,
     },
     mainnet: {
       url: `https://rinkeby.infura.io/v3/${process.env.InfuraKey}`,
