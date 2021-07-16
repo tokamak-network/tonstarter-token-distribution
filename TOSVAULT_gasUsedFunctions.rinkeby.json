@@ -28,5 +28,14 @@
   "MarketingVault startRound": "0xa02ecdd090fafa40e54f64559b008a67efdcf0134dd46692cf37bf4d1b7bf4d3",
   "LiquidityVault start": "0x2db9a2091194cd3349b960379199673a60b9e24869e23e96615543ce747e3ce6",
   "MarketingVault start": "0x8e8013814342c8e36e84dc4a67e7027b0cb19e32f0734e8fa7fae77a8a61b074",
-  "InitialContributorVault start": "0x8e8013814342c8e36e84dc4a67e7027b0cb19e32f0734e8fa7fae77a8a61b074"
+  "InitialContributorVault start": "0x8e8013814342c8e36e84dc4a67e7027b0cb19e32f0734e8fa7fae77a8a61b074",
+  "DAOVault transferAdmin": "0x06d972e96c8230af452b769fe61af83e7a5b4c74aca8fb24c7060de7fafe0508",
+  "LiquidityMiningVault transferAdmin": "0x1fdf356091b9d83f338addc6819874482896ecc1b9b4ce6684de34d6defee709",
+  "LiquidityVault transferAdmin": "0x544d5484f0a4c8f00255929a39ff73d0fbe7d00a9164ad6b26fa993480b2c5e0",
+  "MarketingVault transferAdmin": "0x23b90a8f2ef43ec9ab62020ac9b89b1b55c4e9da60bf3051a8dc649d3f66eb74",
+  "InitialContributorVault transferAdmin": "0x33b56a10e402db4d1011e9e901f70e3a256406538faba154b297f13146b437b8",
+  "AirdropVault transferAdmin": "0xfb4120c1dbe28d93ae5f175a1cb83715b4c112a81bb86b84e7e2b65e236cf079",
+  "TOS removeMinter": "0x67da56ac34544a2d3c13cb7a6b926cbf368aa964ac728ea539fef42250877c77",
+  "TOS removeBurner ": "0x8d8cf6b7b18a0f45fe6a46cd508858e8e7dcca48ceb3ab06b8c007e4c2fb5e90",
+  "TOS transferAdmin": "0xe1749891d18570bb70adf80e2c7cd989d1982daed1771d60cbf1ef78b4e0391c"
 }
