@@ -8,6 +8,7 @@ require('dotenv').config()
 const save = require("./save_deployed");
 const loadDeployed = require("./load_deployed");
 const utils = ethers.utils;
+const { printGasUsedOfUnits } = require("./log_tx");
 
 // date 현재시간이 한국 시간인지 확인
 
@@ -78,6 +79,7 @@ async function main() {
         parseInt(inputInfo_LiquidityVault.periodTimesPerClaim)
     );
   console.log("LiquidityVault initialize tx.hash ", tx1.hash );
+  printGasUsedOfUnits('LiquidityVault initialize ',tx1);
 
   const InitialContributorVault = loadDeployed(process.env.NETWORK, "InitialContributorVault");
   const initialContributorVault = await ethers.getContractAt("DesignedVault", InitialContributorVault);
@@ -90,6 +92,8 @@ async function main() {
     );
   console.log("InitialContributorVault initialize tx.hash ", tx2.hash );
 
+  printGasUsedOfUnits('InitialContributorVault initialize ',tx2);
+
   const MarketingVault = loadDeployed(process.env.NETWORK, "MarketingVault");
   const marketingVault = await ethers.getContractAt("DesignedVault", MarketingVault);
   let tx3 = await marketingVault.initialize(
@@ -100,7 +104,7 @@ async function main() {
         parseInt(inputInfo_MarketingVault.periodTimesPerClaim)
     );
   console.log("MarketingVault initialize tx.hash ", tx3.hash );
-
+  printGasUsedOfUnits('MarketingVault initialize ',tx3);
 
   const AirdropVault = loadDeployed(process.env.NETWORK, "AirdropVault");
   const airdropVault = await ethers.getContractAt("WhitelistVault", AirdropVault);
@@ -111,7 +115,7 @@ async function main() {
         parseInt(inputInfo_AirdropVault.periodTimesPerClaim)
     );
   console.log("AirdropVault initialize tx.hash ", tx4.hash );
-
+  printGasUsedOfUnits('AirdropVault initialize ',tx4);
 }
 
 

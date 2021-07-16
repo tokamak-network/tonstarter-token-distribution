@@ -8,6 +8,7 @@ require('dotenv').config()
 const save = require("./save_deployed");
 const loadDeployed = require("./load_deployed");
 const utils = ethers.utils;
+const { printGasUsedOfUnits } = require("./log_tx");
 
 // date 현재시간이 한국 시간인지 확인
 
@@ -21,9 +22,12 @@ async function main() {
         process.env.claimer
       ]);
   console.log("LiquidityVault addWhitelist tx.hash ", tx2.hash );
+  printGasUsedOfUnits('LiquidityVault addWhitelist',tx2);
 
   tx2 = await liquidityVault.setClaimer(process.env.claimer);
   console.log("LiquidityVault setClaimer tx.hash ", tx2.hash );
+  printGasUsedOfUnits('LiquidityVault setClaimer',tx2);
+
 
   const MarketingVault = loadDeployed(process.env.NETWORK, "MarketingVault");
   const marketingVault = await ethers.getContractAt("DesignedVault", MarketingVault);
@@ -32,14 +36,19 @@ async function main() {
         process.env.claimer
       ]);
   console.log("MarketingVault addWhitelist tx.hash ", tx3.hash );
+  printGasUsedOfUnits('MarketingVault addWhitelist',tx3);
+
+
   tx3 =  await marketingVault.setClaimer(process.env.claimer);
   console.log("MarketingVault setClaimer tx.hash ", tx3.hash );
+  printGasUsedOfUnits('MarketingVault setClaimer',tx3);
 
 
   const InitialContributorVault = loadDeployed(process.env.NETWORK, "InitialContributorVault");
   const initialContributorVault = await ethers.getContractAt("DesignedVault", InitialContributorVault);
   tx3 =  await initialContributorVault.setClaimer(process.env.claimer);
   console.log("InitialContributorVault setClaimer tx.hash ", tx3.hash );
+  printGasUsedOfUnits('InitialContributorVault setClaimer',tx3);
 
 }
 

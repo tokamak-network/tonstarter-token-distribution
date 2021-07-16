@@ -6,6 +6,7 @@
 const hre = require("hardhat");
 require('dotenv').config()
 const save = require("./save_deployed");
+const { printGasUsedOfUnits } = require("./log_tx");
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
@@ -34,7 +35,10 @@ async function main() {
   const TOS = await hre.ethers.getContractFactory("TOS");
   const tos = await TOS.deploy(tosInfo.name, tosInfo.symbol, tosInfo.version);
 
-  await tos.deployed();
+  let tx = await tos.deployed();
+
+  console.log("tx:", deployInfo);
+  printGasUsedOfUnits('TOS Deploy',tx);
 
   deployInfo.address = tos.address;
   console.log("deployed to:", deployInfo);
@@ -42,6 +46,7 @@ async function main() {
   if(deployInfo.address != null && deployInfo.address.length > 0  ){
     save(process.env.NETWORK, deployInfo);
   }
+
 }
 
 // We recommend this pattern to be able to use async/await everywhere

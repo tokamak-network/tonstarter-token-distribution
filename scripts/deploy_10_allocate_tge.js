@@ -8,6 +8,7 @@ require('dotenv').config()
 const save = require("./save_deployed");
 const loadDeployed = require("./load_deployed");
 const utils = ethers.utils;
+const { printGasUsedOfUnits } = require("./log_tx");
 
 // date 현재시간이 한국 시간인지 확인
 
@@ -21,6 +22,7 @@ async function main() {
         utils.parseUnits(process.env.LiquidityVault_TGE1_AMOUNT + "." + "0".repeat(18), 18)
     );
   console.log("LiquidityVault allocateAmount tx.hash ", tx2.hash );
+  printGasUsedOfUnits('LiquidityVault allocateAmount',tx2);
 
   const MarketingVault = loadDeployed(process.env.NETWORK, "MarketingVault");
   const marketingVault = await ethers.getContractAt("DesignedVault", MarketingVault);
@@ -29,7 +31,7 @@ async function main() {
         utils.parseUnits(process.env.MarketingVault_TGE1_AMOUNT + "." + "0".repeat(18), 18)
     );
   console.log("MarketingVault allocateAmount tx.hash ", tx3.hash );
-
+  printGasUsedOfUnits('MarketingVault allocateAmount',tx3);
 
   const AirdropVault = loadDeployed(process.env.NETWORK, "AirdropVault");
   const airdropVault = await ethers.getContractAt("WhitelistVault", AirdropVault);
@@ -37,7 +39,7 @@ async function main() {
         utils.parseUnits(process.env.AirdropVault_TGE1_AMOUNT + "." + "0".repeat(18), 18)
     );
   console.log("AirdropVault allocateAmountTGE tx.hash ", tx1.hash );
-
+  printGasUsedOfUnits('AirdropVault allocateAmountTGE',tx1);
 }
 
 

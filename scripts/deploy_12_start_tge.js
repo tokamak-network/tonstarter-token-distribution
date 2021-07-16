@@ -8,6 +8,7 @@ require('dotenv').config()
 const save = require("./save_deployed");
 const loadDeployed = require("./load_deployed");
 const utils = ethers.utils;
+const { printGasUsedOfUnits } = require("./log_tx");
 
 // date 현재시간이 한국 시간인지 확인
 
@@ -17,13 +18,13 @@ async function main() {
   const liquidityVault = await ethers.getContractAt("DesignedVault", LiquidityVault);
   let tx2 = await liquidityVault.startRound(1);
   console.log("LiquidityVault startRound tx.hash ", tx2.hash );
-
+  printGasUsedOfUnits('LiquidityVault startRound',tx2);
 
   const MarketingVault = loadDeployed(process.env.NETWORK, "MarketingVault");
   const marketingVault = await ethers.getContractAt("DesignedVault", MarketingVault);
   let tx3 = await marketingVault.startRound(1);
   console.log("MarketingVault startRound tx.hash ", tx3.hash );
-
+  printGasUsedOfUnits('MarketingVault startRound',tx3);
 
 }
 

@@ -7,6 +7,7 @@ const hre = require("hardhat");
 require('dotenv').config()
 const save = require("./save_deployed");
 const loadDeployed = require("./load_deployed");
+const { printGasUsedOfUnits } = require("./log_tx");
 
 async function main() {
 
@@ -26,7 +27,9 @@ async function main() {
   const MarketingVault = await hre.ethers.getContractFactory("MarketingVault");
   const vault = await MarketingVault.deploy(tostoken, inputInfo.maxInputOnce);
 
-  await vault.deployed();
+  let tx= await vault.deployed();
+  printGasUsedOfUnits('MarketingVault Deploy',tx);
+
   deployInfo.address = vault.address;
 
   console.log("deployed to:", deployInfo);

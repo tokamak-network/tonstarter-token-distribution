@@ -8,6 +8,7 @@ require('dotenv').config()
 const save = require("./save_deployed");
 const loadDeployed = require("./load_deployed");
 const utils = ethers.utils;
+const { printGasUsedOfUnits } = require("./log_tx");
 
 async function main() {
 
@@ -20,13 +21,13 @@ async function main() {
   const MarketingVault = loadDeployed(process.env.NETWORK, "MarketingVault");
   const AirdropVault = loadDeployed(process.env.NETWORK, "AirdropVault");
 
-  // console.log("tostoken:", tostoken);
-  // console.log("DAOVault:", DAOVault);
-  // console.log("LiquidityMiningVault:", LiquidityMiningVault);
-  // console.log("LiquidityVault:", LiquidityVault);
-  // console.log("InitialContributorVault:", InitialContributorVault);
-  // console.log("MarketingVault:", MarketingVault);
-  // console.log("AirdropVault:", AirdropVault);
+  console.log("tostoken:", tostoken);
+  console.log("DAOVault:", DAOVault);
+  console.log("LiquidityMiningVault:", LiquidityMiningVault);
+  console.log("LiquidityVault:", LiquidityVault);
+  console.log("InitialContributorVault:", InitialContributorVault);
+  console.log("MarketingVault:", MarketingVault);
+  console.log("AirdropVault:", AirdropVault);
 
   const tos = await ethers.getContractAt("TOS", tostoken);
 

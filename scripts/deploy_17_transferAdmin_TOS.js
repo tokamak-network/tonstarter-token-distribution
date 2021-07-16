@@ -8,7 +8,7 @@ require('dotenv').config()
 const save = require("./save_deployed");
 const loadDeployed = require("./load_deployed");
 const utils = ethers.utils;
-
+const { printGasUsedOfUnits } = require("./log_tx");
 // date 현재시간이 한국 시간인지 확인
 
 async function main() {
@@ -19,13 +19,15 @@ async function main() {
 
   let tx = await tos.removeMinter(deployer.address);
   console.log("TOS removeMinter ", deployer.address, tx.hash);
+  printGasUsedOfUnits('TOS removeMinter',tx);
 
   tx = await tos.removeBurner(deployer.address);
   console.log("TOS removeBurner ", deployer.address,  tx.hash);
+  printGasUsedOfUnits('TOS removeBurner ',tx);
 
   tx = await tos.transferAdmin(process.env.TOS_ADMIN);
   console.log("TOS transferAdmin ", tx.hash);
-
+  printGasUsedOfUnits('TOS transferAdmin',tx);
 }
 
 main()

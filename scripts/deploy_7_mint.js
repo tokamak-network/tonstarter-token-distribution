@@ -8,6 +8,7 @@ require('dotenv').config()
 const save = require("./save_deployed");
 const loadDeployed = require("./load_deployed");
 const utils = ethers.utils;
+const { printGasUsedOfUnits } = require("./log_tx");
 
 async function main() {
   const [deployer, user1] = await ethers.getSigners();
@@ -36,21 +37,28 @@ async function main() {
 
   let tx1 = await tos.mint(DAOVault, utils.parseUnits(process.env.DAOFundAllocate + "." + "0".repeat(18), 18));
   console.log('mint_DAOVault' , tx1.hash );
+  printGasUsedOfUnits('DAOVault mint',tx1);
+
 
   let tx2 = await tos.mint(LiquidityMiningVault, utils.parseUnits(process.env.LiquidityMiningAllocate + "." + "0".repeat(18), 18));
   console.log('mint_LiquidityMiningVault' , tx2.hash);
+  printGasUsedOfUnits('LiquidityMiningVault mint',tx2);
 
   let tx3 = await tos.mint(LiquidityVault, utils.parseUnits(process.env.LiquidityAllocate + "." + "0".repeat(18), 18));
   console.log('mint_LiquidityVault' , tx3.hash);
+  printGasUsedOfUnits('LiquidityVault mint',tx3);
 
   let tx4 = await tos.mint(InitialContributorVault, utils.parseUnits(process.env.InitialContributorAllocate + "." + "0".repeat(18), 18));
   console.log('mint_InitialContributorVault' , tx4.hash);
+  printGasUsedOfUnits('InitialContributorVault mint',tx4);
 
   let tx5 = await tos.mint(MarketingVault, utils.parseUnits(process.env.MarketingFundAllocate + "." + "0".repeat(18), 18));
   console.log('mint_MarketingVault' , tx5.hash);
+  printGasUsedOfUnits('MarketingVault mint',tx5);
 
   let tx6 = await tos.mint(AirdropVault, utils.parseUnits(process.env.AirdropAllocate + "." + "0".repeat(18), 18));
   console.log('mint_AirdropVault' , tx6.hash);
+  printGasUsedOfUnits('AirdropVault mint',tx6);
 
   console.log("----------- TOS.mint  end ");
 

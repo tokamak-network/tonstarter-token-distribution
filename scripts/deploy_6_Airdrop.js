@@ -7,6 +7,7 @@ const hre = require("hardhat");
 require('dotenv').config()
 const save = require("./save_deployed");
 const loadDeployed = require("./load_deployed");
+const { printGasUsedOfUnits } = require("./log_tx");
 
 async function main() {
 
@@ -26,7 +27,9 @@ async function main() {
   const AirdropVault = await hre.ethers.getContractFactory("AirdropVault");
   const vault = await AirdropVault.deploy(tostoken, inputInfo.maxInputOnce);
 
-  await vault.deployed();
+  let tx = await vault.deployed();
+  printGasUsedOfUnits('AirdropVault Deploy',tx);
+
   deployInfo.address = vault.address;
 
   console.log("deployed to:", deployInfo);

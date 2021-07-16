@@ -8,7 +8,7 @@ require('dotenv').config()
 const save = require("./save_deployed");
 const loadDeployed = require("./load_deployed");
 const utils = ethers.utils;
-
+const { printGasUsedOfUnits } = require("./log_tx");
 // date 현재시간이 한국 시간인지 확인
 
 async function main() {
