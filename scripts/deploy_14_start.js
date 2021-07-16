@@ -28,8 +28,8 @@ async function main() {
   const InitialContributorVault = loadDeployed(process.env.NETWORK, "InitialContributorVault");
   const initialContributorVault = await ethers.getContractAt("DesignedVault", InitialContributorVault);
   let tx3 = await initialContributorVault.start();
-  console.log("InitialContributorVault start tx.hash ", tx2.hash );
-  printGasUsedOfUnits('InitialContributorVault start',tx2);
+  console.log("InitialContributorVault start tx.hash ", tx3.hash );
+  printGasUsedOfUnits('InitialContributorVault start',tx3);
 }
 
 
