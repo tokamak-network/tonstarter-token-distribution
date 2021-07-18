@@ -12,7 +12,8 @@
   "MarketingVault": "0xAf4d492cc807CdB7fed60427f6742eff49ABc4d5",
   "AirdropVault": "0x49108acF8c4fD9b70eCfC0804CfB84DE6EF475Ce"
 }
-Tag: [deploy on mainnet](https://github.com/Onther-Tech/tonstarter-token-distribution/commit/1eac24c2c60c32ad9e4c977e5262abedc7b443a0)
+
+`Tag`: [deploy on mainnet](https://github.com/Onther-Tech/tonstarter-token-distribution/commit/1eac24c2c60c32ad9e4c977e5262abedc7b443a0)
 
 
 ##
