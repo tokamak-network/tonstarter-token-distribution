@@ -1,4 +1,4 @@
-# TOS Token Distribution
+# TOS TOKEN & VAULTS Distribution
 
 
 ## Deployed on Mainnet
