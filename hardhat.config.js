@@ -1,6 +1,7 @@
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-etherscan");
+require("hardhat-gas-reporter");
 
 require('dotenv').config()
 
@@ -23,12 +24,18 @@ task("accounts", "Prints the list of accounts", async () => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  defaultNetwork: "hardhat",
+  defaultNetwork: "localhost",
   networks: {
     localhost: {
       gas: 9500000,
       gasMultiplier: 100,
       blockGasLimit: 124500000,
+      accounts: {
+        mnemonic: process.env.MNEMONIC_HARDHAT,
+        count: 30,
+        initialIndex: 0,
+        accountsBalance: '10000000000000000000000',
+      },
     },
     hardhat: {
       accounts: {
@@ -40,6 +47,16 @@ module.exports = {
       chainId: 31337,
     },
     rinkeby: {
+      url: `https://rinkeby.infura.io/v3/${process.env.InfuraKey}`,
+      accounts: [
+          `${process.env.ACCOUNT0_PK}`,
+          `${process.env.ACCOUNT1_PK}`,
+          `${process.env.ACCOUNT2_PK}`
+          ],
+      gasMultiplier: 1.25,
+      gasPrice: 10000000000,
+    },
+    mainnet: {
       url: `https://rinkeby.infura.io/v3/${process.env.InfuraKey}`,
       accounts: [
           `${process.env.ACCOUNT0_PK}`,
@@ -60,6 +77,10 @@ module.exports = {
         runs: 200
       }
     }
+  },
+  gasReporter: {
+    currency: 'USD',
+    gasPrice: 21
   },
   paths: {
     sources: "./contracts",

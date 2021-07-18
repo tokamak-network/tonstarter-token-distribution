@@ -20,7 +20,7 @@ describe("SimpleVault", function() {
   let totalClaims=10;
   let totalTgeCount=2;
   let startTime, endTime;
-  let periodTimesPerCliam = 60 * 10; // 5 mins
+  let periodTimesPerClaim = 60 * 10; // 5 mins
 
   let tgeRound = [
       {
@@ -53,8 +53,7 @@ describe("SimpleVault", function() {
         simpleVault = await SimpleVault.deploy(tos.address, name);
         simpleVault.connect(deployer).deployed();
 
-        provider = await ethers.getDefaultProvider();
-
+        provider = ethers.provider;
     });
 
     it("check name, token ", async function() {
@@ -81,6 +80,16 @@ describe("SimpleVault", function() {
             )
         ).to.be.revertedWith("Accessible: Caller is not an admin");
     });
+
+    it("cannot recive ETH  ", async function() {
+        await expect(
+            deployer.sendTransaction({
+                to: simpleVault.address,
+                value: ethers.BigNumber.from('1'),
+            })
+        ).to.be.reverted;
+    });
+
 
     it("claimTOS ", async function() {
         let sendAmount = 1000;

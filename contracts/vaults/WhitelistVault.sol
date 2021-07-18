@@ -15,14 +15,14 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
 
     ///@dev constructor
     ///@param _name Vault's name
-    ///@param _token Allocated token address
+    ///@param _tos Allocated tos address
     constructor(
         string memory _name,
-        address _token,
+        address _tos,
         uint256 _inputMaxOnce
     ) {
         name = _name;
-        token = _token;
+        tos = _tos;
         maxInputOnceTime = _inputMaxOnce;
         _setRoleAdmin(ADMIN_ROLE, ADMIN_ROLE);
         _setupRole(ADMIN_ROLE, msg.sender);
@@ -32,12 +32,12 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
     ///@param _totalAllocatedAmount total allocated amount
     ///@param _totalTgeCount   total tge count
     ///@param _startTime start time
-    ///@param _periodTimesPerCliam period time per claim
+    ///@param _periodTimesPerClaim period time per claim
     function initialize(
         uint256 _totalAllocatedAmount,
         uint256 _totalTgeCount,
         uint256 _startTime,
-        uint256 _periodTimesPerCliam
+        uint256 _periodTimesPerClaim
     ) external onlyOwner {
 
         initializeBase(
@@ -45,7 +45,7 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
             _totalTgeCount,
             _totalTgeCount,
             _startTime,
-            _periodTimesPerCliam
+            _periodTimesPerClaim
         );
 
     }
@@ -87,7 +87,7 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
             "WhitelistVault: no available round"
         );
 
-        uint256 calcRound = (block.timestamp - startTime) / periodTimesPerCliam;
+        uint256 calcRound = (block.timestamp - startTime) / periodTimesPerClaim;
 
         /// It can be set only during each round.
         require(round == calcRound+1, "WhitelistVault: no current round period");
@@ -106,15 +106,16 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
     }
 
     ///@dev start round, Calculate how much the whitelisted people in the round can claim.
-    ///@param round  it is the period unit can claim once
-    function startRound(uint256 round)
+    function startRound()
         external
         onlyOwner
-        nonZero(round)
         nonZero(totalTgeCount)
-        validTgeRound(round)
     {
+        uint256 round = currentRound();
+        require(round > 0 && round <= totalTgeCount, "WhitelistVault: non-valid round");
+
         if(round > 1) allocateAmountRound(round);
+
         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[round];
         require(
             tgeinfo.allocated && tgeinfo.allocatedAmount > 0,
@@ -136,11 +137,11 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
         returns (uint256 start)
     {
         if (round > 0 && round <= totalTgeCount)
-            start = startTime + (periodTimesPerCliam * (round - 1));
+            start = startTime + (periodTimesPerClaim * (round - 1));
     }
 
     ///@dev number of unclaimed
-    function unclaimedInfos()
+    function unclaimedInfos(address _user)
         public
         view
         returns (uint256 count, uint256 amount)
@@ -149,17 +150,15 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
         amount = 0;
         if (block.timestamp > startTime) {
             uint256 curRound = currentRound();
-            for (uint256 i = 1; i <= totalTgeCount; i++) {
+            for (uint256 i = 1; i <= curRound; i++) {
                 if (curRound >= i) {
                     ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
-                    if (tgeinfo.started) {
-                        if (
-                            tgeinfo.claimedTime[msg.sender].joined &&
-                            tgeinfo.claimedTime[msg.sender].claimedTime == 0
-                        ) {
+                    if (tgeinfo.started &&
+                        tgeinfo.claimedTime[_user].joined &&
+                        tgeinfo.claimedTime[_user].claimedTime == 0)
+                    {
                             count++;
                             amount += tgeinfo.amount;
-                        }
                     }
                 }
             }
@@ -167,34 +166,30 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
     }
 
     ///@dev number of unclaimed
-    function unclaimedInfosDetails()
+    function unclaimedInfosDetails(address _user)
         external
         view
         returns (uint256[] memory _rounds, uint256[] memory _amounts)
     {
 
-        (uint256 size,) = unclaimedInfos();
+        (uint256 size,) = unclaimedInfos(_user);
         uint256[] memory counts = new uint256[](size);
         uint256[] memory amounts = new uint256[](size);
 
         if(size > 0){
-
-
             uint256 k = 0;
             if (block.timestamp > startTime) {
                 uint256 curRound = currentRound();
-                for (uint256 i = 1; i <= totalTgeCount; i++) {
+                for (uint256 i = 1; i <= curRound; i++) {
                     if (curRound >= i) {
                         ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
-                        if (tgeinfo.started) {
-                            if (
-                                tgeinfo.claimedTime[msg.sender].joined &&
-                                tgeinfo.claimedTime[msg.sender].claimedTime == 0
-                            ) {
-                                counts[k] = i;
-                                amounts[k] = tgeinfo.amount;
-                                k++;
-                            }
+                        if (tgeinfo.started &&
+                            tgeinfo.claimedTime[_user].joined &&
+                            tgeinfo.claimedTime[_user].claimedTime == 0
+                        ) {
+                            counts[k] = i;
+                            amounts[k] = tgeinfo.amount;
+                            k++;
                         }
                     }
                 }
@@ -206,33 +201,32 @@ contract WhitelistVault is BaseVault, VaultWhitelistStorage {
 
     ///@dev claim
     function claim() external {
-        uint256 count = 0;
+
         uint256 amount = 0;
         require(block.timestamp > startTime, "WhitelistVault: not started yet");
 
         uint256 curRound = currentRound();
-        for (uint256 i = 1; i <= totalTgeCount; i++) {
+        for (uint256 i = 1; i <= curRound; i++) {
             if (curRound >= i) {
                 ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
-                if (tgeinfo.started) {
-                    if (
-                        tgeinfo.claimedTime[msg.sender].joined &&
-                        tgeinfo.claimedTime[msg.sender].claimedTime == 0
-                    ) {
-                        tgeinfo.claimedTime[msg.sender].claimedTime = block
-                        .timestamp;
-                        tgeinfo.claimedCount++;
-                        amount += tgeinfo.amount;
-                        count++;
-                    }
+                if (tgeinfo.started &&
+                    tgeinfo.claimedTime[msg.sender].joined &&
+                    tgeinfo.claimedTime[msg.sender].claimedTime == 0
+                ) {
+                    tgeinfo.claimedTime[msg.sender].claimedTime = block.timestamp;
+                    tgeinfo.claimedCount++;
+                    amount += tgeinfo.amount;
                 }
             }
         }
 
         require(amount > 0, "WhitelistVault: no claimable amount");
         totalClaimedAmount += amount;
+
+        userClaimedAmount[msg.sender] += amount;
+
         require(
-            IERC20(token).transfer(msg.sender, amount),
+            IERC20(tos).transfer(msg.sender, amount),
             "WhitelistVault: transfer fail"
         );
 

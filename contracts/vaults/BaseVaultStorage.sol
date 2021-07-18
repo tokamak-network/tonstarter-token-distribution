@@ -8,7 +8,7 @@ contract BaseVaultStorage {
     ///
     string public name;
     ///
-    address public token;
+    address public tos;
 
     uint256 public totalAllocatedAmount;
     uint256 public totalClaimedAmount;
@@ -16,7 +16,7 @@ contract BaseVaultStorage {
 
     uint256 public startTime;
     uint256 public endTime;
-    uint256 public periodTimesPerCliam;
+    uint256 public periodTimesPerClaim;
 
     uint256 public totalClaims;
     uint256 public totalTgeCount;
@@ -24,6 +24,8 @@ contract BaseVaultStorage {
 
     /// round => TgeInfo
     mapping(uint256 => ClaimVaultLib.TgeInfo) public tgeInfos;
+
+    mapping(address => uint256) public userClaimedAmount;
 
     modifier nonZeroAddress(address _addr) {
         require(_addr != address(0), "BaseVaultStorage: zero address");

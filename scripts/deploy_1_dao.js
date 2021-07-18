@@ -5,42 +5,41 @@
 // Runtime Environment's members available in the global scope.
 const hre = require("hardhat");
 require('dotenv').config()
+const save = require("./save_deployed");
+const loadDeployed = require("./load_deployed");
+const { printGasUsedOfUnits } = require("./log_tx");
 
 async function main() {
-  // Hardhat always runs the compile task when running scripts with its command
-  // line interface.
-  //
-  // If this script is run directly using `node` you may want to call compile
-  // manually to make sure everything is compiled
-  // await hre.run('compile');
 
-  // We get the contract to deploy
-  let RINKEBY=true;
-  let LOCAL=false;
+  let inputInfo = {
+    name: 'DAO Fund'
+  }
 
-    if(RINKEBY){
-        const SimpleVault = await hre.ethers.getContractFactory("SimpleVault");
-        const daoVault = await SimpleVault.deploy(process.env.RINKEBY_TOS_ADDRESS, "DAO Fund");
-
-        await daoVault.deployed();
-
-        console.log("DAOVault deployed to:", daoVault.address);
+  let deployInfo = {
+      name : "DAOVault",
+      address : ""
     }
-     if(LOCAL){
-        const TOS = await hre.ethers.getContractFactory("TOS");
-        const tos = await TOS.deploy("TOS","TOS",1);
-        await tos.deployed();
-        console.log("tos deployed to:", tos.address);
+  console.log("----------- deploy   ", deployInfo.name );
+  const tostoken = loadDeployed(process.env.NETWORK, "TOS");
+  console.log("tostoken:", tostoken);
 
-        const SimpleVault = await hre.ethers.getContractFactory("SimpleVault");
-        const daoVault = await SimpleVault.deploy(tos.address, "DAO Fund");
-        await daoVault.deployed();
-        console.log("DAOVault deployed to:", daoVault.address);
-     }
+  const SimpleVault = await hre.ethers.getContractFactory("SimpleVault");
+  const vault = await SimpleVault.deploy(tostoken, inputInfo.name);
+
+  let tx = await vault.deployed();
+  printGasUsedOfUnits('DAOVault Deploy',tx);
+
+
+  deployInfo.address = vault.address;
+
+  console.log("deployed to:", deployInfo);
+
+  if(deployInfo.address != null && deployInfo.address.length > 0  ){
+    save(process.env.NETWORK, deployInfo);
+  }
+
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
 main()
   .then(() => process.exit(0))
   .catch(error => {

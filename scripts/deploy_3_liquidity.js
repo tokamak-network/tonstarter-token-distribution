@@ -5,41 +5,39 @@
 // Runtime Environment's members available in the global scope.
 const hre = require("hardhat");
 require('dotenv').config()
+const save = require("./save_deployed");
+const loadDeployed = require("./load_deployed");
+const { printGasUsedOfUnits } = require("./log_tx");
 
 async function main() {
-  // Hardhat always runs the compile task when running scripts with its command
-  // line interface.
-  //
-  // If this script is run directly using `node` you may want to call compile
-  // manually to make sure everything is compiled
-  // await hre.run('compile');
 
-  // We get the contract to deploy
-  let RINKEBY=true;
-  let LOCAL=false;
+  let inputInfo = {
+    name: 'Liquidity',
+    maxInputOnce: process.env.maxInputOnce
+  }
 
-  //let _name = "Liquidity";
-  let _maxInputOnce = 20;
-
-    if(RINKEBY){
-        const LiquidityVault = await hre.ethers.getContractFactory("LiquidityVault");
-        const liquidityVault = await LiquidityVault.deploy(process.env.RINKEBY_TOS_ADDRESS, _maxInputOnce);
-
-        await liquidityVault.deployed();
-
-        console.log("Liquidity Vault deployed to:", liquidityVault.address);
+  let deployInfo = {
+      name : "LiquidityVault",
+      address : ""
     }
-     if(LOCAL){
-        const TOS = await hre.ethers.getContractFactory("TOS");
-        const tos = await TOS.deploy("TOS","TOS",1);
-        await tos.deployed();
-        console.log("tos deployed to:", tos.address);
+  console.log("----------- deploy   ", deployInfo.name );
+  const tostoken = loadDeployed(process.env.NETWORK, "TOS");
+  console.log("tostoken:", tostoken);
 
-        const LiquidityVault = await hre.ethers.getContractFactory("LiquidityVault");
-        const liquidityVault = await LiquidityVault.deploy(tos.address, _maxInputOnce);
-        await liquidityVault.deployed();
-        console.log("Liquidity Vault deployed to:", liquidityVault.address);
-     }
+  const LiquidityVault = await hre.ethers.getContractFactory("LiquidityVault");
+  const vault = await LiquidityVault.deploy(tostoken, inputInfo.maxInputOnce);
+
+  let tx = await vault.deployed();
+  printGasUsedOfUnits('LiquidityVault Deploy',tx);
+
+  deployInfo.address = vault.address;
+
+  console.log("deployed to:", deployInfo);
+
+  if(deployInfo.address != null && deployInfo.address.length > 0  ){
+    save(process.env.NETWORK, deployInfo);
+  }
+
 }
 
 // We recommend this pattern to be able to use async/await everywhere

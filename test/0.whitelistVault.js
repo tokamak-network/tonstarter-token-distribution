@@ -18,7 +18,7 @@ describe("WhitelistVault", function() {
   let totalAllocatedAmount=100000;
   let totalTgeCount=5;
   let startTime, endTime;
-  let periodTimesPerCliam = 60 * 10; // 10 mins
+  let periodTimesPerClaim = 60 * 10; // 10 mins
 
   let tgeRound = [
       {
@@ -69,13 +69,12 @@ describe("WhitelistVault", function() {
     whitelistVault = await WhitelistVault.deploy(name, tos.address, maxInputOnceTime);
     whitelistVault.deployed();
 
-    provider = await ethers.getDefaultProvider();
-
+    provider = ethers.provider;
   });
 
-  it("check name, token ", async function() {
+  it("check name, tos ", async function() {
     expect(await whitelistVault.name()).to.equal(name);
-    expect(await whitelistVault.token()).to.equal(tos.address);
+    expect(await whitelistVault.tos()).to.equal(tos.address);
     expect(await whitelistVault.maxInputOnceTime()).to.equal(maxInputOnceTime);
   });
 
@@ -89,7 +88,7 @@ describe("WhitelistVault", function() {
             totalAllocatedAmount,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
         )
       ).to.be.revertedWith("Accessible: Caller is not an admin");
 
@@ -107,7 +106,7 @@ describe("WhitelistVault", function() {
 
     await expect(
         whitelistVault.connect(user1).startRound(
-            1
+          //  1
         )
       ).to.be.revertedWith("Accessible: Caller is not an admin");
 
@@ -116,6 +115,14 @@ describe("WhitelistVault", function() {
       ).to.be.revertedWith("Accessible: Caller is not an admin");
   });
 
+  it("cannot recive ETH  ", async function() {
+      await expect(
+          deployer.sendTransaction({
+              to: whitelistVault.address,
+              value: ethers.BigNumber.from('1'),
+          })
+      ).to.be.reverted;
+  });
 
   it("initialize : check balance : 볼트의 토큰(TOS) 잔액이 totalAllocatedAmount보다 작으면 실패 ", async function() {
 
@@ -128,7 +135,7 @@ describe("WhitelistVault", function() {
             totalAllocatedAmount,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
         )
       ).to.be.revertedWith("BaseVault: balanceOf is insuffient");
   });
@@ -138,19 +145,19 @@ describe("WhitelistVault", function() {
 
       let curBlock = await provider.getBlock();
       startTime = curBlock.timestamp + 15;
-      endTime = startTime+(periodTimesPerCliam*totalTgeCount);
+      endTime = startTime+(periodTimesPerClaim*totalTgeCount);
 
       await tos.mint(whitelistVault.address, totalAllocatedAmount);
       await whitelistVault.connect(deployer).initialize(
             totalAllocatedAmount,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
       );
       expect(await whitelistVault.totalAllocatedAmount()).to.equal(totalAllocatedAmount);
       expect(await whitelistVault.totalTgeCount()).to.equal(totalTgeCount);
       expect(await whitelistVault.startTime()).to.equal(startTime);
-      expect(await whitelistVault.periodTimesPerCliam()).to.equal(periodTimesPerCliam);
+      expect(await whitelistVault.periodTimesPerClaim()).to.equal(periodTimesPerClaim);
       expect(await whitelistVault.endTime()).to.equal(endTime);
   });
 
@@ -161,7 +168,7 @@ describe("WhitelistVault", function() {
             totalAllocatedAmount,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
         )
       ).to.be.revertedWith("BaseVault: already initialized");
 
@@ -170,9 +177,9 @@ describe("WhitelistVault", function() {
   it("startRound : round 2: allocateAmountTGE 이 호출되기 전에 라운드가 호출될 수 없다. ", async function() {
     await  expect(
         whitelistVault.connect(deployer).startRound(
-            2
+          //  2
         )
-      ).to.be.revertedWith("BaseVaultStorage: zero value");
+      ).to.be.revertedWith("WhitelistVault: non-valid round");
   });
 
   it("allocateAmountTGE : check amount: 할당액은 총 할당액을 초과할 수 없다.", async function() {
@@ -242,9 +249,9 @@ describe("WhitelistVault", function() {
     let i = 0;
     await  expect(
         whitelistVault.connect(deployer).startRound(
-            tgeRound[i].round
+          //  tgeRound[i].round
         )
-    ).to.be.revertedWith("WhitelistVault: no whitelist");
+    ).to.be.revertedWith("WhitelistVault: non-valid round");
   });
 
   it("addWhitelist : 1 round:  추가되는 화이트리스트는 이미 중복된 주소가 있어도 에러를 리턴하지 않는다.", async function() {
@@ -269,7 +276,7 @@ describe("WhitelistVault", function() {
     let i = 0;
 
     await whitelistVault.connect(deployer).startRound(
-            tgeRound[i].round
+          //  tgeRound[i].round
         );
     let infos = await whitelistVault.getTgeInfos(tgeRound[i].round);
     expect(infos.started).to.equal(true);
@@ -289,16 +296,16 @@ describe("WhitelistVault", function() {
   it("startRound : check round: 입력 라운드는 설정된 totalTgeCount 보다 클수 없다.", async function() {
     await  expect(
        whitelistVault.connect(deployer).startRound(
-            totalTgeCount+1
+         //   totalTgeCount+1
         )
-    ).to.be.revertedWith("BaseVault: exceed available round");
+    ).to.be.revertedWith("WhitelistVault: already started");
   });
 
   it("startRound : 1 round  : 이미 시작된 라운드는 실행할 수 없다.", async function() {
     let i = 0;
     await  expect(
        whitelistVault.connect(deployer).startRound(
-            tgeRound[i].round
+         //   tgeRound[i].round
         )
     ).to.be.revertedWith("WhitelistVault: already started");
   });
@@ -307,7 +314,7 @@ describe("WhitelistVault", function() {
 
       let currentRound = await whitelistVault.connect(deployer).currentRound();
       expect(ethers.BigNumber.from(currentRound).toString()).to.equal('1');
-      let person6UnclaimedInfo = await whitelistVault.connect(person6).unclaimedInfos();
+      let person6UnclaimedInfo = await whitelistVault.unclaimedInfos(person6.address);
       expect(ethers.BigNumber.from(person6UnclaimedInfo.count).toString()).to.equal('0');
       expect(ethers.BigNumber.from(person6UnclaimedInfo.amount).toString()).to.equal('0');
 
@@ -320,7 +327,7 @@ describe("WhitelistVault", function() {
       let amount = ethers.BigNumber.from(infos.allocatedAmount).div(ethers.BigNumber.from(infos.whitelist.length));
       expect(ethers.BigNumber.from(infos.amount).toString()).to.equal(amount.toString());
 
-      let person3UnclaimedInfo = await whitelistVault.connect(person3).unclaimedInfos();
+      let person3UnclaimedInfo = await whitelistVault.unclaimedInfos(person3.address);
       let preTosBalance = await tos.balanceOf(person3.address);
       await whitelistVault.connect(person3).claim();
       let afterTosBalance = await tos.balanceOf(person3.address);
@@ -333,13 +340,15 @@ describe("WhitelistVault", function() {
     let i = 2;
     await  expect(
        whitelistVault.connect(deployer).startRound(
-            i
+          //  i
         )
-    ).to.be.revertedWith("WhitelistVault: no current round period");
+    ).to.be.revertedWith("WhitelistVault: already started");
   });
 
   it("startRound : 2 round  ", async function() {
     let i = 2;
+
+    // 한라운드 600 촐, periodTimesPerClaim
     //console.log('tgeRound[i-1]', i-1, tgeRound[i-1]);
     let lastClaimedRound = await whitelistVault.connect(deployer).lastClaimedRound();
     //console.log('lastClaimedRound', lastClaimedRound.toString());
@@ -347,16 +356,18 @@ describe("WhitelistVault", function() {
     let currentRound = await whitelistVault.connect(deployer).currentRound();
     let currentRoundNumber = ethers.BigNumber.from(currentRound).toNumber();
     let roundStartTime = await whitelistVault.connect(deployer).startRoundTime(i);
+    //console.log('currentRound', currentRound.toString());
 
     let nowInt = parseInt(Date.now()/1000);
     let round2StartTimeNumber = ethers.BigNumber.from(roundStartTime).toNumber();
 
-    if(i > currentRoundNumber && round2StartTimeNumber > nowInt ){
-      let increaseTime = round2StartTimeNumber - nowInt + 10;
-      await ethers.provider.send("evm_increaseTime", [increaseTime]);
-      await ethers.provider.send("evm_mine");
-    }
-    await whitelistVault.connect(deployer).startRound(i);
+    await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
+    await ethers.provider.send("evm_mine");
+
+    currentRound = await whitelistVault.connect(deployer).currentRound();
+
+
+    await whitelistVault.connect(deployer).startRound();
     let infos = await whitelistVault.getTgeInfos(i);
 
     expect(infos.started).to.equal(true);
@@ -371,8 +382,8 @@ describe("WhitelistVault", function() {
       let amount = ethers.BigNumber.from(infos.allocatedAmount).div(ethers.BigNumber.from(infos.whitelist.length));
       expect(ethers.BigNumber.from(infos.amount).toString()).to.equal(amount.toString());
 
-      let person2UnclaimedInfo = await whitelistVault.connect(person2).unclaimedInfos();
-      let person2UnclaimedInfosDetails = await whitelistVault.connect(person2).unclaimedInfosDetails();
+      let person2UnclaimedInfo = await whitelistVault.unclaimedInfos(person2.address);
+      let person2UnclaimedInfosDetails = await whitelistVault.unclaimedInfosDetails(person2.address);
 
 
       expect(person2UnclaimedInfosDetails._rounds[0].toString()).to.equal('1');
@@ -392,14 +403,14 @@ describe("WhitelistVault", function() {
         sumOfAmount = sumOfAmount.add(amount);
       }
 
-      let person1UnclaimedInfo = await whitelistVault.connect(person1).unclaimedInfos();
+      let person1UnclaimedInfo = await whitelistVault.unclaimedInfos(person1.address);
       expect(person1UnclaimedInfo.count).to.equal(currentRound);
       expect(ethers.BigNumber.from(person1UnclaimedInfo.amount).toString()).to.equal(sumOfAmount.toString());
   });
 
 
   it("claim : tge 등록자, 2라운드만 있는 사용자 person6 가 2라운드 클래임을 한다.", async function() {
-      // await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+      // await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
       // await ethers.provider.send('evm_mine');
       let currentRound = await whitelistVault.connect(person6).currentRound();
       expect(currentRound).to.equal(2);
@@ -408,7 +419,7 @@ describe("WhitelistVault", function() {
       let amount = ethers.BigNumber.from(infos.allocatedAmount).div(ethers.BigNumber.from(infos.whitelist.length));
       expect(ethers.BigNumber.from(infos.amount).toString()).to.equal(amount.toString());
 
-      let person6UnclaimedInfo = await whitelistVault.connect(person6).unclaimedInfos();
+      let person6UnclaimedInfo = await whitelistVault.unclaimedInfos(person6.address);
       let preTosBalance = await tos.balanceOf(person6.address);
       await whitelistVault.connect(person6).claim();
       let afterTosBalance = await tos.balanceOf(person6.address);
@@ -416,7 +427,7 @@ describe("WhitelistVault", function() {
   });
 
   it("claim : tge 등록자, person1 , 3라운드에서 지난 라운드것을 한번에 클래임을 한다. 3라운드 스타트를 안한상태이다.", async function() {
-      await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+      await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
       await ethers.provider.send('evm_mine');
       let currentRound = await whitelistVault.connect(person1).currentRound();
       expect(currentRound).to.equal(3);
@@ -431,7 +442,7 @@ describe("WhitelistVault", function() {
           count ++;
         }
       }
-      let person1UnclaimedInfo = await whitelistVault.connect(person1).unclaimedInfos();
+      let person1UnclaimedInfo = await whitelistVault.unclaimedInfos(person1.address);
       expect(person1UnclaimedInfo.count).to.equal(count);
       expect(ethers.BigNumber.from(person1UnclaimedInfo.amount).toString()).to.equal(sumOfAmount.toString());
 
@@ -442,7 +453,7 @@ describe("WhitelistVault", function() {
   });
 
   it("claim : tge 의 화이트리스트가 1라운드만 있는 사용자가 라운드가 종료되어도 클래임을 할 수 있다. ", async function() {
-      let person4UnclaimedInfo = await whitelistVault.connect(person4).unclaimedInfos();
+      let person4UnclaimedInfo = await whitelistVault.unclaimedInfos(person4.address);
       let preTosBalance = await tos.balanceOf(person4.address);
       await whitelistVault.connect(person4).claim();
       let afterTosBalance = await tos.balanceOf(person4.address);
@@ -491,7 +502,7 @@ describe("WhitelistVault", function() {
       let targetRound = 5;
       let loop = true;
       while(loop){
-        await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+        await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
         await ethers.provider.send('evm_mine');
         let currentRound = await whitelistVault.currentRound();
         if(currentRound == targetRound ) loop = false;
@@ -507,7 +518,7 @@ describe("WhitelistVault", function() {
 
   it("claim : 5 round, person1 , startRound 하지 않았으니, 클래임할게 없다.", async function() {
 
-      let person1UnclaimedInfo = await whitelistVault.connect(person1).unclaimedInfos();
+      let person1UnclaimedInfo = await whitelistVault.unclaimedInfos(person1.address);
       expect(person1UnclaimedInfo.count).to.equal(0);
       expect(ethers.BigNumber.from(person1UnclaimedInfo.amount).toString()).to.equal('0');
 
@@ -523,7 +534,9 @@ describe("WhitelistVault", function() {
         sumOfAmount += tgeRound[i-1].amount;
       }
 
-      await whitelistVault.connect(deployer).startRound(i);
+      await whitelistVault.connect(deployer).startRound(
+        //i
+        );
       let infos = await whitelistVault.getTgeInfos(i);
       expect(infos.started).to.equal(true);
       expect(infos.allocated).to.equal(true);
@@ -534,7 +547,7 @@ describe("WhitelistVault", function() {
 
   it("claim :  5 round, person1, 3,4 할당리워드는 이월되어, 5라운드 클래임한다.  ", async function() {
 
-      let person1UnclaimedInfo = await whitelistVault.connect(person1).unclaimedInfos();
+      let person1UnclaimedInfo = await whitelistVault.unclaimedInfos(person1.address);
       let preTosBalance = await tos.balanceOf(person1.address);
       await whitelistVault.connect(person1).claim();
       let afterTosBalance = await tos.balanceOf(person1.address);
@@ -544,7 +557,7 @@ describe("WhitelistVault", function() {
 
   it("claim :  5 round, person2,  ", async function() {
 
-      let person2UnclaimedInfo = await whitelistVault.connect(person2).unclaimedInfos();
+      let person2UnclaimedInfo = await whitelistVault.unclaimedInfos(person2.address);
       let preTosBalance = await tos.balanceOf(person2.address);
       await whitelistVault.connect(person2).claim();
       let afterTosBalance = await tos.balanceOf(person2.address);
@@ -553,19 +566,19 @@ describe("WhitelistVault", function() {
   });
   it("claim :  5 round, person3, 클래임할 금액이 없다. ", async function() {
 
-      let person3UnclaimedInfo = await whitelistVault.connect(person3).unclaimedInfos();
+      let person3UnclaimedInfo = await whitelistVault.unclaimedInfos(person3.address);
       expect(person3UnclaimedInfo.amount).to.equal(0);
       expect(person3UnclaimedInfo.count).to.equal(0);
   });
   it("claim :  5 round, person4, 클래임할 금액이 없다.  ", async function() {
 
-      let person4UnclaimedInfo = await whitelistVault.connect(person4).unclaimedInfos();
+      let person4UnclaimedInfo = await whitelistVault.unclaimedInfos(person4.address);
       expect(person4UnclaimedInfo.amount).to.equal(0);
       expect(person4UnclaimedInfo.count).to.equal(0);
   });
   it("claim :  5 round, person5, 4라운드 화이트리스트이나. startRound가 이루어지지 않아, 클래임할 금액이 없다.  ", async function() {
 
-      let person5UnclaimedInfo = await whitelistVault.connect(person5).unclaimedInfos();
+      let person5UnclaimedInfo = await whitelistVault.unclaimedInfos(person5.address);
       expect(person5UnclaimedInfo.amount).to.equal(0);
       expect(person5UnclaimedInfo.count).to.equal(0);
   });
@@ -587,7 +600,7 @@ describe("WhitelistVault", function() {
       expect(infos.allocatedAmount.toNumber()).to.equal(sumOfAmount);
       expect(infos.amount).to.equal(parseInt(sumOfAmount/tgeRound[i-1].whitelist.length));
 
-      let person6UnclaimedInfo = await whitelistVault.connect(person6).unclaimedInfos();
+      let person6UnclaimedInfo = await whitelistVault.unclaimedInfos(person6.address);
       let preTosBalance = await tos.balanceOf(person6.address);
       await whitelistVault.connect(person6).claim();
       let afterTosBalance = await tos.balanceOf(person6.address);

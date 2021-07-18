@@ -18,22 +18,31 @@ describe("DesignedVault", function() {
 
   let totalAllocatedAmount=100000;
   let totalClaims=10;
-  let totalTgeCount=2;
+  let totalTgeCount=1;
   let startTime, endTime;
-  let periodTimesPerCliam = 60 * 10; // 5 mins
+  let periodTimesPerClaim = 60 * 10; // 5 mins
+
+  // let tgeRound = [
+  //     {
+  //      round : 1,
+  //      amount : 10000,
+  //      whishlist: []
+  //     },
+  //     {
+  //      round : 2,
+  //      amount : 10000,
+  //      whishlist: []
+  //     }
+  // ]
 
   let tgeRound = [
       {
        round : 1,
        amount : 10000,
        whishlist: []
-      },
-      {
-       round : 2,
-       amount : 10000,
-       whishlist: []
       }
   ]
+
   totalTgeCount = tgeRound.length;
 
 
@@ -41,8 +50,9 @@ describe("DesignedVault", function() {
   before(async function () {
     let accounts = await ethers.getSigners();
     [deployer, user1, person1, person2, person3, person4, person5, person6 ] = accounts
-    tgeRound[0].whishlist = [person1.address, person2.address, person3.address, person4.address];
-    tgeRound[1].whishlist = [person1.address, person6.address];
+    // tgeRound[0].whishlist = [person1.address, person2.address, person3.address, person4.address];
+    // tgeRound[1].whishlist = [person1.address, person6.address];
+    tgeRound[0].whishlist = [user1.address];
 
     const DesignedVault = await ethers.getContractFactory("DesignedVault");
     const TOS = await ethers.getContractFactory("TOS");
@@ -53,27 +63,17 @@ describe("DesignedVault", function() {
     designedVault = await DesignedVault.deploy(name, tos.address, maxInputOnceTime);
     designedVault.connect(deployer).deployed();
 
-    provider = await ethers.getDefaultProvider();
+    provider = ethers.provider;
 
   });
 
-  it("check name, token ", async function() {
+  it("check name, tos ", async function() {
     expect(await designedVault.name()).to.equal(name);
-    expect(await designedVault.token()).to.equal(tos.address);
+    expect(await designedVault.tos()).to.equal(tos.address);
     expect(await designedVault.maxInputOnceTime()).to.equal(maxInputOnceTime);
   });
 
   it("Check onlyOwner Function : 관리자 권한 함수 확인 : 일반사용자가 실행시 거부됨 ", async function() {
-
-    /** onlyOwner Functions
-      initialize
-      setClaimer
-      allocateAmount
-      addWhitelist
-      startRound
-      start
-      withdraw
-     */
 
     let curBlock = await ethers.provider.getBlock();
     startTime = curBlock.timestamp ;
@@ -84,7 +84,7 @@ describe("DesignedVault", function() {
             totalClaims,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
         )
       ).to.be.revertedWith("Accessible: Caller is not an admin");
 
@@ -134,7 +134,7 @@ describe("DesignedVault", function() {
             totalClaims,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
         )
       ).to.be.revertedWith("BaseVault: balanceOf is insuffient");
   });
@@ -142,7 +142,7 @@ describe("DesignedVault", function() {
   it("initialize by owner : 관리자에 의해 초기 설정", async function() {
       let curBlock = await provider.getBlock();
       startTime = curBlock.timestamp + 15;
-      endTime = startTime+(periodTimesPerCliam*totalClaims);
+      endTime = startTime+(periodTimesPerClaim*totalClaims);
 
       await tos.mint(designedVault.address, totalAllocatedAmount);
       await designedVault.connect(deployer).initialize(
@@ -150,13 +150,13 @@ describe("DesignedVault", function() {
             totalClaims,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
       );
       expect(await designedVault.totalAllocatedAmount()).to.equal(totalAllocatedAmount);
       expect(await designedVault.totalClaims()).to.equal(totalClaims);
       expect(await designedVault.totalTgeCount()).to.equal(totalTgeCount);
       expect(await designedVault.startTime()).to.equal(startTime);
-      expect(await designedVault.periodTimesPerCliam()).to.equal(periodTimesPerCliam);
+      expect(await designedVault.periodTimesPerClaim()).to.equal(periodTimesPerClaim);
       expect(await designedVault.endTime()).to.equal(endTime);
   });
 
@@ -168,9 +168,18 @@ describe("DesignedVault", function() {
             totalClaims,
             totalTgeCount,
             startTime,
-            periodTimesPerCliam
+            periodTimesPerClaim
         )
       ).to.be.revertedWith("BaseVault: already initialized");
+  });
+
+  it("cannot recive ETH  ", async function() {
+      await expect(
+          deployer.sendTransaction({
+              to: designedVault.address,
+              value: ethers.BigNumber.from('1'),
+          })
+      ).to.be.reverted;
   });
 
   it("set claimer : 변경되는 인출자 주소는 기존주소와 달라야 한다.", async function() {
@@ -210,6 +219,10 @@ describe("DesignedVault", function() {
             tgeRound[i].round,
             tgeRound[i].amount
         )
+    let info = await designedVault.getTgeInfos(tgeRound[i].round);
+   // console.log('info',info);
+
+    expect(info.allocated).to.equal(true);
   });
 
   it("allocateAmount : 각 라운드에 금액 할당은 한번만 할 수 있다. ", async function() {
@@ -221,6 +234,7 @@ describe("DesignedVault", function() {
         )
       ).to.be.revertedWith("DesignedVault: already allocated");
   });
+  /*
   it("addWhitelist : check round: 입력 라운드는 설정된 totalTgeCount 보다 클수 없다.", async function() {
     let i = 1;
     await  expect(
@@ -240,9 +254,9 @@ describe("DesignedVault", function() {
         )
     ).to.be.revertedWith("BaseVault: check input count at once time");
   });
-
+*/
   it("addWhitelist ", async function() {
-    let i = 1;
+    let i = 0;
     await designedVault.connect(deployer).addWhitelist(
             tgeRound[i].round,
             tgeRound[i].whishlist
@@ -251,6 +265,7 @@ describe("DesignedVault", function() {
     expect(infos.whitelist).to.deep.equal(tgeRound[i].whishlist);
   });
 
+  /*
   it("addWhitelist :  추가되는 화이트리스트는 이미 중복된 주소가 있어도 에러를 리턴하지 않는다.", async function() {
     let i = 0;
     await designedVault.connect(deployer).addWhitelist(
@@ -268,6 +283,7 @@ describe("DesignedVault", function() {
     let infos = await designedVault.getTgeInfos(tgeRound[i].round);
     expect(infos.whitelist).to.deep.equal([person1.address, person2.address, person3.address, person4.address]);
   });
+  */
 
   it("startRound : 1 round   ", async function() {
     let i = 0;
@@ -278,6 +294,9 @@ describe("DesignedVault", function() {
     // let amount = ethers.BigNumber.from(infos.allocatedAmount).div(ethers.BigNumber.from(infos.whitelist.length));
     expect(infos.started).to.equal(true);
     expect(infos.amount).to.above(0);
+
+    //console.log('infos',infos);
+
   });
 
 
@@ -307,7 +326,7 @@ describe("DesignedVault", function() {
         )
     ).to.be.revertedWith("DesignedVault: already started");
   });
-
+  /*
   it("startRound : 할당금액이 없는 라운드는 시작할 수 없다.", async function() {
     let i = 1;
     await  expect(
@@ -338,7 +357,7 @@ describe("DesignedVault", function() {
     expect(infos.started).to.equal(true);
     expect(infos.amount).to.above(0);
   });
-
+  */
   it("start  ", async function() {
     await designedVault.connect(deployer).start();
     expect(await designedVault.startedByClaimer()).to.equal(true);
@@ -360,48 +379,54 @@ describe("DesignedVault", function() {
     ).to.be.revertedWith("DesignedVault: already started by claimer");
   });
 
-  // it("nextClaimStartTime : 클래임을 시작 할 수 있는 다음 라운드 시작 시간(초)을 리턴한다. ", async function() {
-
-  // });
-
-  // it("nextClaimRound :  가장 마지막 라운드의 다음 라운드를 리턴한다.  ", async function() {
-
-  // });
 
   it("unclaimedInfos : tge 등록자, 클래임하지 않은 라운드의 수와 금액을 리턴한다. ", async function() {
 
-      let currentRound = await designedVault.connect(person2).currentRound();
+      let currentRound = await designedVault.currentRound();
       let infos = await designedVault.getTgeInfos(currentRound);
       let amount = ethers.BigNumber.from(infos.allocatedAmount).div(ethers.BigNumber.from(infos.whitelist.length));
       expect(ethers.BigNumber.from(infos.amount).toString()).to.equal(amount.toString());
 
-      let person2UnclaimedInfo = await designedVault.connect(person2).unclaimedInfos();
+      let user1UnclaimedInfo = await designedVault.unclaimedInfos(user1.address);
+      expect(user1UnclaimedInfo.count).to.equal(currentRound);
+      expect(ethers.BigNumber.from(user1UnclaimedInfo.amount).toString()).to.equal(amount.toString());
+  });
+  /*
+  it("unclaimedInfos : tge 등록자, 클래임하지 않은 라운드의 수와 금액을 리턴한다. ", async function() {
+
+      let currentRound = await designedVault.currentRound();
+      let infos = await designedVault.getTgeInfos(currentRound);
+      let amount = ethers.BigNumber.from(infos.allocatedAmount).div(ethers.BigNumber.from(infos.whitelist.length));
+      expect(ethers.BigNumber.from(infos.amount).toString()).to.equal(amount.toString());
+
+      let person2UnclaimedInfo = await designedVault.unclaimedInfos(person2.address);
       expect(person2UnclaimedInfo.count).to.equal(currentRound);
       expect(ethers.BigNumber.from(person2UnclaimedInfo.amount).toString()).to.equal(amount.toString());
   });
-
+  */
   it("claim : tge 의 화이트리스트가 1번째 라운드에 클래임을 한다.  ", async function() {
-      let currentRound = await designedVault.connect(person2).currentRound();
+      let currentRound = await designedVault.currentRound();
       let infos = await designedVault.getTgeInfos(currentRound);
       let amount = ethers.BigNumber.from(infos.allocatedAmount).div(ethers.BigNumber.from(infos.whitelist.length));
       expect(ethers.BigNumber.from(infos.amount).toString()).to.equal(amount.toString());
 
-      let person2UnclaimedInfo = await designedVault.connect(person2).unclaimedInfos();
-      let preTosBalance = await tos.balanceOf(person2.address);
-      await designedVault.connect(person2).claim();
-      let afterTosBalance = await tos.balanceOf(person2.address);
-      expect(afterTosBalance).to.equal(ethers.BigNumber.from(preTosBalance).add(person2UnclaimedInfo.amount));
+      let user1UnclaimedInfo = await designedVault.unclaimedInfos(user1.address);
+      let preTosBalance = await tos.balanceOf(user1.address);
+      await designedVault.connect(user1).claim();
+      let afterTosBalance = await tos.balanceOf(user1.address);
+      expect(afterTosBalance).to.equal(ethers.BigNumber.from(preTosBalance).add(user1UnclaimedInfo.amount));
 
   });
 
   it("unclaimedInfos : claimer, 1라운드에서 클래임하지 않은 라운드의 수와 금액을 리턴한다. ", async function() {
       let currentRound = await designedVault.currentRound();
       expect(currentRound).to.equal(1);
-      let claimerUnclaimedInfos = await designedVault.connect(user1).unclaimedInfos();
+      let claimerUnclaimedInfos = await designedVault.unclaimedInfos(user1.address);
       expect(claimerUnclaimedInfos.count).to.equal(0);
       expect(claimerUnclaimedInfos.amount).to.equal(0);
   });
 
+  /*
   it("claim : 인출자는 tge기간에는 클래임을 할 금액이 없다.", async function() {
     await expect(
       designedVault.connect(user1).claim()
@@ -409,7 +434,7 @@ describe("DesignedVault", function() {
   });
 
   it("claim : tge 등록자, 2라운드만 있는 사용자가 2라운드 클래임을 한다.", async function() {
-      await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+      await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
       await ethers.provider.send('evm_mine');
       let currentRound = await designedVault.connect(person6).currentRound();
       expect(currentRound).to.equal(2);
@@ -418,7 +443,7 @@ describe("DesignedVault", function() {
       let amount = ethers.BigNumber.from(infos.allocatedAmount).div(ethers.BigNumber.from(infos.whitelist.length));
       expect(ethers.BigNumber.from(infos.amount).toString()).to.equal(amount.toString());
 
-      let person6UnclaimedInfo = await designedVault.connect(person6).unclaimedInfos();
+      let person6UnclaimedInfo = await designedVault.unclaimedInfos(person6.address);
       let preTosBalance = await tos.balanceOf(person6.address);
       await designedVault.connect(person6).claim();
       let afterTosBalance = await tos.balanceOf(person6.address);
@@ -441,7 +466,7 @@ describe("DesignedVault", function() {
       // console.log('started',infos.started) ;
 
       expect(ethers.BigNumber.from(infos.amount).toString()).to.equal(amount.toString());
-      let person1UnclaimedInfo = await designedVault.connect(person1).unclaimedInfos();
+      let person1UnclaimedInfo = await designedVault.unclaimedInfos(person1.address);
       // console.log('person1UnclaimedInfo.count',ethers.BigNumber.from(person1UnclaimedInfo.count).toString()) ;
       // console.log('person1UnclaimedInfo.amount',ethers.BigNumber.from(person1UnclaimedInfo.amount).toString()) ;
       expect(person1UnclaimedInfo.count).to.equal(currentRound);
@@ -449,7 +474,7 @@ describe("DesignedVault", function() {
   });
 
   it("claim : tge 등록자, 3라운드에서 지난 라운드것을 한번에 클래임을 한다.", async function() {
-      await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+      await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
       await ethers.provider.send('evm_mine');
       let currentRound = await designedVault.connect(person1).currentRound();
       expect(currentRound).to.equal(3);
@@ -458,7 +483,7 @@ describe("DesignedVault", function() {
       let amount = ethers.BigNumber.from(infos.allocatedAmount).div(ethers.BigNumber.from(infos.whitelist.length));
       expect(ethers.BigNumber.from(infos.amount).toString()).to.equal(amount.toString());
 
-      let person1UnclaimedInfo = await designedVault.connect(person1).unclaimedInfos();
+      let person1UnclaimedInfo = await designedVault.unclaimedInfos(person1.address);
       let preTosBalance = await tos.balanceOf(person1.address);
       await designedVault.connect(person1).claim();
       let afterTosBalance = await tos.balanceOf(person1.address);
@@ -466,35 +491,42 @@ describe("DesignedVault", function() {
   });
 
   it("claim : tge 의 화이트리스트가 1라운드만 있는 사용자가 라운드가 종료되어도 클래임을 할 수 있다. ", async function() {
-      let person3UnclaimedInfo = await designedVault.connect(person3).unclaimedInfos();
+      let person3UnclaimedInfo = await designedVault.unclaimedInfos(person3.address);
       let preTosBalance = await tos.balanceOf(person3.address);
       await designedVault.connect(person3).claim();
       let afterTosBalance = await tos.balanceOf(person3.address);
       expect(person3UnclaimedInfo.amount).to.above(0);
       expect(afterTosBalance).to.equal(ethers.BigNumber.from(preTosBalance).add(person3UnclaimedInfo.amount));
   });
-
+  */
   it("unclaimedInfos : claimer, 3라운드에서 클래임하지 않은 라운드의 수와 금액을 리턴한다. ", async function() {
+      await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
+      await ethers.provider.send('evm_mine');
+
+      await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
+      await ethers.provider.send('evm_mine');
+
       let currentRound = await designedVault.currentRound();
-      expect(currentRound).to.equal(3);
-      let claimerUnclaimedInfos = await designedVault.connect(user1).unclaimedInfos();
+      expect(currentRound.toString()).to.equal('3');
+
+      let claimerUnclaimedInfos = await designedVault.unclaimedInfos(user1.address);
       let oneClaimAmountByClaimer = await designedVault.oneClaimAmountByClaimer();
 
-      expect(claimerUnclaimedInfos.count).to.equal(1);
-      expect(claimerUnclaimedInfos.amount).to.equal(oneClaimAmountByClaimer);
+      expect(claimerUnclaimedInfos.count).to.equal(2);
+      expect(claimerUnclaimedInfos.amount).to.equal(oneClaimAmountByClaimer*2);
   });
 
   it("claim : 인출자는 인출하지 못한 라운드의 금액을 한번에 인출할 수 있다. ", async function() {
-    await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+    await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
     await ethers.provider.send('evm_mine');
-    await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+    await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
     await ethers.provider.send('evm_mine');
     let currentRound = await designedVault.connect(user1).currentRound();
     let oneClaimAmountByClaimer = await designedVault.oneClaimAmountByClaimer();
     let totalTgeCount = await designedVault.totalTgeCount();
     let calcAmount = ethers.BigNumber.from(currentRound).sub(ethers.BigNumber.from(totalTgeCount)).mul(ethers.BigNumber.from(oneClaimAmountByClaimer));
 
-    let user1UnclaimedInfo = await designedVault.connect(user1).unclaimedInfos();
+    let user1UnclaimedInfo = await designedVault.unclaimedInfos(user1.address);
     expect(user1UnclaimedInfo.amount).to.equal(calcAmount);
 
     let preTosBalance = await tos.balanceOf(user1.address);
@@ -505,9 +537,9 @@ describe("DesignedVault", function() {
   });
 
   it("claim : 인출자는 특정 라운드에서 클래임을 한다.", async function() {
-    await ethers.provider.send("evm_increaseTime", [periodTimesPerCliam]);
+    await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
     await ethers.provider.send('evm_mine');
-    let user1UnclaimedInfo = await designedVault.connect(user1).unclaimedInfos();
+    let user1UnclaimedInfo = await designedVault.unclaimedInfos(user1.address);
     let preTosBalance = await tos.balanceOf(user1.address);
     await designedVault.connect(user1).claim();
     let afterTosBalance = await tos.balanceOf(user1.address);

@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:simple": "npx hardhat test test/simpleVault.js",
+    "test:designed": "npx hardhat test test/designedVault.js",
+    "test:whitelist": "npx hardhat test test/whitelistVault.js",
     "solhint": "./node_modules/.bin/solhint -f table contracts/**/*.sol",
     "prettier:solidity": "./node_modules/.bin/prettier --write contracts/**/*.sol",
     "lint": "./node_modules/.bin/pretty-quick --pattern '**/*.*(sol)' --verbose",

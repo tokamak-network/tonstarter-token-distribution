@@ -11,21 +11,21 @@ import "./VaultClaimStorage.sol";
 
 import "./BaseVault.sol";
 
-//import "hardhat/console.sol";
+import "hardhat/console.sol";
 
 contract DesignedVault is BaseVault, VaultClaimStorage {
     using SafeERC20 for IERC20;
 
     ///@dev constructor
     ///@param _name Vault's name
-    ///@param _token Allocated token address
+    ///@param _tos Allocated tos address
     constructor(
         string memory _name,
-        address _token,
+        address _tos,
         uint256 _inputMaxOnce
     ) {
         name = _name;
-        token = _token;
+        tos = _tos;
         claimer = msg.sender;
         maxInputOnceTime = _inputMaxOnce;
         _setRoleAdmin(ADMIN_ROLE, ADMIN_ROLE);
@@ -37,20 +37,20 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
     ///@param _totalClaims total available claim count
     ///@param _totalTgeCount   total tge count
     ///@param _startTime start time
-    ///@param _periodTimesPerCliam period time per claim
+    ///@param _periodTimesPerClaim period time per claim
     function initialize(
         uint256 _totalAllocatedAmount,
         uint256 _totalClaims,
         uint256 _totalTgeCount,
         uint256 _startTime,
-        uint256 _periodTimesPerCliam
+        uint256 _periodTimesPerClaim
     ) external onlyOwner {
         initializeBase(
             _totalAllocatedAmount,
             _totalClaims,
             _totalTgeCount,
             _startTime,
-            _periodTimesPerCliam
+            _periodTimesPerClaim
         );
     }
 
@@ -121,16 +121,16 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
             );
         }
         startedByClaimer = true;
-        oneClaimAmountByClaimer =
-            (totalAllocatedAmount - totalTgeAmount) /
-            (totalClaims - totalTgeCount);
+
+        if(totalClaims > totalTgeCount) oneClaimAmountByClaimer = (totalAllocatedAmount - totalTgeAmount) / (totalClaims - totalTgeCount);
+        else oneClaimAmountByClaimer = 0;
 
         emit Started();
     }
 
     ///@dev next claimable start time
     function nextClaimStartTime() external view returns (uint256 nextTime) {
-        nextTime = startTime + (periodTimesPerCliam * lastClaimedRound);
+        nextTime = startTime + (periodTimesPerClaim * lastClaimedRound);
         if (endTime < nextTime) nextTime = 0;
     }
 
@@ -141,7 +141,7 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
     }
 
     ///@dev number of unclaimed
-    function unclaimedInfos()
+    function unclaimedInfos(address _user)
         external
         view
         returns (uint256 count, uint256 amount)
@@ -150,7 +150,7 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
         amount = 0;
         if (block.timestamp > startTime) {
             uint256 curRound = currentRound();
-            if (msg.sender == claimer) {
+            if (_user == claimer) {
                 if (curRound > totalTgeCount) {
                     if (lastClaimedRound >= totalTgeCount) {
                         count = curRound - lastClaimedRound;
@@ -159,22 +159,23 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
                     }
                 }
                 if (count > 0) amount = count * oneClaimAmountByClaimer;
-            } else {
-                for (uint256 i = 1; i <= totalTgeCount; i++) {
-                    if (curRound >= i) {
-                        ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
-                        if (tgeinfo.started) {
-                            if (
-                                tgeinfo.claimedTime[msg.sender].joined &&
-                                tgeinfo.claimedTime[msg.sender].claimedTime == 0
-                            ) {
-                                count++;
-                                amount += tgeinfo.amount;
-                            }
+            }
+
+            for (uint256 i = 1; i <= totalTgeCount; i++) {
+                if (curRound >= i) {
+                    ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
+                    if (tgeinfo.started) {
+                        if (
+                            tgeinfo.claimedTime[_user].joined &&
+                            tgeinfo.claimedTime[_user].claimedTime == 0
+                        ) {
+                            count++;
+                            amount += tgeinfo.amount;
                         }
                     }
                 }
             }
+
         }
     }
 
@@ -185,7 +186,8 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
         require(block.timestamp > startTime, "DesignedVault: not started yet");
 
         uint256 curRound = currentRound();
-        if (msg.sender == claimer) {
+
+        if(claimer == msg.sender) {
             if (lastClaimedRound > totalTgeCount) {
                 if (lastClaimedRound < curRound) {
                     count = curRound - lastClaimedRound;
@@ -195,46 +197,43 @@ contract DesignedVault is BaseVault, VaultClaimStorage {
                     count = curRound - totalTgeCount;
                 }
             }
-
             amount = count * oneClaimAmountByClaimer;
-            require(amount > 0, "DesignedVault: no claimable amount");
-            lastClaimedRound = curRound;
-            totalClaimedAmount += amount;
-            totalClaimedCountByClaimer++;
-            claimedTimesOfRoundByCliamer[curRound] = block.timestamp;
-            require(
-                IERC20(token).transfer(msg.sender, amount),
-                "DesignedVault: transfer fail"
-            );
-        } else {
-            for (uint256 i = 1; i <= totalTgeCount; i++) {
-                if (curRound >= i) {
-                    ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
-                    if (tgeinfo.started) {
-                        if (
-                            tgeinfo.claimedTime[msg.sender].joined &&
-                            tgeinfo.claimedTime[msg.sender].claimedTime == 0
-                        ) {
-                            tgeinfo.claimedTime[msg.sender].claimedTime = block
-                            .timestamp;
-                            tgeinfo.claimedCount++;
-                            amount += tgeinfo.amount;
-                            count++;
-                        }
-                    }
+
+            if(amount > 0){
+                totalClaimedCountByClaimer++;
+                claimedTimesOfRoundByCliamer[curRound] = block.timestamp;
+            }
+        }
+
+        //===== TGE ROUNDS
+        for (uint256 i = 1; i <= totalTgeCount; i++) {
+            if (curRound >= i) {
+                ClaimVaultLib.TgeInfo storage tgeinfo = tgeInfos[i];
+                if (tgeinfo.started  &&
+                    tgeinfo.claimedTime[msg.sender].joined &&
+                    tgeinfo.claimedTime[msg.sender].claimedTime == 0
+                ) {
+                    tgeinfo.claimedTime[msg.sender].claimedTime = block.timestamp;
+                    tgeinfo.claimedCount++;
+                    amount += tgeinfo.amount;
+                    count++;
                 }
             }
-
-            require(amount > 0, "DesignedVault: no claimable amount");
-            totalClaimedAmount += amount;
-            if (lastClaimedRound < totalTgeCount && curRound < totalTgeCount)
-                lastClaimedRound = curRound;
-            require(
-                IERC20(token).transfer(msg.sender, amount),
-                "DesignedVault: transfer fail"
-            );
         }
+
+        //=====
+        require(amount > 0, "DesignedVault: no claimable amount");
+        totalClaimedAmount += amount;
+        userClaimedAmount[msg.sender] += amount;
+
+        if(lastClaimedRound < curRound) lastClaimedRound = curRound;
+
+        require(
+            IERC20(tos).transfer(msg.sender, amount),
+            "DesignedVault: transfer fail"
+        );
 
         emit Claimed(msg.sender, amount, totalClaimedAmount);
     }
+
 }

@@ -31,22 +31,22 @@ contract SimpleVault is AccessibleCommon {
     }
 
     function claimERC20(
-        address token,
+        address _token,
         address to,
         uint256 amount
     ) external onlyOwner {
         require(
-            IERC20(token).balanceOf(address(this)) >= amount,
+            IERC20(_token).balanceOf(address(this)) >= amount,
             "SimpleVault: insufficent"
         );
-        IERC20(token).safeTransfer(to, amount);
+        IERC20(_token).safeTransfer(to, amount);
     }
 
     function balanceTOS() external view returns (uint256) {
         return IERC20(tos).balanceOf(address(this));
     }
 
-    function balanceERC20(address token) external view returns (uint256) {
-        return IERC20(token).balanceOf(address(this));
+    function balanceERC20(address _token) external view returns (uint256) {
+        return IERC20(_token).balanceOf(address(this));
     }
 }
