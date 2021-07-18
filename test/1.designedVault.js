@@ -173,6 +173,15 @@ describe("DesignedVault", function() {
       ).to.be.revertedWith("BaseVault: already initialized");
   });
 
+  it("cannot recive ETH  ", async function() {
+      await expect(
+          deployer.sendTransaction({
+              to: designedVault.address,
+              value: ethers.BigNumber.from('1'),
+          })
+      ).to.be.reverted;
+  });
+
   it("set claimer : 변경되는 인출자 주소는 기존주소와 달라야 한다.", async function() {
       await  expect(
         designedVault.connect(deployer).setClaimer(

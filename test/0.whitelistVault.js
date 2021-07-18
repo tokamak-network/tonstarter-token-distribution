@@ -115,6 +115,14 @@ describe("WhitelistVault", function() {
       ).to.be.revertedWith("Accessible: Caller is not an admin");
   });
 
+  it("cannot recive ETH  ", async function() {
+      await expect(
+          deployer.sendTransaction({
+              to: whitelistVault.address,
+              value: ethers.BigNumber.from('1'),
+          })
+      ).to.be.reverted;
+  });
 
   it("initialize : check balance : 볼트의 토큰(TOS) 잔액이 totalAllocatedAmount보다 작으면 실패 ", async function() {
 
@@ -339,6 +347,8 @@ describe("WhitelistVault", function() {
 
   it("startRound : 2 round  ", async function() {
     let i = 2;
+
+    // 한라운드 600 촐, periodTimesPerClaim
     //console.log('tgeRound[i-1]', i-1, tgeRound[i-1]);
     let lastClaimedRound = await whitelistVault.connect(deployer).lastClaimedRound();
     //console.log('lastClaimedRound', lastClaimedRound.toString());
@@ -346,18 +356,18 @@ describe("WhitelistVault", function() {
     let currentRound = await whitelistVault.connect(deployer).currentRound();
     let currentRoundNumber = ethers.BigNumber.from(currentRound).toNumber();
     let roundStartTime = await whitelistVault.connect(deployer).startRoundTime(i);
+    //console.log('currentRound', currentRound.toString());
 
     let nowInt = parseInt(Date.now()/1000);
     let round2StartTimeNumber = ethers.BigNumber.from(roundStartTime).toNumber();
 
-    if(i > currentRoundNumber && round2StartTimeNumber > nowInt ){
-      let increaseTime = round2StartTimeNumber - nowInt + 10;
-      await ethers.provider.send("evm_increaseTime", [increaseTime]);
-      await ethers.provider.send("evm_mine");
-    }
-    await whitelistVault.connect(deployer).startRound(
-      //i
-      );
+    await ethers.provider.send("evm_increaseTime", [periodTimesPerClaim]);
+    await ethers.provider.send("evm_mine");
+
+    currentRound = await whitelistVault.connect(deployer).currentRound();
+
+
+    await whitelistVault.connect(deployer).startRound();
     let infos = await whitelistVault.getTgeInfos(i);
 
     expect(infos.started).to.equal(true);

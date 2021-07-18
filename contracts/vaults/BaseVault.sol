@@ -42,6 +42,10 @@ contract BaseVault is BaseVaultStorage, AccessibleCommon, VaultEvent {
         endTime = _startTime + (_periodTimesPerClaim * _totalClaims);
     }
 
+    receive() external payable {
+        revert("cannot receive Ether");
+    }
+
     ///@dev set max input at once time of whitelist
     ///@param _maxInputOnceTime  max input at once time
     function setMaxInputOnceTimeWhitelist(uint256 _maxInputOnceTime)

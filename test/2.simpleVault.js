@@ -81,6 +81,16 @@ describe("SimpleVault", function() {
         ).to.be.revertedWith("Accessible: Caller is not an admin");
     });
 
+    it("cannot recive ETH  ", async function() {
+        await expect(
+            deployer.sendTransaction({
+                to: simpleVault.address,
+                value: ethers.BigNumber.from('1'),
+            })
+        ).to.be.reverted;
+    });
+
+
     it("claimTOS ", async function() {
         let sendAmount = 1000;
         let prevBalance = await tos.balanceOf(user1.address);
