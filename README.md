@@ -3,22 +3,22 @@
 
 ## Deployed on Mainnet
 
-* "TOS": "0x1b481bca7156E990E2d90d1EC556d929340E9fC3"
+* "TOS": "0x409c4D8cd5d2924b9bc5509230d16a61289c8153"
 
-* "DAOVault": "0x4F710Ca48E9D9E5b87Bc82eB56aF45fdE98177D8"
+* "DAOVault": "0xBedE575486e1F103fbe258a00D046F09e837fA17"
 
-* "LiquidityMiningVault": "0x64eC7d20b04D43A13aBd14032B6C94AE13384f5A"
+* "LiquidityMiningVault": "0xe5d9B1Cb200718286D7C88e6AA178702C8befE9D"
 
-* "LiquidityVault": "0x61d5610f3Dd7B93f25B91A2EdF5DD99020Cd6B6b"
+* "LiquidityVault": "0xA13EEC91B9e0ee4Cf96D8040B3ECC729a37882Be"
 
-* "InitialContributorVault": "0x596868592b01Cc896DB7139BF0B25911138B121e"
+* "InitialContributorVault": "0x14dE03D4629c9c4D3bfc38f222B03AdA675f64b1"
 
-* "MarketingVault": "0xAf4d492cc807CdB7fed60427f6742eff49ABc4d5"
+* "MarketingVault": "0xb9845e926256DCd54DE112E06DAA49F53B4f4830"
 
-* "AirdropVault": "0x49108acF8c4fD9b70eCfC0804CfB84DE6EF475Ce"
+* "AirdropVault": "0x0620492BAbe0a2cE13688025F8b783B8d6c28955"
 
 
-`Tag`: [deploy on mainnet](https://github.com/Onther-Tech/tonstarter-token-distribution/commit/1eac24c2c60c32ad9e4c977e5262abedc7b443a0)
+`Tag`: [deploy on mainnet](https://github.com/Onther-Tech/tonstarter-token-distribution/commit/485576a92dd7bde6ca96b9e451694648c9926910)
 
 
 ##
