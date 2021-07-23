@@ -14,7 +14,6 @@ const { printGasUsedOfUnits } = require("./log_tx");
 
 async function main() {
 
-
   const LiquidityVault = loadDeployed(process.env.NETWORK, "LiquidityVault");
   const liquidityVault = await ethers.getContractAt("DesignedVault", LiquidityVault);
   let tx2 = await liquidityVault.addWhitelist(1,
@@ -29,6 +28,7 @@ async function main() {
   printGasUsedOfUnits('LiquidityVault setClaimer',tx2);
 
 
+
   const MarketingVault = loadDeployed(process.env.NETWORK, "MarketingVault");
   const marketingVault = await ethers.getContractAt("DesignedVault", MarketingVault);
   let tx3 = await marketingVault.addWhitelist(1,
@@ -39,14 +39,14 @@ async function main() {
   printGasUsedOfUnits('MarketingVault addWhitelist',tx3);
 
 
-  tx3 =  await marketingVault.setClaimer(process.env.claimer);
-  console.log("MarketingVault setClaimer tx.hash ", tx3.hash );
-  printGasUsedOfUnits('MarketingVault setClaimer',tx3);
+  let tx4 =  await marketingVault.setClaimer(process.env.claimer);
+  console.log("MarketingVault setClaimer tx.hash ", tx4.hash );
+  printGasUsedOfUnits('MarketingVault setClaimer',tx4);
 
 
   const InitialContributorVault = loadDeployed(process.env.NETWORK, "InitialContributorVault");
   const initialContributorVault = await ethers.getContractAt("DesignedVault", InitialContributorVault);
-  tx3 =  await initialContributorVault.setClaimer(process.env.claimer);
+   tx3 =  await initialContributorVault.setClaimer(process.env.claimer);
   console.log("InitialContributorVault setClaimer tx.hash ", tx3.hash );
   printGasUsedOfUnits('InitialContributorVault setClaimer',tx3);
 

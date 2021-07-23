@@ -16,13 +16,6 @@ task("accounts", "Prints the list of accounts", async () => {
   }
 });
 
-
-// You need to export an object to set up your config
-// Go to https://hardhat.org/config/ to learn more
-
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
 module.exports = {
   defaultNetwork: "localhost",
   networks: {
@@ -55,17 +48,15 @@ module.exports = {
           ],
       gasMultiplier: 1.25,
       gasPrice: 10000000000,
-    },/*
+    },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.InfuraKey}`,
       accounts: [
-          `${process.env.ACCOUNT0_PK}`,
-          `${process.env.ACCOUNT1_PK}`,
-          `${process.env.ACCOUNT2_PK}`
+          `${process.env.TONSTARTER_DEPLOYER_PK}`
           ],
       gasMultiplier: 1.25,
-      gasPrice: 30000000000
-    }*/
+      gasPrice: 35000000000
+    }
   },
   etherscan: {
     apiKey: `${process.env.APIKey}`
