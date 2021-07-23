@@ -7,3 +7,5 @@ artifacts
 #config files
 .env
 
+backup
+
