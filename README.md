@@ -18,9 +18,6 @@
 * "AirdropVault": "0x0620492BAbe0a2cE13688025F8b783B8d6c28955"
 
 
-`Tag`: [deploy on mainnet](https://github.com/Onther-Tech/tonstarter-token-distribution/commit/485576a92dd7bde6ca96b9e451694648c9926910)
-
-
 ##
 
 ### Build Contracts
