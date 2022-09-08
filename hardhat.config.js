@@ -49,6 +49,16 @@ module.exports = {
       gasMultiplier: 1.25,
       gasPrice: 10000000000,
     },
+    goerli: {
+      url: `https://goerli.infura.io/v3/${process.env.InfuraKey}`,
+      accounts: [
+          `${process.env.ACCOUNT0_PK}`,
+          `${process.env.ACCOUNT1_PK}`,
+          `${process.env.ACCOUNT2_PK}`
+          ],
+      // gasMultiplier: 1.25,
+      // gasPrice: 10000000000,
+    },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.InfuraKey}`,
       accounts: [
@@ -61,6 +71,13 @@ module.exports = {
   etherscan: {
     apiKey: `${process.env.APIKey}`
   },
+  // etherscan: {
+  //   apiKey: {
+  //       mainnet: `${process.env.APIKey}`,
+  //       rinkeby: `${process.env.APIKey}`,
+  //       goerli: `${process.env.APIKey}`,
+  //   }
+  // },
   solidity: {
     version: "0.8.4",
     settings: {
