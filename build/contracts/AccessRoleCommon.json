@@ -1,0 +1,866 @@
+{
+  "contractName": "AccessRoleCommon",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "ADMIN_ROLE",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "BURNER_ROLE",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MINTER_ROLE",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.4+commit.c7e474f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"ADMIN_ROLE\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"BURNER_ROLE\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"MINTER_ROLE\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/common/AccessRoleCommon.sol\":\"AccessRoleCommon\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/common/AccessRoleCommon.sol\":{\"keccak256\":\"0xd02e40d9b3552e50251846e5a23e42eeed9ac7ffb501d3af1b57c06fa1b1d30a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://acbcb3db1bb2d8d9f396ee1b657efdb0db70ebe7b14b870582973ac441c7fbfa\",\"dweb:/ipfs/QmbbeSzYybUJKByZzd6TBhQ49UVgHPttz82Ly56RCsFxrR\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610176806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c8063282c51f31461004657806375b238fc14610064578063d539139314610082575b600080fd5b61004e6100a0565b60405161005b919061011b565b60405180910390f35b61006c6100c4565b604051610079919061011b565b60405180910390f35b61008a6100e8565b604051610097919061011b565b60405180910390f35b7f9667e80708b6eeeb0053fa0cca44e028ff548e2a9f029edfeac87c118b08b7c881565b7fdf8b4c520ffe197c5343c6f5aec59570151ef9a492f2c624fd45ddde6135ec4281565b7ff0887ba65ee2024ea881d91b74c2450ef19e1557f03bed3ea9f16b037cbe2dc981565b61011581610136565b82525050565b6000602082019050610130600083018461010c565b92915050565b600081905091905056fea264697066735822122083ad7db2f8a7fc83b954d7636013b33419031ab16ffd21c8ca63fe058d15db5264736f6c63430008040033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c8063282c51f31461004657806375b238fc14610064578063d539139314610082575b600080fd5b61004e6100a0565b60405161005b919061011b565b60405180910390f35b61006c6100c4565b604051610079919061011b565b60405180910390f35b61008a6100e8565b604051610097919061011b565b60405180910390f35b7f9667e80708b6eeeb0053fa0cca44e028ff548e2a9f029edfeac87c118b08b7c881565b7fdf8b4c520ffe197c5343c6f5aec59570151ef9a492f2c624fd45ddde6135ec4281565b7ff0887ba65ee2024ea881d91b74c2450ef19e1557f03bed3ea9f16b037cbe2dc981565b61011581610136565b82525050565b6000602082019050610130600083018461010c565b92915050565b600081905091905056fea264697066735822122083ad7db2f8a7fc83b954d7636013b33419031ab16ffd21c8ca63fe058d15db5264736f6c63430008040033",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [
+    {
+      "ast": {
+        "nodeType": "YulBlock",
+        "src": "0:439:38",
+        "statements": [
+          {
+            "body": {
+              "nodeType": "YulBlock",
+              "src": "72:53:38",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "name": "pos",
+                        "nodeType": "YulIdentifier",
+                        "src": "89:3:38"
+                      },
+                      {
+                        "arguments": [
+                          {
+                            "name": "value",
+                            "nodeType": "YulIdentifier",
+                            "src": "112:5:38"
+                          }
+                        ],
+                        "functionName": {
+                          "name": "cleanup_t_bytes32",
+                          "nodeType": "YulIdentifier",
+                          "src": "94:17:38"
+                        },
+                        "nodeType": "YulFunctionCall",
+                        "src": "94:24:38"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "mstore",
+                      "nodeType": "YulIdentifier",
+                      "src": "82:6:38"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "82:37:38"
+                  },
+                  "nodeType": "YulExpressionStatement",
+                  "src": "82:37:38"
+                }
+              ]
+            },
+            "name": "abi_encode_t_bytes32_to_t_bytes32_fromStack",
+            "nodeType": "YulFunctionDefinition",
+            "parameters": [
+              {
+                "name": "value",
+                "nodeType": "YulTypedName",
+                "src": "60:5:38",
+                "type": ""
+              },
+              {
+                "name": "pos",
+                "nodeType": "YulTypedName",
+                "src": "67:3:38",
+                "type": ""
+              }
+            ],
+            "src": "7:118:38"
+          },
+          {
+            "body": {
+              "nodeType": "YulBlock",
+              "src": "229:124:38",
+              "statements": [
+                {
+                  "nodeType": "YulAssignment",
+                  "src": "239:26:38",
+                  "value": {
+                    "arguments": [
+                      {
+                        "name": "headStart",
+                        "nodeType": "YulIdentifier",
+                        "src": "251:9:38"
+                      },
+                      {
+                        "kind": "number",
+                        "nodeType": "YulLiteral",
+                        "src": "262:2:38",
+                        "type": "",
+                        "value": "32"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "add",
+                      "nodeType": "YulIdentifier",
+                      "src": "247:3:38"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "247:18:38"
+                  },
+                  "variableNames": [
+                    {
+                      "name": "tail",
+                      "nodeType": "YulIdentifier",
+                      "src": "239:4:38"
+                    }
+                  ]
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "name": "value0",
+                        "nodeType": "YulIdentifier",
+                        "src": "319:6:38"
+                      },
+                      {
+                        "arguments": [
+                          {
+                            "name": "headStart",
+                            "nodeType": "YulIdentifier",
+                            "src": "332:9:38"
+                          },
+                          {
+                            "kind": "number",
+                            "nodeType": "YulLiteral",
+                            "src": "343:1:38",
+                            "type": "",
+                            "value": "0"
+                          }
+                        ],
+                        "functionName": {
+                          "name": "add",
+                          "nodeType": "YulIdentifier",
+                          "src": "328:3:38"
+                        },
+                        "nodeType": "YulFunctionCall",
+                        "src": "328:17:38"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "abi_encode_t_bytes32_to_t_bytes32_fromStack",
+                      "nodeType": "YulIdentifier",
+                      "src": "275:43:38"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "275:71:38"
+                  },
+                  "nodeType": "YulExpressionStatement",
+                  "src": "275:71:38"
+                }
+              ]
+            },
+            "name": "abi_encode_tuple_t_bytes32__to_t_bytes32__fromStack_reversed",
+            "nodeType": "YulFunctionDefinition",
+            "parameters": [
+              {
+                "name": "headStart",
+                "nodeType": "YulTypedName",
+                "src": "201:9:38",
+                "type": ""
+              },
+              {
+                "name": "value0",
+                "nodeType": "YulTypedName",
+                "src": "213:6:38",
+                "type": ""
+              }
+            ],
+            "returnVariables": [
+              {
+                "name": "tail",
+                "nodeType": "YulTypedName",
+                "src": "224:4:38",
+                "type": ""
+              }
+            ],
+            "src": "131:222:38"
+          },
+          {
+            "body": {
+              "nodeType": "YulBlock",
+              "src": "404:32:38",
+              "statements": [
+                {
+                  "nodeType": "YulAssignment",
+                  "src": "414:16:38",
+                  "value": {
+                    "name": "value",
+                    "nodeType": "YulIdentifier",
+                    "src": "425:5:38"
+                  },
+                  "variableNames": [
+                    {
+                      "name": "cleaned",
+                      "nodeType": "YulIdentifier",
+                      "src": "414:7:38"
+                    }
+                  ]
+                }
+              ]
+            },
+            "name": "cleanup_t_bytes32",
+            "nodeType": "YulFunctionDefinition",
+            "parameters": [
+              {
+                "name": "value",
+                "nodeType": "YulTypedName",
+                "src": "386:5:38",
+                "type": ""
+              }
+            ],
+            "returnVariables": [
+              {
+                "name": "cleaned",
+                "nodeType": "YulTypedName",
+                "src": "396:7:38",
+                "type": ""
+              }
+            ],
+            "src": "359:77:38"
+          }
+        ]
+      },
+      "contents": "{\n\n    function abi_encode_t_bytes32_to_t_bytes32_fromStack(value, pos) {\n        mstore(pos, cleanup_t_bytes32(value))\n    }\n\n    function abi_encode_tuple_t_bytes32__to_t_bytes32__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_bytes32_to_t_bytes32_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function cleanup_t_bytes32(value) -> cleaned {\n        cleaned := value\n    }\n\n}\n",
+      "id": 38,
+      "language": "Yul",
+      "name": "#utility.yul"
+    }
+  ],
+  "sourceMap": "57:216:15:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "57:216:15:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;213:57;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;89:55;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;150:57;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;213;251:19;213:57;:::o;89:55::-;126:18;89:55;:::o;150:57::-;188:19;150:57;:::o;7:118:38:-;94:24;112:5;94:24;:::i;:::-;89:3;82:37;72:53;;:::o;131:222::-;224:4;262:2;251:9;247:18;239:26;;275:71;343:1;332:9;328:17;319:6;275:71;:::i;:::-;229:124;;;;:::o;359:77::-;396:7;425:5;414:16;;404:32;;;:::o",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.4;\n\ncontract AccessRoleCommon {\n    bytes32 public constant ADMIN_ROLE = keccak256(\"ADMIN\");\n    bytes32 public constant MINTER_ROLE = keccak256(\"MINTER\");\n    bytes32 public constant BURNER_ROLE = keccak256(\"BURNER\");\n}\n",
+  "sourcePath": "/Users/zena/tonstarter/tonstarter-token-distribution/contracts/common/AccessRoleCommon.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/common/AccessRoleCommon.sol",
+    "exportedSymbols": {
+      "AccessRoleCommon": [
+        9917
+      ]
+    },
+    "id": 9918,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 9901,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:23:15"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 9917,
+        "linearizedBaseContracts": [
+          9917
+        ],
+        "name": "AccessRoleCommon",
+        "nameLocation": "66:16:15",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": true,
+            "functionSelector": "75b238fc",
+            "id": 9906,
+            "mutability": "constant",
+            "name": "ADMIN_ROLE",
+            "nameLocation": "113:10:15",
+            "nodeType": "VariableDeclaration",
+            "scope": 9917,
+            "src": "89:55:15",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes32",
+              "typeString": "bytes32"
+            },
+            "typeName": {
+              "id": 9902,
+              "name": "bytes32",
+              "nodeType": "ElementaryTypeName",
+              "src": "89:7:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes32",
+                "typeString": "bytes32"
+              }
+            },
+            "value": {
+              "arguments": [
+                {
+                  "hexValue": "41444d494e",
+                  "id": 9904,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "kind": "string",
+                  "lValueRequested": false,
+                  "nodeType": "Literal",
+                  "src": "136:7:15",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_stringliteral_df8b4c520ffe197c5343c6f5aec59570151ef9a492f2c624fd45ddde6135ec42",
+                    "typeString": "literal_string \"ADMIN\""
+                  },
+                  "value": "ADMIN"
+                }
+              ],
+              "expression": {
+                "argumentTypes": [
+                  {
+                    "typeIdentifier": "t_stringliteral_df8b4c520ffe197c5343c6f5aec59570151ef9a492f2c624fd45ddde6135ec42",
+                    "typeString": "literal_string \"ADMIN\""
+                  }
+                ],
+                "id": 9903,
+                "name": "keccak256",
+                "nodeType": "Identifier",
+                "overloadedDeclarations": [],
+                "referencedDeclaration": 4294967288,
+                "src": "126:9:15",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
+                  "typeString": "function (bytes memory) pure returns (bytes32)"
+                }
+              },
+              "id": 9905,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "functionCall",
+              "lValueRequested": false,
+              "names": [],
+              "nodeType": "FunctionCall",
+              "src": "126:18:15",
+              "tryCall": false,
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes32",
+                "typeString": "bytes32"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": true,
+            "functionSelector": "d5391393",
+            "id": 9911,
+            "mutability": "constant",
+            "name": "MINTER_ROLE",
+            "nameLocation": "174:11:15",
+            "nodeType": "VariableDeclaration",
+            "scope": 9917,
+            "src": "150:57:15",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes32",
+              "typeString": "bytes32"
+            },
+            "typeName": {
+              "id": 9907,
+              "name": "bytes32",
+              "nodeType": "ElementaryTypeName",
+              "src": "150:7:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes32",
+                "typeString": "bytes32"
+              }
+            },
+            "value": {
+              "arguments": [
+                {
+                  "hexValue": "4d494e544552",
+                  "id": 9909,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "kind": "string",
+                  "lValueRequested": false,
+                  "nodeType": "Literal",
+                  "src": "198:8:15",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_stringliteral_f0887ba65ee2024ea881d91b74c2450ef19e1557f03bed3ea9f16b037cbe2dc9",
+                    "typeString": "literal_string \"MINTER\""
+                  },
+                  "value": "MINTER"
+                }
+              ],
+              "expression": {
+                "argumentTypes": [
+                  {
+                    "typeIdentifier": "t_stringliteral_f0887ba65ee2024ea881d91b74c2450ef19e1557f03bed3ea9f16b037cbe2dc9",
+                    "typeString": "literal_string \"MINTER\""
+                  }
+                ],
+                "id": 9908,
+                "name": "keccak256",
+                "nodeType": "Identifier",
+                "overloadedDeclarations": [],
+                "referencedDeclaration": 4294967288,
+                "src": "188:9:15",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
+                  "typeString": "function (bytes memory) pure returns (bytes32)"
+                }
+              },
+              "id": 9910,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "functionCall",
+              "lValueRequested": false,
+              "names": [],
+              "nodeType": "FunctionCall",
+              "src": "188:19:15",
+              "tryCall": false,
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes32",
+                "typeString": "bytes32"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": true,
+            "functionSelector": "282c51f3",
+            "id": 9916,
+            "mutability": "constant",
+            "name": "BURNER_ROLE",
+            "nameLocation": "237:11:15",
+            "nodeType": "VariableDeclaration",
+            "scope": 9917,
+            "src": "213:57:15",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes32",
+              "typeString": "bytes32"
+            },
+            "typeName": {
+              "id": 9912,
+              "name": "bytes32",
+              "nodeType": "ElementaryTypeName",
+              "src": "213:7:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes32",
+                "typeString": "bytes32"
+              }
+            },
+            "value": {
+              "arguments": [
+                {
+                  "hexValue": "4255524e4552",
+                  "id": 9914,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "kind": "string",
+                  "lValueRequested": false,
+                  "nodeType": "Literal",
+                  "src": "261:8:15",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_stringliteral_9667e80708b6eeeb0053fa0cca44e028ff548e2a9f029edfeac87c118b08b7c8",
+                    "typeString": "literal_string \"BURNER\""
+                  },
+                  "value": "BURNER"
+                }
+              ],
+              "expression": {
+                "argumentTypes": [
+                  {
+                    "typeIdentifier": "t_stringliteral_9667e80708b6eeeb0053fa0cca44e028ff548e2a9f029edfeac87c118b08b7c8",
+                    "typeString": "literal_string \"BURNER\""
+                  }
+                ],
+                "id": 9913,
+                "name": "keccak256",
+                "nodeType": "Identifier",
+                "overloadedDeclarations": [],
+                "referencedDeclaration": 4294967288,
+                "src": "251:9:15",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
+                  "typeString": "function (bytes memory) pure returns (bytes32)"
+                }
+              },
+              "id": 9915,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "functionCall",
+              "lValueRequested": false,
+              "names": [],
+              "nodeType": "FunctionCall",
+              "src": "251:19:15",
+              "tryCall": false,
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes32",
+                "typeString": "bytes32"
+              }
+            },
+            "visibility": "public"
+          }
+        ],
+        "scope": 9918,
+        "src": "57:216:15",
+        "usedErrors": []
+      }
+    ],
+    "src": "32:242:15"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/common/AccessRoleCommon.sol",
+    "exportedSymbols": {
+      "AccessRoleCommon": [
+        9917
+      ]
+    },
+    "id": 9918,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 9901,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:23:15"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 9917,
+        "linearizedBaseContracts": [
+          9917
+        ],
+        "name": "AccessRoleCommon",
+        "nameLocation": "66:16:15",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": true,
+            "functionSelector": "75b238fc",
+            "id": 9906,
+            "mutability": "constant",
+            "name": "ADMIN_ROLE",
+            "nameLocation": "113:10:15",
+            "nodeType": "VariableDeclaration",
+            "scope": 9917,
+            "src": "89:55:15",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes32",
+              "typeString": "bytes32"
+            },
+            "typeName": {
+              "id": 9902,
+              "name": "bytes32",
+              "nodeType": "ElementaryTypeName",
+              "src": "89:7:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes32",
+                "typeString": "bytes32"
+              }
+            },
+            "value": {
+              "arguments": [
+                {
+                  "hexValue": "41444d494e",
+                  "id": 9904,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "kind": "string",
+                  "lValueRequested": false,
+                  "nodeType": "Literal",
+                  "src": "136:7:15",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_stringliteral_df8b4c520ffe197c5343c6f5aec59570151ef9a492f2c624fd45ddde6135ec42",
+                    "typeString": "literal_string \"ADMIN\""
+                  },
+                  "value": "ADMIN"
+                }
+              ],
+              "expression": {
+                "argumentTypes": [
+                  {
+                    "typeIdentifier": "t_stringliteral_df8b4c520ffe197c5343c6f5aec59570151ef9a492f2c624fd45ddde6135ec42",
+                    "typeString": "literal_string \"ADMIN\""
+                  }
+                ],
+                "id": 9903,
+                "name": "keccak256",
+                "nodeType": "Identifier",
+                "overloadedDeclarations": [],
+                "referencedDeclaration": 4294967288,
+                "src": "126:9:15",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
+                  "typeString": "function (bytes memory) pure returns (bytes32)"
+                }
+              },
+              "id": 9905,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "functionCall",
+              "lValueRequested": false,
+              "names": [],
+              "nodeType": "FunctionCall",
+              "src": "126:18:15",
+              "tryCall": false,
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes32",
+                "typeString": "bytes32"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": true,
+            "functionSelector": "d5391393",
+            "id": 9911,
+            "mutability": "constant",
+            "name": "MINTER_ROLE",
+            "nameLocation": "174:11:15",
+            "nodeType": "VariableDeclaration",
+            "scope": 9917,
+            "src": "150:57:15",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes32",
+              "typeString": "bytes32"
+            },
+            "typeName": {
+              "id": 9907,
+              "name": "bytes32",
+              "nodeType": "ElementaryTypeName",
+              "src": "150:7:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes32",
+                "typeString": "bytes32"
+              }
+            },
+            "value": {
+              "arguments": [
+                {
+                  "hexValue": "4d494e544552",
+                  "id": 9909,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "kind": "string",
+                  "lValueRequested": false,
+                  "nodeType": "Literal",
+                  "src": "198:8:15",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_stringliteral_f0887ba65ee2024ea881d91b74c2450ef19e1557f03bed3ea9f16b037cbe2dc9",
+                    "typeString": "literal_string \"MINTER\""
+                  },
+                  "value": "MINTER"
+                }
+              ],
+              "expression": {
+                "argumentTypes": [
+                  {
+                    "typeIdentifier": "t_stringliteral_f0887ba65ee2024ea881d91b74c2450ef19e1557f03bed3ea9f16b037cbe2dc9",
+                    "typeString": "literal_string \"MINTER\""
+                  }
+                ],
+                "id": 9908,
+                "name": "keccak256",
+                "nodeType": "Identifier",
+                "overloadedDeclarations": [],
+                "referencedDeclaration": 4294967288,
+                "src": "188:9:15",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
+                  "typeString": "function (bytes memory) pure returns (bytes32)"
+                }
+              },
+              "id": 9910,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "functionCall",
+              "lValueRequested": false,
+              "names": [],
+              "nodeType": "FunctionCall",
+              "src": "188:19:15",
+              "tryCall": false,
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes32",
+                "typeString": "bytes32"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": true,
+            "functionSelector": "282c51f3",
+            "id": 9916,
+            "mutability": "constant",
+            "name": "BURNER_ROLE",
+            "nameLocation": "237:11:15",
+            "nodeType": "VariableDeclaration",
+            "scope": 9917,
+            "src": "213:57:15",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes32",
+              "typeString": "bytes32"
+            },
+            "typeName": {
+              "id": 9912,
+              "name": "bytes32",
+              "nodeType": "ElementaryTypeName",
+              "src": "213:7:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes32",
+                "typeString": "bytes32"
+              }
+            },
+            "value": {
+              "arguments": [
+                {
+                  "hexValue": "4255524e4552",
+                  "id": 9914,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "kind": "string",
+                  "lValueRequested": false,
+                  "nodeType": "Literal",
+                  "src": "261:8:15",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_stringliteral_9667e80708b6eeeb0053fa0cca44e028ff548e2a9f029edfeac87c118b08b7c8",
+                    "typeString": "literal_string \"BURNER\""
+                  },
+                  "value": "BURNER"
+                }
+              ],
+              "expression": {
+                "argumentTypes": [
+                  {
+                    "typeIdentifier": "t_stringliteral_9667e80708b6eeeb0053fa0cca44e028ff548e2a9f029edfeac87c118b08b7c8",
+                    "typeString": "literal_string \"BURNER\""
+                  }
+                ],
+                "id": 9913,
+                "name": "keccak256",
+                "nodeType": "Identifier",
+                "overloadedDeclarations": [],
+                "referencedDeclaration": 4294967288,
+                "src": "251:9:15",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
+                  "typeString": "function (bytes memory) pure returns (bytes32)"
+                }
+              },
+              "id": 9915,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "functionCall",
+              "lValueRequested": false,
+              "names": [],
+              "nodeType": "FunctionCall",
+              "src": "251:19:15",
+              "tryCall": false,
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes32",
+                "typeString": "bytes32"
+              }
+            },
+            "visibility": "public"
+          }
+        ],
+        "scope": 9918,
+        "src": "57:216:15",
+        "usedErrors": []
+      }
+    ],
+    "src": "32:242:15"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.4+commit.c7e474f2.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.4",
+  "updatedAt": "2023-11-27T04:24:12.947Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

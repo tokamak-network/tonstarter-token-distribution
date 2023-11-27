@@ -1,0 +1,1214 @@
+{
+  "contractName": "VaultEvent",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "round",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address[]",
+          "name": "users",
+          "type": "address[]"
+        }
+      ],
+      "name": "AddedWhitelist",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "round",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "AllocatedAmount",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "caller",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "totalClaimedAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Claimed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "newClaimer",
+          "type": "address"
+        }
+      ],
+      "name": "SetNewClaimer",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [],
+      "name": "Started",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "round",
+          "type": "uint256"
+        }
+      ],
+      "name": "StartedRound",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "caller",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Withdrawal",
+      "type": "event"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.4+commit.c7e474f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"round\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address[]\",\"name\":\"users\",\"type\":\"address[]\"}],\"name\":\"AddedWhitelist\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"round\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"AllocatedAmount\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"caller\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"totalClaimedAmount\",\"type\":\"uint256\"}],\"name\":\"Claimed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"newClaimer\",\"type\":\"address\"}],\"name\":\"SetNewClaimer\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"Started\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"round\",\"type\":\"uint256\"}],\"name\":\"StartedRound\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"caller\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"Withdrawal\",\"type\":\"event\"}],\"devdoc\":{\"events\":{\"AddedWhitelist(uint256,address[])\":{\"details\":\"event on add whitelist\",\"params\":{\"round\":\"it is the period unit can claim once\",\"users\":\"people who can claim in that round\"}},\"AllocatedAmount(uint256,uint256)\":{\"details\":\"event on allocate amount\",\"params\":{\"amount\":\"total claimable amount\",\"round\":\"it is the period unit can claim once\"}},\"Claimed(address,uint256,uint256)\":{\"details\":\"event on claim\",\"params\":{\"amount\":\"the claimed amount of caller\",\"caller\":\"claimer\",\"totalClaimedAmount\":\"total claimed amount\"}},\"SetNewClaimer(address)\":{\"details\":\"event on set claimer\",\"params\":{\"newClaimer\":\"new claimer address\"}},\"Started()\":{\"details\":\"event on start\"},\"StartedRound(uint256)\":{\"details\":\"event on start round\",\"params\":{\"round\":\"it is the period unit can claim once\"}},\"Withdrawal(address,uint256)\":{\"details\":\"event on withdraw\",\"params\":{\"amount\":\"the withdrawable amount of owner\",\"caller\":\"owner\"}}},\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/vaults/VaultEvent.sol\":\"VaultEvent\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/vaults/VaultEvent.sol\":{\"keccak256\":\"0xc6560e3b1ebc79b99d17405371883499defe21cddfad24f8611574f80f966224\",\"license\":\"Unlicense\",\"urls\":[\"bzz-raw://e4be0ef879aade47e3af821ef6364317ba7785878b2371137df4de22172334a5\",\"dweb:/ipfs/QmP2Q93uP8XcZiFnLxfMPWmVeKmB6ezKkAMW9tYfgYZfGE\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212202c23e378cdfc7cbc04d8bf2bdebb98c8c0794ac960e56e8a569b7cd11b4506f264736f6c63430008040033",
+  "deployedBytecode": "0x6080604052600080fdfea26469706673582212202c23e378cdfc7cbc04d8bf2bdebb98c8c0794ac960e56e8a569b7cd11b4506f264736f6c63430008040033",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "62:1196:35:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "62:1196:35:-:0;;;;;",
+  "source": "//SPDX-License-Identifier: Unlicense\npragma solidity ^0.8.4;\n\ncontract VaultEvent {\n    /// @dev event on set claimer\n    /// @param newClaimer new claimer address\n    event SetNewClaimer(address newClaimer);\n\n    /// @dev event on allocate amount\n    ///@param round  it is the period unit can claim once\n    ///@param amount total claimable amount\n    event AllocatedAmount(uint256 round, uint256 amount);\n\n    /// @dev event on add whitelist\n    ///@param round  it is the period unit can claim once\n    ///@param users people who can claim in that round\n    event AddedWhitelist(uint256 round, address[] users);\n\n    /// @dev event on start round\n    ///@param round  it is the period unit can claim once\n    event StartedRound(uint256 round);\n\n    /// @dev event on start\n    event Started();\n\n    /// @dev event on claim\n    ///@param caller  claimer\n    ///@param amount  the claimed amount of caller\n    ///@param totalClaimedAmount  total claimed amount\n    event Claimed(\n        address indexed caller,\n        uint256 amount,\n        uint256 totalClaimedAmount\n    );\n\n    /// @dev event on withdraw\n    ///@param caller  owner\n    ///@param amount  the withdrawable amount of owner\n    event Withdrawal(address indexed caller, uint256 amount);\n}\n",
+  "sourcePath": "/Users/zena/tonstarter/tonstarter-token-distribution/contracts/vaults/VaultEvent.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/vaults/VaultEvent.sol",
+    "exportedSymbols": {
+      "VaultEvent": [
+        12312
+      ]
+    },
+    "id": 12313,
+    "license": "Unlicense",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12267,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "37:23:35"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 12312,
+        "linearizedBaseContracts": [
+          12312
+        ],
+        "name": "VaultEvent",
+        "nameLocation": "71:10:35",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 12268,
+              "nodeType": "StructuredDocumentation",
+              "src": "88:75:35",
+              "text": "@dev event on set claimer\n @param newClaimer new claimer address"
+            },
+            "id": 12272,
+            "name": "SetNewClaimer",
+            "nameLocation": "174:13:35",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 12271,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12270,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "newClaimer",
+                  "nameLocation": "196:10:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12272,
+                  "src": "188:18:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12269,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "188:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "187:20:35"
+            },
+            "src": "168:40:35"
+          },
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 12273,
+              "nodeType": "StructuredDocumentation",
+              "src": "214:135:35",
+              "text": "@dev event on allocate amount\n@param round  it is the period unit can claim once\n@param amount total claimable amount"
+            },
+            "id": 12279,
+            "name": "AllocatedAmount",
+            "nameLocation": "360:15:35",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 12278,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12275,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "round",
+                  "nameLocation": "384:5:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12279,
+                  "src": "376:13:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12274,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "376:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12277,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "399:6:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12279,
+                  "src": "391:14:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12276,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "391:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "375:31:35"
+            },
+            "src": "354:53:35"
+          },
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 12280,
+              "nodeType": "StructuredDocumentation",
+              "src": "413:144:35",
+              "text": "@dev event on add whitelist\n@param round  it is the period unit can claim once\n@param users people who can claim in that round"
+            },
+            "id": 12287,
+            "name": "AddedWhitelist",
+            "nameLocation": "568:14:35",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 12286,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12282,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "round",
+                  "nameLocation": "591:5:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12287,
+                  "src": "583:13:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12281,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "583:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12285,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "users",
+                  "nameLocation": "608:5:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12287,
+                  "src": "598:15:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                    "typeString": "address[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 12283,
+                      "name": "address",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "598:7:35",
+                      "stateMutability": "nonpayable",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "id": 12284,
+                    "nodeType": "ArrayTypeName",
+                    "src": "598:9:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                      "typeString": "address[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "582:32:35"
+            },
+            "src": "562:53:35"
+          },
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 12288,
+              "nodeType": "StructuredDocumentation",
+              "src": "621:87:35",
+              "text": "@dev event on start round\n@param round  it is the period unit can claim once"
+            },
+            "id": 12292,
+            "name": "StartedRound",
+            "nameLocation": "719:12:35",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 12291,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12290,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "round",
+                  "nameLocation": "740:5:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12292,
+                  "src": "732:13:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12289,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "732:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "731:15:35"
+            },
+            "src": "713:34:35"
+          },
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 12293,
+              "nodeType": "StructuredDocumentation",
+              "src": "753:23:35",
+              "text": "@dev event on start"
+            },
+            "id": 12295,
+            "name": "Started",
+            "nameLocation": "787:7:35",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 12294,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "794:2:35"
+            },
+            "src": "781:16:35"
+          },
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 12296,
+              "nodeType": "StructuredDocumentation",
+              "src": "803:159:35",
+              "text": "@dev event on claim\n@param caller  claimer\n@param amount  the claimed amount of caller\n@param totalClaimedAmount  total claimed amount"
+            },
+            "id": 12304,
+            "name": "Claimed",
+            "nameLocation": "973:7:35",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 12303,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12298,
+                  "indexed": true,
+                  "mutability": "mutable",
+                  "name": "caller",
+                  "nameLocation": "1006:6:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12304,
+                  "src": "990:22:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12297,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "990:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12300,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "1030:6:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12304,
+                  "src": "1022:14:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12299,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1022:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12302,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "totalClaimedAmount",
+                  "nameLocation": "1054:18:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12304,
+                  "src": "1046:26:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12301,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1046:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "980:98:35"
+            },
+            "src": "967:112:35"
+          },
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 12305,
+              "nodeType": "StructuredDocumentation",
+              "src": "1085:109:35",
+              "text": "@dev event on withdraw\n@param caller  owner\n@param amount  the withdrawable amount of owner"
+            },
+            "id": 12311,
+            "name": "Withdrawal",
+            "nameLocation": "1205:10:35",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 12310,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12307,
+                  "indexed": true,
+                  "mutability": "mutable",
+                  "name": "caller",
+                  "nameLocation": "1232:6:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12311,
+                  "src": "1216:22:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12306,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1216:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12309,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "1248:6:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12311,
+                  "src": "1240:14:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12308,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1240:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1215:40:35"
+            },
+            "src": "1199:57:35"
+          }
+        ],
+        "scope": 12313,
+        "src": "62:1196:35",
+        "usedErrors": []
+      }
+    ],
+    "src": "37:1222:35"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/vaults/VaultEvent.sol",
+    "exportedSymbols": {
+      "VaultEvent": [
+        12312
+      ]
+    },
+    "id": 12313,
+    "license": "Unlicense",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12267,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "37:23:35"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 12312,
+        "linearizedBaseContracts": [
+          12312
+        ],
+        "name": "VaultEvent",
+        "nameLocation": "71:10:35",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 12268,
+              "nodeType": "StructuredDocumentation",
+              "src": "88:75:35",
+              "text": "@dev event on set claimer\n @param newClaimer new claimer address"
+            },
+            "id": 12272,
+            "name": "SetNewClaimer",
+            "nameLocation": "174:13:35",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 12271,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12270,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "newClaimer",
+                  "nameLocation": "196:10:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12272,
+                  "src": "188:18:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12269,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "188:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "187:20:35"
+            },
+            "src": "168:40:35"
+          },
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 12273,
+              "nodeType": "StructuredDocumentation",
+              "src": "214:135:35",
+              "text": "@dev event on allocate amount\n@param round  it is the period unit can claim once\n@param amount total claimable amount"
+            },
+            "id": 12279,
+            "name": "AllocatedAmount",
+            "nameLocation": "360:15:35",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 12278,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12275,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "round",
+                  "nameLocation": "384:5:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12279,
+                  "src": "376:13:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12274,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "376:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12277,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "399:6:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12279,
+                  "src": "391:14:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12276,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "391:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "375:31:35"
+            },
+            "src": "354:53:35"
+          },
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 12280,
+              "nodeType": "StructuredDocumentation",
+              "src": "413:144:35",
+              "text": "@dev event on add whitelist\n@param round  it is the period unit can claim once\n@param users people who can claim in that round"
+            },
+            "id": 12287,
+            "name": "AddedWhitelist",
+            "nameLocation": "568:14:35",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 12286,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12282,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "round",
+                  "nameLocation": "591:5:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12287,
+                  "src": "583:13:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12281,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "583:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12285,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "users",
+                  "nameLocation": "608:5:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12287,
+                  "src": "598:15:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                    "typeString": "address[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 12283,
+                      "name": "address",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "598:7:35",
+                      "stateMutability": "nonpayable",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "id": 12284,
+                    "nodeType": "ArrayTypeName",
+                    "src": "598:9:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                      "typeString": "address[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "582:32:35"
+            },
+            "src": "562:53:35"
+          },
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 12288,
+              "nodeType": "StructuredDocumentation",
+              "src": "621:87:35",
+              "text": "@dev event on start round\n@param round  it is the period unit can claim once"
+            },
+            "id": 12292,
+            "name": "StartedRound",
+            "nameLocation": "719:12:35",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 12291,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12290,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "round",
+                  "nameLocation": "740:5:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12292,
+                  "src": "732:13:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12289,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "732:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "731:15:35"
+            },
+            "src": "713:34:35"
+          },
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 12293,
+              "nodeType": "StructuredDocumentation",
+              "src": "753:23:35",
+              "text": "@dev event on start"
+            },
+            "id": 12295,
+            "name": "Started",
+            "nameLocation": "787:7:35",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 12294,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "794:2:35"
+            },
+            "src": "781:16:35"
+          },
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 12296,
+              "nodeType": "StructuredDocumentation",
+              "src": "803:159:35",
+              "text": "@dev event on claim\n@param caller  claimer\n@param amount  the claimed amount of caller\n@param totalClaimedAmount  total claimed amount"
+            },
+            "id": 12304,
+            "name": "Claimed",
+            "nameLocation": "973:7:35",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 12303,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12298,
+                  "indexed": true,
+                  "mutability": "mutable",
+                  "name": "caller",
+                  "nameLocation": "1006:6:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12304,
+                  "src": "990:22:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12297,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "990:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12300,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "1030:6:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12304,
+                  "src": "1022:14:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12299,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1022:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12302,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "totalClaimedAmount",
+                  "nameLocation": "1054:18:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12304,
+                  "src": "1046:26:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12301,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1046:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "980:98:35"
+            },
+            "src": "967:112:35"
+          },
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 12305,
+              "nodeType": "StructuredDocumentation",
+              "src": "1085:109:35",
+              "text": "@dev event on withdraw\n@param caller  owner\n@param amount  the withdrawable amount of owner"
+            },
+            "id": 12311,
+            "name": "Withdrawal",
+            "nameLocation": "1205:10:35",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 12310,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12307,
+                  "indexed": true,
+                  "mutability": "mutable",
+                  "name": "caller",
+                  "nameLocation": "1232:6:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12311,
+                  "src": "1216:22:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12306,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1216:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12309,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "1248:6:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12311,
+                  "src": "1240:14:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12308,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1240:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1215:40:35"
+            },
+            "src": "1199:57:35"
+          }
+        ],
+        "scope": 12313,
+        "src": "62:1196:35",
+        "usedErrors": []
+      }
+    ],
+    "src": "37:1222:35"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.4+commit.c7e474f2.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.4",
+  "updatedAt": "2023-11-27T04:24:13.041Z",
+  "devdoc": {
+    "events": {
+      "AddedWhitelist(uint256,address[])": {
+        "details": "event on add whitelist",
+        "params": {
+          "round": "it is the period unit can claim once",
+          "users": "people who can claim in that round"
+        }
+      },
+      "AllocatedAmount(uint256,uint256)": {
+        "details": "event on allocate amount",
+        "params": {
+          "amount": "total claimable amount",
+          "round": "it is the period unit can claim once"
+        }
+      },
+      "Claimed(address,uint256,uint256)": {
+        "details": "event on claim",
+        "params": {
+          "amount": "the claimed amount of caller",
+          "caller": "claimer",
+          "totalClaimedAmount": "total claimed amount"
+        }
+      },
+      "SetNewClaimer(address)": {
+        "details": "event on set claimer",
+        "params": {
+          "newClaimer": "new claimer address"
+        }
+      },
+      "Started()": {
+        "details": "event on start"
+      },
+      "StartedRound(uint256)": {
+        "details": "event on start round",
+        "params": {
+          "round": "it is the period unit can claim once"
+        }
+      },
+      "Withdrawal(address,uint256)": {
+        "details": "event on withdraw",
+        "params": {
+          "amount": "the withdrawable amount of owner",
+          "caller": "owner"
+        }
+      }
+    },
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

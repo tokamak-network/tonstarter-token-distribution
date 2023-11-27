@@ -1,506 +1,83 @@
+// Sources flattened with hardhat v2.4.1 https://hardhat.org
+
+// File contracts/interfaces/ITOS.sol
+
 // SPDX-License-Identifier: MIT
-// File: contracts/common/AccessRoleCommon.sol
-
-
 pragma solidity ^0.8.4;
 
-contract AccessRoleCommon {
-    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN");
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER");
-    bytes32 public constant BURNER_ROLE = keccak256("BURNER");
+interface ITOS {
+    /// @dev Issue a token.
+    /// @param to  who takes the issue
+    /// @param amount the amount to issue
+    function mint(address to, uint256 amount) external returns (bool);
+
+    // @dev burn a token.
+    /// @param from Whose tokens are burned
+    /// @param amount the amount to burn
+    function burn(address from, uint256 amount) external returns (bool);
+
+    function DOMAIN_SEPARATOR() external view returns (bytes32);
+
+    function nonces(address owner) external view returns (uint256);
+
+    /// @dev Authorizes the owner's token to be used by the spender as much as the value.
+    /// @dev The signature must have the owner's signature.
+    /// @param owner the token's owner
+    /// @param spender the account that spend owner's token
+    /// @param value the amount to be approve to spend
+    /// @param deadline the deadline that valid the owner's signature
+    /// @param v the owner's signature - v
+    /// @param r the owner's signature - r
+    /// @param s the owner's signature - s
+    function permit(
+        address owner,
+        address spender,
+        uint256 value,
+        uint256 deadline,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external;
+
+    /// @dev verify the signature
+    /// @param owner the token's owner
+    /// @param spender the account that spend owner's token
+    /// @param value the amount to be approve to spend
+    /// @param deadline the deadline that valid the owner's signature
+    /// @param _nounce the _nounce
+    /// @param sigR the owner's signature - r
+    /// @param sigS the owner's signature - s
+    /// @param sigV the owner's signature - v
+    function verify(
+        address owner,
+        address spender,
+        uint256 value,
+        uint256 deadline,
+        uint256 _nounce,
+        bytes32 sigR,
+        bytes32 sigS,
+        uint8 sigV
+    ) external view returns (bool);
+
+    /// @dev the hash of Permit
+    /// @param owner the token's owner
+    /// @param spender the account that spend owner's token
+    /// @param value the amount to be approve to spend
+    /// @param deadline the deadline that valid the owner's signature
+    /// @param _nounce the _nounce
+    function hashPermit(
+        address owner,
+        address spender,
+        uint256 value,
+        uint256 deadline,
+        uint256 _nounce
+    ) external view returns (bytes32);
 }
 
-// File: @openzeppelin/contracts/utils/introspection/IERC165.sol
 
+// File @openzeppelin/contracts/token/ERC20/IERC20.sol@v4.1.0
 
-
-pragma solidity ^0.8.0;
-
-/**
- * @dev Interface of the ERC165 standard, as defined in the
- * https://eips.ethereum.org/EIPS/eip-165[EIP].
- *
- * Implementers can declare support of contract interfaces, which can then be
- * queried by others ({ERC165Checker}).
- *
- * For an implementation, see {ERC165}.
- */
-interface IERC165 {
-    /**
-     * @dev Returns true if this contract implements the interface defined by
-     * `interfaceId`. See the corresponding
-     * https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section]
-     * to learn more about how these ids are created.
-     *
-     * This function call must use less than 30 000 gas.
-     */
-    function supportsInterface(bytes4 interfaceId) external view returns (bool);
-}
-
-// File: @openzeppelin/contracts/utils/introspection/ERC165.sol
-
-
-
-pragma solidity ^0.8.0;
-
-
-/**
- * @dev Implementation of the {IERC165} interface.
- *
- * Contracts that want to implement ERC165 should inherit from this contract and override {supportsInterface} to check
- * for the additional interface id that will be supported. For example:
- *
- * ```solidity
- * function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
- *     return interfaceId == type(MyInterface).interfaceId || super.supportsInterface(interfaceId);
- * }
- * ```
- *
- * Alternatively, {ERC165Storage} provides an easier to use but more expensive implementation.
- */
-abstract contract ERC165 is IERC165 {
-    /**
-     * @dev See {IERC165-supportsInterface}.
-     */
-    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
-        return interfaceId == type(IERC165).interfaceId;
-    }
-}
-
-// File: @openzeppelin/contracts/utils/Strings.sol
-
-
-
-pragma solidity ^0.8.0;
-
-/**
- * @dev String operations.
- */
-library Strings {
-    bytes16 private constant alphabet = "0123456789abcdef";
-
-    /**
-     * @dev Converts a `uint256` to its ASCII `string` decimal representation.
-     */
-    function toString(uint256 value) internal pure returns (string memory) {
-        // Inspired by OraclizeAPI's implementation - MIT licence
-        // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
-
-        if (value == 0) {
-            return "0";
-        }
-        uint256 temp = value;
-        uint256 digits;
-        while (temp != 0) {
-            digits++;
-            temp /= 10;
-        }
-        bytes memory buffer = new bytes(digits);
-        while (value != 0) {
-            digits -= 1;
-            buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));
-            value /= 10;
-        }
-        return string(buffer);
-    }
-
-    /**
-     * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation.
-     */
-    function toHexString(uint256 value) internal pure returns (string memory) {
-        if (value == 0) {
-            return "0x00";
-        }
-        uint256 temp = value;
-        uint256 length = 0;
-        while (temp != 0) {
-            length++;
-            temp >>= 8;
-        }
-        return toHexString(value, length);
-    }
-
-    /**
-     * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation with fixed length.
-     */
-    function toHexString(uint256 value, uint256 length) internal pure returns (string memory) {
-        bytes memory buffer = new bytes(2 * length + 2);
-        buffer[0] = "0";
-        buffer[1] = "x";
-        for (uint256 i = 2 * length + 1; i > 1; --i) {
-            buffer[i] = alphabet[value & 0xf];
-            value >>= 4;
-        }
-        require(value == 0, "Strings: hex length insufficient");
-        return string(buffer);
-    }
-
-}
-
-// File: @openzeppelin/contracts/utils/Context.sol
-
-
-
-pragma solidity ^0.8.0;
-
-/*
- * @dev Provides information about the current execution context, including the
- * sender of the transaction and its data. While these are generally available
- * via msg.sender and msg.data, they should not be accessed in such a direct
- * manner, since when dealing with meta-transactions the account sending and
- * paying for execution may not be the actual sender (as far as an application
- * is concerned).
- *
- * This contract is only required for intermediate, library-like contracts.
- */
-abstract contract Context {
-    function _msgSender() internal view virtual returns (address) {
-        return msg.sender;
-    }
-
-    function _msgData() internal view virtual returns (bytes calldata) {
-        this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691
-        return msg.data;
-    }
-}
-
-// File: @openzeppelin/contracts/access/AccessControl.sol
-
-
-
-pragma solidity ^0.8.0;
-
-
-
-
-/**
- * @dev External interface of AccessControl declared to support ERC165 detection.
- */
-interface IAccessControl {
-    function hasRole(bytes32 role, address account) external view returns (bool);
-    function getRoleAdmin(bytes32 role) external view returns (bytes32);
-    function grantRole(bytes32 role, address account) external;
-    function revokeRole(bytes32 role, address account) external;
-    function renounceRole(bytes32 role, address account) external;
-}
-
-/**
- * @dev Contract module that allows children to implement role-based access
- * control mechanisms. This is a lightweight version that doesn't allow enumerating role
- * members except through off-chain means by accessing the contract event logs. Some
- * applications may benefit from on-chain enumerability, for those cases see
- * {AccessControlEnumerable}.
- *
- * Roles are referred to by their `bytes32` identifier. These should be exposed
- * in the external API and be unique. The best way to achieve this is by
- * using `public constant` hash digests:
- *
- * ```
- * bytes32 public constant MY_ROLE = keccak256("MY_ROLE");
- * ```
- *
- * Roles can be used to represent a set of permissions. To restrict access to a
- * function call, use {hasRole}:
- *
- * ```
- * function foo() public {
- *     require(hasRole(MY_ROLE, msg.sender));
- *     ...
- * }
- * ```
- *
- * Roles can be granted and revoked dynamically via the {grantRole} and
- * {revokeRole} functions. Each role has an associated admin role, and only
- * accounts that have a role's admin role can call {grantRole} and {revokeRole}.
- *
- * By default, the admin role for all roles is `DEFAULT_ADMIN_ROLE`, which means
- * that only accounts with this role will be able to grant or revoke other
- * roles. More complex role relationships can be created by using
- * {_setRoleAdmin}.
- *
- * WARNING: The `DEFAULT_ADMIN_ROLE` is also its own admin: it has permission to
- * grant and revoke this role. Extra precautions should be taken to secure
- * accounts that have been granted it.
- */
-abstract contract AccessControl is Context, IAccessControl, ERC165 {
-    struct RoleData {
-        mapping (address => bool) members;
-        bytes32 adminRole;
-    }
-
-    mapping (bytes32 => RoleData) private _roles;
-
-    bytes32 public constant DEFAULT_ADMIN_ROLE = 0x00;
-
-    /**
-     * @dev Emitted when `newAdminRole` is set as ``role``'s admin role, replacing `previousAdminRole`
-     *
-     * `DEFAULT_ADMIN_ROLE` is the starting admin for all roles, despite
-     * {RoleAdminChanged} not being emitted signaling this.
-     *
-     * _Available since v3.1._
-     */
-    event RoleAdminChanged(bytes32 indexed role, bytes32 indexed previousAdminRole, bytes32 indexed newAdminRole);
-
-    /**
-     * @dev Emitted when `account` is granted `role`.
-     *
-     * `sender` is the account that originated the contract call, an admin role
-     * bearer except when using {_setupRole}.
-     */
-    event RoleGranted(bytes32 indexed role, address indexed account, address indexed sender);
-
-    /**
-     * @dev Emitted when `account` is revoked `role`.
-     *
-     * `sender` is the account that originated the contract call:
-     *   - if using `revokeRole`, it is the admin role bearer
-     *   - if using `renounceRole`, it is the role bearer (i.e. `account`)
-     */
-    event RoleRevoked(bytes32 indexed role, address indexed account, address indexed sender);
-
-    /**
-     * @dev Modifier that checks that an account has a specific role. Reverts
-     * with a standardized message including the required role.
-     *
-     * The format of the revert reason is given by the following regular expression:
-     *
-     *  /^AccessControl: account (0x[0-9a-f]{20}) is missing role (0x[0-9a-f]{32})$/
-     *
-     * _Available since v4.1._
-     */
-    modifier onlyRole(bytes32 role) {
-        _checkRole(role, _msgSender());
-        _;
-    }
-
-    /**
-     * @dev See {IERC165-supportsInterface}.
-     */
-    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
-        return interfaceId == type(IAccessControl).interfaceId
-            || super.supportsInterface(interfaceId);
-    }
-
-    /**
-     * @dev Returns `true` if `account` has been granted `role`.
-     */
-    function hasRole(bytes32 role, address account) public view override returns (bool) {
-        return _roles[role].members[account];
-    }
-
-    /**
-     * @dev Revert with a standard message if `account` is missing `role`.
-     *
-     * The format of the revert reason is given by the following regular expression:
-     *
-     *  /^AccessControl: account (0x[0-9a-f]{20}) is missing role (0x[0-9a-f]{32})$/
-     */
-    function _checkRole(bytes32 role, address account) internal view {
-        if(!hasRole(role, account)) {
-            revert(string(abi.encodePacked(
-                "AccessControl: account ",
-                Strings.toHexString(uint160(account), 20),
-                " is missing role ",
-                Strings.toHexString(uint256(role), 32)
-            )));
-        }
-    }
-
-    /**
-     * @dev Returns the admin role that controls `role`. See {grantRole} and
-     * {revokeRole}.
-     *
-     * To change a role's admin, use {_setRoleAdmin}.
-     */
-    function getRoleAdmin(bytes32 role) public view override returns (bytes32) {
-        return _roles[role].adminRole;
-    }
-
-    /**
-     * @dev Grants `role` to `account`.
-     *
-     * If `account` had not been already granted `role`, emits a {RoleGranted}
-     * event.
-     *
-     * Requirements:
-     *
-     * - the caller must have ``role``'s admin role.
-     */
-    function grantRole(bytes32 role, address account) public virtual override onlyRole(getRoleAdmin(role)) {
-        _grantRole(role, account);
-    }
-
-    /**
-     * @dev Revokes `role` from `account`.
-     *
-     * If `account` had been granted `role`, emits a {RoleRevoked} event.
-     *
-     * Requirements:
-     *
-     * - the caller must have ``role``'s admin role.
-     */
-    function revokeRole(bytes32 role, address account) public virtual override onlyRole(getRoleAdmin(role)) {
-        _revokeRole(role, account);
-    }
-
-    /**
-     * @dev Revokes `role` from the calling account.
-     *
-     * Roles are often managed via {grantRole} and {revokeRole}: this function's
-     * purpose is to provide a mechanism for accounts to lose their privileges
-     * if they are compromised (such as when a trusted device is misplaced).
-     *
-     * If the calling account had been granted `role`, emits a {RoleRevoked}
-     * event.
-     *
-     * Requirements:
-     *
-     * - the caller must be `account`.
-     */
-    function renounceRole(bytes32 role, address account) public virtual override {
-        require(account == _msgSender(), "AccessControl: can only renounce roles for self");
-
-        _revokeRole(role, account);
-    }
-
-    /**
-     * @dev Grants `role` to `account`.
-     *
-     * If `account` had not been already granted `role`, emits a {RoleGranted}
-     * event. Note that unlike {grantRole}, this function doesn't perform any
-     * checks on the calling account.
-     *
-     * [WARNING]
-     * ====
-     * This function should only be called from the constructor when setting
-     * up the initial roles for the system.
-     *
-     * Using this function in any other way is effectively circumventing the admin
-     * system imposed by {AccessControl}.
-     * ====
-     */
-    function _setupRole(bytes32 role, address account) internal virtual {
-        _grantRole(role, account);
-    }
-
-    /**
-     * @dev Sets `adminRole` as ``role``'s admin role.
-     *
-     * Emits a {RoleAdminChanged} event.
-     */
-    function _setRoleAdmin(bytes32 role, bytes32 adminRole) internal virtual {
-        emit RoleAdminChanged(role, getRoleAdmin(role), adminRole);
-        _roles[role].adminRole = adminRole;
-    }
-
-    function _grantRole(bytes32 role, address account) private {
-        if (!hasRole(role, account)) {
-            _roles[role].members[account] = true;
-            emit RoleGranted(role, account, _msgSender());
-        }
-    }
-
-    function _revokeRole(bytes32 role, address account) private {
-        if (hasRole(role, account)) {
-            _roles[role].members[account] = false;
-            emit RoleRevoked(role, account, _msgSender());
-        }
-    }
-}
-
-// File: contracts/common/AccessibleCommon.sol
-
-
-pragma solidity ^0.8.4;
-
-
-
-contract AccessibleCommon is AccessRoleCommon, AccessControl {
-    modifier onlyOwner() {
-        require(isAdmin(msg.sender), "Accessible: Caller is not an admin");
-        _;
-    }
-
-    /// @dev add admin
-    /// @param account  address to add
-    function addAdmin(address account) public virtual onlyOwner {
-        grantRole(ADMIN_ROLE, account);
-    }
-
-    /// @dev remove admin
-    /// @param account  address to remove
-    function removeAdmin(address account) public virtual onlyOwner {
-        renounceRole(ADMIN_ROLE, account);
-    }
-
-    /// @dev transfer admin
-    /// @param newAdmin new admin address
-    function transferAdmin(address newAdmin) external virtual onlyOwner {
-        require(newAdmin != address(0), "Accessible: zero address");
-        require(msg.sender != newAdmin, "Accessible: same admin");
-
-        grantRole(ADMIN_ROLE, newAdmin);
-        renounceRole(ADMIN_ROLE, msg.sender);
-    }
-
-    /// @dev whether admin
-    /// @param account  address to check
-    function isAdmin(address account) public view virtual returns (bool) {
-        return hasRole(ADMIN_ROLE, account);
-    }
-}
-
-// File: contracts/common/AccessiblePlusCommon.sol
-
-
-pragma solidity ^0.8.4;
-
-
-contract AccessiblePlusCommon is AccessibleCommon {
-    modifier onlyMinter() {
-        require(
-            isMinter(msg.sender),
-            "AccessiblePlusCommon: Caller is not a minter"
-        );
-        _;
-    }
-    modifier onlyBurner() {
-        require(
-            isBurner(msg.sender),
-            "AccessiblePlusCommon: Caller is not a burner"
-        );
-        _;
-    }
-
-    function isMinter(address account) public view virtual returns (bool) {
-        return hasRole(MINTER_ROLE, account);
-    }
-
-    function isBurner(address account) public view virtual returns (bool) {
-        return hasRole(BURNER_ROLE, account);
-    }
-
-    function addMinter(address account) public virtual onlyOwner {
-        grantRole(MINTER_ROLE, account);
-    }
-
-    function addBurner(address account) public virtual onlyOwner {
-        grantRole(BURNER_ROLE, account);
-    }
-
-    function removeMinter(address account) public virtual onlyOwner {
-        revokeRole(MINTER_ROLE, account);
-    }
-
-    function removeBurner(address account) public virtual onlyOwner {
-        revokeRole(BURNER_ROLE, account);
-    }
-}
-
-// File: @openzeppelin/contracts/token/ERC20/IERC20.sol
-
-
+// SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
 
@@ -578,12 +155,12 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-// File: @openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol
 
+// File @openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol@v4.1.0
 
+// SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
-
 
 /**
  * @dev Interface for the optional metadata functions from the ERC20 standard.
@@ -607,12 +184,40 @@ interface IERC20Metadata is IERC20 {
     function decimals() external view returns (uint8);
 }
 
-// File: @openzeppelin/contracts/token/ERC20/ERC20.sol
 
+// File @openzeppelin/contracts/utils/Context.sol@v4.1.0
 
+// SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
 
+/*
+ * @dev Provides information about the current execution context, including the
+ * sender of the transaction and its data. While these are generally available
+ * via msg.sender and msg.data, they should not be accessed in such a direct
+ * manner, since when dealing with meta-transactions the account sending and
+ * paying for execution may not be the actual sender (as far as an application
+ * is concerned).
+ *
+ * This contract is only required for intermediate, library-like contracts.
+ */
+abstract contract Context {
+    function _msgSender() internal view virtual returns (address) {
+        return msg.sender;
+    }
+
+    function _msgData() internal view virtual returns (bytes calldata) {
+        this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691
+        return msg.data;
+    }
+}
+
+
+// File @openzeppelin/contracts/token/ERC20/ERC20.sol@v4.1.0
+
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
 
 
 
@@ -913,85 +518,486 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
     function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual { }
 }
 
-// File: contracts/interfaces/ITOS.sol
 
+// File @openzeppelin/contracts/utils/Strings.sol@v4.1.0
 
-pragma solidity ^0.8.4;
+// SPDX-License-Identifier: MIT
 
-interface ITOS {
-    /// @dev Issue a token.
-    /// @param to  who takes the issue
-    /// @param amount the amount to issue
-    function mint(address to, uint256 amount) external returns (bool);
+pragma solidity ^0.8.0;
 
-    // @dev burn a token.
-    /// @param from Whose tokens are burned
-    /// @param amount the amount to burn
-    function burn(address from, uint256 amount) external returns (bool);
+/**
+ * @dev String operations.
+ */
+library Strings {
+    bytes16 private constant alphabet = "0123456789abcdef";
 
-    function DOMAIN_SEPARATOR() external view returns (bytes32);
+    /**
+     * @dev Converts a `uint256` to its ASCII `string` decimal representation.
+     */
+    function toString(uint256 value) internal pure returns (string memory) {
+        // Inspired by OraclizeAPI's implementation - MIT licence
+        // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
 
-    function nonces(address owner) external view returns (uint256);
+        if (value == 0) {
+            return "0";
+        }
+        uint256 temp = value;
+        uint256 digits;
+        while (temp != 0) {
+            digits++;
+            temp /= 10;
+        }
+        bytes memory buffer = new bytes(digits);
+        while (value != 0) {
+            digits -= 1;
+            buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));
+            value /= 10;
+        }
+        return string(buffer);
+    }
 
-    /// @dev Authorizes the owner's token to be used by the spender as much as the value.
-    /// @dev The signature must have the owner's signature.
-    /// @param owner the token's owner
-    /// @param spender the account that spend owner's token
-    /// @param value the amount to be approve to spend
-    /// @param deadline the deadline that valid the owner's signature
-    /// @param v the owner's signature - v
-    /// @param r the owner's signature - r
-    /// @param s the owner's signature - s
-    function permit(
-        address owner,
-        address spender,
-        uint256 value,
-        uint256 deadline,
-        uint8 v,
-        bytes32 r,
-        bytes32 s
-    ) external;
+    /**
+     * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation.
+     */
+    function toHexString(uint256 value) internal pure returns (string memory) {
+        if (value == 0) {
+            return "0x00";
+        }
+        uint256 temp = value;
+        uint256 length = 0;
+        while (temp != 0) {
+            length++;
+            temp >>= 8;
+        }
+        return toHexString(value, length);
+    }
 
-    /// @dev verify the signature
-    /// @param owner the token's owner
-    /// @param spender the account that spend owner's token
-    /// @param value the amount to be approve to spend
-    /// @param deadline the deadline that valid the owner's signature
-    /// @param _nounce the _nounce
-    /// @param sigR the owner's signature - r
-    /// @param sigS the owner's signature - s
-    /// @param sigV the owner's signature - v
-    function verify(
-        address owner,
-        address spender,
-        uint256 value,
-        uint256 deadline,
-        uint256 _nounce,
-        bytes32 sigR,
-        bytes32 sigS,
-        uint8 sigV
-    ) external view returns (bool);
+    /**
+     * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation with fixed length.
+     */
+    function toHexString(uint256 value, uint256 length) internal pure returns (string memory) {
+        bytes memory buffer = new bytes(2 * length + 2);
+        buffer[0] = "0";
+        buffer[1] = "x";
+        for (uint256 i = 2 * length + 1; i > 1; --i) {
+            buffer[i] = alphabet[value & 0xf];
+            value >>= 4;
+        }
+        require(value == 0, "Strings: hex length insufficient");
+        return string(buffer);
+    }
 
-    /// @dev the hash of Permit
-    /// @param owner the token's owner
-    /// @param spender the account that spend owner's token
-    /// @param value the amount to be approve to spend
-    /// @param deadline the deadline that valid the owner's signature
-    /// @param _nounce the _nounce
-    function hashPermit(
-        address owner,
-        address spender,
-        uint256 value,
-        uint256 deadline,
-        uint256 _nounce
-    ) external view returns (bytes32);
 }
 
-// File: contracts/tokens/TOS.sol
+
+// File @openzeppelin/contracts/utils/introspection/IERC165.sol@v4.1.0
+
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+/**
+ * @dev Interface of the ERC165 standard, as defined in the
+ * https://eips.ethereum.org/EIPS/eip-165[EIP].
+ *
+ * Implementers can declare support of contract interfaces, which can then be
+ * queried by others ({ERC165Checker}).
+ *
+ * For an implementation, see {ERC165}.
+ */
+interface IERC165 {
+    /**
+     * @dev Returns true if this contract implements the interface defined by
+     * `interfaceId`. See the corresponding
+     * https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section]
+     * to learn more about how these ids are created.
+     *
+     * This function call must use less than 30 000 gas.
+     */
+    function supportsInterface(bytes4 interfaceId) external view returns (bool);
+}
 
 
+// File @openzeppelin/contracts/utils/introspection/ERC165.sol@v4.1.0
+
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+/**
+ * @dev Implementation of the {IERC165} interface.
+ *
+ * Contracts that want to implement ERC165 should inherit from this contract and override {supportsInterface} to check
+ * for the additional interface id that will be supported. For example:
+ *
+ * ```solidity
+ * function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+ *     return interfaceId == type(MyInterface).interfaceId || super.supportsInterface(interfaceId);
+ * }
+ * ```
+ *
+ * Alternatively, {ERC165Storage} provides an easier to use but more expensive implementation.
+ */
+abstract contract ERC165 is IERC165 {
+    /**
+     * @dev See {IERC165-supportsInterface}.
+     */
+    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+        return interfaceId == type(IERC165).interfaceId;
+    }
+}
+
+
+// File @openzeppelin/contracts/access/AccessControl.sol@v4.1.0
+
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+
+
+/**
+ * @dev External interface of AccessControl declared to support ERC165 detection.
+ */
+interface IAccessControl {
+    function hasRole(bytes32 role, address account) external view returns (bool);
+    function getRoleAdmin(bytes32 role) external view returns (bytes32);
+    function grantRole(bytes32 role, address account) external;
+    function revokeRole(bytes32 role, address account) external;
+    function renounceRole(bytes32 role, address account) external;
+}
+
+/**
+ * @dev Contract module that allows children to implement role-based access
+ * control mechanisms. This is a lightweight version that doesn't allow enumerating role
+ * members except through off-chain means by accessing the contract event logs. Some
+ * applications may benefit from on-chain enumerability, for those cases see
+ * {AccessControlEnumerable}.
+ *
+ * Roles are referred to by their `bytes32` identifier. These should be exposed
+ * in the external API and be unique. The best way to achieve this is by
+ * using `public constant` hash digests:
+ *
+ * ```
+ * bytes32 public constant MY_ROLE = keccak256("MY_ROLE");
+ * ```
+ *
+ * Roles can be used to represent a set of permissions. To restrict access to a
+ * function call, use {hasRole}:
+ *
+ * ```
+ * function foo() public {
+ *     require(hasRole(MY_ROLE, msg.sender));
+ *     ...
+ * }
+ * ```
+ *
+ * Roles can be granted and revoked dynamically via the {grantRole} and
+ * {revokeRole} functions. Each role has an associated admin role, and only
+ * accounts that have a role's admin role can call {grantRole} and {revokeRole}.
+ *
+ * By default, the admin role for all roles is `DEFAULT_ADMIN_ROLE`, which means
+ * that only accounts with this role will be able to grant or revoke other
+ * roles. More complex role relationships can be created by using
+ * {_setRoleAdmin}.
+ *
+ * WARNING: The `DEFAULT_ADMIN_ROLE` is also its own admin: it has permission to
+ * grant and revoke this role. Extra precautions should be taken to secure
+ * accounts that have been granted it.
+ */
+abstract contract AccessControl is Context, IAccessControl, ERC165 {
+    struct RoleData {
+        mapping (address => bool) members;
+        bytes32 adminRole;
+    }
+
+    mapping (bytes32 => RoleData) private _roles;
+
+    bytes32 public constant DEFAULT_ADMIN_ROLE = 0x00;
+
+    /**
+     * @dev Emitted when `newAdminRole` is set as ``role``'s admin role, replacing `previousAdminRole`
+     *
+     * `DEFAULT_ADMIN_ROLE` is the starting admin for all roles, despite
+     * {RoleAdminChanged} not being emitted signaling this.
+     *
+     * _Available since v3.1._
+     */
+    event RoleAdminChanged(bytes32 indexed role, bytes32 indexed previousAdminRole, bytes32 indexed newAdminRole);
+
+    /**
+     * @dev Emitted when `account` is granted `role`.
+     *
+     * `sender` is the account that originated the contract call, an admin role
+     * bearer except when using {_setupRole}.
+     */
+    event RoleGranted(bytes32 indexed role, address indexed account, address indexed sender);
+
+    /**
+     * @dev Emitted when `account` is revoked `role`.
+     *
+     * `sender` is the account that originated the contract call:
+     *   - if using `revokeRole`, it is the admin role bearer
+     *   - if using `renounceRole`, it is the role bearer (i.e. `account`)
+     */
+    event RoleRevoked(bytes32 indexed role, address indexed account, address indexed sender);
+
+    /**
+     * @dev Modifier that checks that an account has a specific role. Reverts
+     * with a standardized message including the required role.
+     *
+     * The format of the revert reason is given by the following regular expression:
+     *
+     *  /^AccessControl: account (0x[0-9a-f]{20}) is missing role (0x[0-9a-f]{32})$/
+     *
+     * _Available since v4.1._
+     */
+    modifier onlyRole(bytes32 role) {
+        _checkRole(role, _msgSender());
+        _;
+    }
+
+    /**
+     * @dev See {IERC165-supportsInterface}.
+     */
+    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+        return interfaceId == type(IAccessControl).interfaceId
+            || super.supportsInterface(interfaceId);
+    }
+
+    /**
+     * @dev Returns `true` if `account` has been granted `role`.
+     */
+    function hasRole(bytes32 role, address account) public view override returns (bool) {
+        return _roles[role].members[account];
+    }
+
+    /**
+     * @dev Revert with a standard message if `account` is missing `role`.
+     *
+     * The format of the revert reason is given by the following regular expression:
+     *
+     *  /^AccessControl: account (0x[0-9a-f]{20}) is missing role (0x[0-9a-f]{32})$/
+     */
+    function _checkRole(bytes32 role, address account) internal view {
+        if(!hasRole(role, account)) {
+            revert(string(abi.encodePacked(
+                "AccessControl: account ",
+                Strings.toHexString(uint160(account), 20),
+                " is missing role ",
+                Strings.toHexString(uint256(role), 32)
+            )));
+        }
+    }
+
+    /**
+     * @dev Returns the admin role that controls `role`. See {grantRole} and
+     * {revokeRole}.
+     *
+     * To change a role's admin, use {_setRoleAdmin}.
+     */
+    function getRoleAdmin(bytes32 role) public view override returns (bytes32) {
+        return _roles[role].adminRole;
+    }
+
+    /**
+     * @dev Grants `role` to `account`.
+     *
+     * If `account` had not been already granted `role`, emits a {RoleGranted}
+     * event.
+     *
+     * Requirements:
+     *
+     * - the caller must have ``role``'s admin role.
+     */
+    function grantRole(bytes32 role, address account) public virtual override onlyRole(getRoleAdmin(role)) {
+        _grantRole(role, account);
+    }
+
+    /**
+     * @dev Revokes `role` from `account`.
+     *
+     * If `account` had been granted `role`, emits a {RoleRevoked} event.
+     *
+     * Requirements:
+     *
+     * - the caller must have ``role``'s admin role.
+     */
+    function revokeRole(bytes32 role, address account) public virtual override onlyRole(getRoleAdmin(role)) {
+        _revokeRole(role, account);
+    }
+
+    /**
+     * @dev Revokes `role` from the calling account.
+     *
+     * Roles are often managed via {grantRole} and {revokeRole}: this function's
+     * purpose is to provide a mechanism for accounts to lose their privileges
+     * if they are compromised (such as when a trusted device is misplaced).
+     *
+     * If the calling account had been granted `role`, emits a {RoleRevoked}
+     * event.
+     *
+     * Requirements:
+     *
+     * - the caller must be `account`.
+     */
+    function renounceRole(bytes32 role, address account) public virtual override {
+        require(account == _msgSender(), "AccessControl: can only renounce roles for self");
+
+        _revokeRole(role, account);
+    }
+
+    /**
+     * @dev Grants `role` to `account`.
+     *
+     * If `account` had not been already granted `role`, emits a {RoleGranted}
+     * event. Note that unlike {grantRole}, this function doesn't perform any
+     * checks on the calling account.
+     *
+     * [WARNING]
+     * ====
+     * This function should only be called from the constructor when setting
+     * up the initial roles for the system.
+     *
+     * Using this function in any other way is effectively circumventing the admin
+     * system imposed by {AccessControl}.
+     * ====
+     */
+    function _setupRole(bytes32 role, address account) internal virtual {
+        _grantRole(role, account);
+    }
+
+    /**
+     * @dev Sets `adminRole` as ``role``'s admin role.
+     *
+     * Emits a {RoleAdminChanged} event.
+     */
+    function _setRoleAdmin(bytes32 role, bytes32 adminRole) internal virtual {
+        emit RoleAdminChanged(role, getRoleAdmin(role), adminRole);
+        _roles[role].adminRole = adminRole;
+    }
+
+    function _grantRole(bytes32 role, address account) private {
+        if (!hasRole(role, account)) {
+            _roles[role].members[account] = true;
+            emit RoleGranted(role, account, _msgSender());
+        }
+    }
+
+    function _revokeRole(bytes32 role, address account) private {
+        if (hasRole(role, account)) {
+            _roles[role].members[account] = false;
+            emit RoleRevoked(role, account, _msgSender());
+        }
+    }
+}
+
+
+// File contracts/common/AccessRoleCommon.sol
+
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
+contract AccessRoleCommon {
+    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN");
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER");
+    bytes32 public constant BURNER_ROLE = keccak256("BURNER");
+}
+
+
+// File contracts/common/AccessibleCommon.sol
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+
+
+contract AccessibleCommon is AccessRoleCommon, AccessControl {
+    modifier onlyOwner() {
+        require(isAdmin(msg.sender), "Accessible: Caller is not an admin");
+        _;
+    }
+
+    /// @dev add admin
+    /// @param account  address to add
+    function addAdmin(address account) public virtual onlyOwner {
+        grantRole(ADMIN_ROLE, account);
+    }
+
+    /// @dev remove admin
+    /// @param account  address to remove
+    function removeAdmin(address account) public virtual onlyOwner {
+        renounceRole(ADMIN_ROLE, account);
+    }
+
+    /// @dev transfer admin
+    /// @param newAdmin new admin address
+    function transferAdmin(address newAdmin) external virtual onlyOwner {
+        require(newAdmin != address(0), "Accessible: zero address");
+        require(msg.sender != newAdmin, "Accessible: same admin");
+
+        grantRole(ADMIN_ROLE, newAdmin);
+        renounceRole(ADMIN_ROLE, msg.sender);
+    }
+
+    /// @dev whether admin
+    /// @param account  address to check
+    function isAdmin(address account) public view virtual returns (bool) {
+        return hasRole(ADMIN_ROLE, account);
+    }
+}
+
+
+// File contracts/common/AccessiblePlusCommon.sol
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+
+contract AccessiblePlusCommon is AccessibleCommon {
+    modifier onlyMinter() {
+        require(
+            isMinter(msg.sender),
+            "AccessiblePlusCommon: Caller is not a minter"
+        );
+        _;
+    }
+    modifier onlyBurner() {
+        require(
+            isBurner(msg.sender),
+            "AccessiblePlusCommon: Caller is not a burner"
+        );
+        _;
+    }
+
+    function isMinter(address account) public view virtual returns (bool) {
+        return hasRole(MINTER_ROLE, account);
+    }
+
+    function isBurner(address account) public view virtual returns (bool) {
+        return hasRole(BURNER_ROLE, account);
+    }
+
+    function addMinter(address account) public virtual onlyOwner {
+        grantRole(MINTER_ROLE, account);
+    }
+
+    function addBurner(address account) public virtual onlyOwner {
+        grantRole(BURNER_ROLE, account);
+    }
+
+    function removeMinter(address account) public virtual onlyOwner {
+        revokeRole(MINTER_ROLE, account);
+    }
+
+    function removeBurner(address account) public virtual onlyOwner {
+        revokeRole(BURNER_ROLE, account);
+    }
+}
+
+
+// File contracts/tokens/TOS.sol
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
 
 
 

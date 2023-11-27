@@ -1,0 +1,738 @@
+{
+  "contractName": "ClaimVaultLib",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.4+commit.c7e474f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"title\":\"Function for getting the current chain ID\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/libraries/ClaimVaultLib.sol\":\"ClaimVaultLib\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/libraries/ClaimVaultLib.sol\":{\"keccak256\":\"0xd486273000ba60fa376c7d348ce9d20d73e75049a7e7c6308ea06f95f019b8b6\",\"license\":\"Unlicense\",\"urls\":[\"bzz-raw://0b2712e88701820f46a00884506117f19c8991e67bfd33cef2dd5a43c9c7e125\",\"dweb:/ipfs/QmVPwUA4viVL4RxFQFMx6K195Y6FETxSvbCpqDn8hy3g4C\"]}},\"version\":1}",
+  "bytecode": "0x60566050600b82828239805160001a6073146043577f4e487b7100000000000000000000000000000000000000000000000000000000600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212208d2c395450ce30b74cd269d7344658a4feb9fef4e4d6c6ab490bb4827cd1e9e064736f6c63430008040033",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212208d2c395450ce30b74cd269d7344658a4feb9fef4e4d6c6ab490bb4827cd1e9e064736f6c63430008040033",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "115:349:23:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "115:349:23:-:0;;;;;;;;",
+  "source": "//SPDX-License-Identifier: Unlicense\npragma solidity ^0.8.4;\n\n/// @title Function for getting the current chain ID\nlibrary ClaimVaultLib {\n    struct ClaimedInfo {\n        bool joined;\n        uint256 claimedTime;\n    }\n\n    struct TgeInfo {\n        bool allocated;\n        bool started;\n        uint256 allocatedAmount;\n        uint256 claimedCount;\n        uint256 amount;\n        address[] whitelist;\n        mapping(address => ClaimedInfo) claimedTime;\n    }\n}\n",
+  "sourcePath": "/Users/zena/tonstarter/tonstarter-token-distribution/contracts/libraries/ClaimVaultLib.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/libraries/ClaimVaultLib.sol",
+    "exportedSymbols": {
+      "ClaimVaultLib": [
+        10498
+      ]
+    },
+    "id": 10499,
+    "license": "Unlicense",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 10472,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "37:23:23"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": {
+          "id": 10473,
+          "nodeType": "StructuredDocumentation",
+          "src": "62:53:23",
+          "text": "@title Function for getting the current chain ID"
+        },
+        "fullyImplemented": true,
+        "id": 10498,
+        "linearizedBaseContracts": [
+          10498
+        ],
+        "name": "ClaimVaultLib",
+        "nameLocation": "123:13:23",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "ClaimVaultLib.ClaimedInfo",
+            "id": 10478,
+            "members": [
+              {
+                "constant": false,
+                "id": 10475,
+                "mutability": "mutable",
+                "name": "joined",
+                "nameLocation": "177:6:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10478,
+                "src": "172:11:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 10474,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "172:4:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 10477,
+                "mutability": "mutable",
+                "name": "claimedTime",
+                "nameLocation": "201:11:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10478,
+                "src": "193:19:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 10476,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "193:7:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "ClaimedInfo",
+            "nameLocation": "150:11:23",
+            "nodeType": "StructDefinition",
+            "scope": 10498,
+            "src": "143:76:23",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "ClaimVaultLib.TgeInfo",
+            "id": 10497,
+            "members": [
+              {
+                "constant": false,
+                "id": 10480,
+                "mutability": "mutable",
+                "name": "allocated",
+                "nameLocation": "255:9:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10497,
+                "src": "250:14:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 10479,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "250:4:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 10482,
+                "mutability": "mutable",
+                "name": "started",
+                "nameLocation": "279:7:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10497,
+                "src": "274:12:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 10481,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "274:4:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 10484,
+                "mutability": "mutable",
+                "name": "allocatedAmount",
+                "nameLocation": "304:15:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10497,
+                "src": "296:23:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 10483,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "296:7:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 10486,
+                "mutability": "mutable",
+                "name": "claimedCount",
+                "nameLocation": "337:12:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10497,
+                "src": "329:20:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 10485,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "329:7:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 10488,
+                "mutability": "mutable",
+                "name": "amount",
+                "nameLocation": "367:6:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10497,
+                "src": "359:14:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 10487,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "359:7:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 10491,
+                "mutability": "mutable",
+                "name": "whitelist",
+                "nameLocation": "393:9:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10497,
+                "src": "383:19:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                  "typeString": "address[]"
+                },
+                "typeName": {
+                  "baseType": {
+                    "id": 10489,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "383:7:23",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 10490,
+                  "nodeType": "ArrayTypeName",
+                  "src": "383:9:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                    "typeString": "address[]"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 10496,
+                "mutability": "mutable",
+                "name": "claimedTime",
+                "nameLocation": "444:11:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10497,
+                "src": "412:43:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_ClaimedInfo_$10478_storage_$",
+                  "typeString": "mapping(address => struct ClaimVaultLib.ClaimedInfo)"
+                },
+                "typeName": {
+                  "id": 10495,
+                  "keyType": {
+                    "id": 10492,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "420:7:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "Mapping",
+                  "src": "412:31:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_ClaimedInfo_$10478_storage_$",
+                    "typeString": "mapping(address => struct ClaimVaultLib.ClaimedInfo)"
+                  },
+                  "valueType": {
+                    "id": 10494,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 10493,
+                      "name": "ClaimedInfo",
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 10478,
+                      "src": "431:11:23"
+                    },
+                    "referencedDeclaration": 10478,
+                    "src": "431:11:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_ClaimedInfo_$10478_storage_ptr",
+                      "typeString": "struct ClaimVaultLib.ClaimedInfo"
+                    }
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "TgeInfo",
+            "nameLocation": "232:7:23",
+            "nodeType": "StructDefinition",
+            "scope": 10498,
+            "src": "225:237:23",
+            "visibility": "public"
+          }
+        ],
+        "scope": 10499,
+        "src": "115:349:23",
+        "usedErrors": []
+      }
+    ],
+    "src": "37:428:23"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/libraries/ClaimVaultLib.sol",
+    "exportedSymbols": {
+      "ClaimVaultLib": [
+        10498
+      ]
+    },
+    "id": 10499,
+    "license": "Unlicense",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 10472,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "37:23:23"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": {
+          "id": 10473,
+          "nodeType": "StructuredDocumentation",
+          "src": "62:53:23",
+          "text": "@title Function for getting the current chain ID"
+        },
+        "fullyImplemented": true,
+        "id": 10498,
+        "linearizedBaseContracts": [
+          10498
+        ],
+        "name": "ClaimVaultLib",
+        "nameLocation": "123:13:23",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "ClaimVaultLib.ClaimedInfo",
+            "id": 10478,
+            "members": [
+              {
+                "constant": false,
+                "id": 10475,
+                "mutability": "mutable",
+                "name": "joined",
+                "nameLocation": "177:6:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10478,
+                "src": "172:11:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 10474,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "172:4:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 10477,
+                "mutability": "mutable",
+                "name": "claimedTime",
+                "nameLocation": "201:11:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10478,
+                "src": "193:19:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 10476,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "193:7:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "ClaimedInfo",
+            "nameLocation": "150:11:23",
+            "nodeType": "StructDefinition",
+            "scope": 10498,
+            "src": "143:76:23",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "ClaimVaultLib.TgeInfo",
+            "id": 10497,
+            "members": [
+              {
+                "constant": false,
+                "id": 10480,
+                "mutability": "mutable",
+                "name": "allocated",
+                "nameLocation": "255:9:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10497,
+                "src": "250:14:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 10479,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "250:4:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 10482,
+                "mutability": "mutable",
+                "name": "started",
+                "nameLocation": "279:7:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10497,
+                "src": "274:12:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 10481,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "274:4:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 10484,
+                "mutability": "mutable",
+                "name": "allocatedAmount",
+                "nameLocation": "304:15:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10497,
+                "src": "296:23:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 10483,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "296:7:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 10486,
+                "mutability": "mutable",
+                "name": "claimedCount",
+                "nameLocation": "337:12:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10497,
+                "src": "329:20:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 10485,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "329:7:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 10488,
+                "mutability": "mutable",
+                "name": "amount",
+                "nameLocation": "367:6:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10497,
+                "src": "359:14:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 10487,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "359:7:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 10491,
+                "mutability": "mutable",
+                "name": "whitelist",
+                "nameLocation": "393:9:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10497,
+                "src": "383:19:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                  "typeString": "address[]"
+                },
+                "typeName": {
+                  "baseType": {
+                    "id": 10489,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "383:7:23",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 10490,
+                  "nodeType": "ArrayTypeName",
+                  "src": "383:9:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                    "typeString": "address[]"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 10496,
+                "mutability": "mutable",
+                "name": "claimedTime",
+                "nameLocation": "444:11:23",
+                "nodeType": "VariableDeclaration",
+                "scope": 10497,
+                "src": "412:43:23",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_ClaimedInfo_$10478_storage_$",
+                  "typeString": "mapping(address => struct ClaimVaultLib.ClaimedInfo)"
+                },
+                "typeName": {
+                  "id": 10495,
+                  "keyType": {
+                    "id": 10492,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "420:7:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "Mapping",
+                  "src": "412:31:23",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_ClaimedInfo_$10478_storage_$",
+                    "typeString": "mapping(address => struct ClaimVaultLib.ClaimedInfo)"
+                  },
+                  "valueType": {
+                    "id": 10494,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 10493,
+                      "name": "ClaimedInfo",
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 10478,
+                      "src": "431:11:23"
+                    },
+                    "referencedDeclaration": 10478,
+                    "src": "431:11:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_ClaimedInfo_$10478_storage_ptr",
+                      "typeString": "struct ClaimVaultLib.ClaimedInfo"
+                    }
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "TgeInfo",
+            "nameLocation": "232:7:23",
+            "nodeType": "StructDefinition",
+            "scope": 10498,
+            "src": "225:237:23",
+            "visibility": "public"
+          }
+        ],
+        "scope": 10499,
+        "src": "115:349:23",
+        "usedErrors": []
+      }
+    ],
+    "src": "37:428:23"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.4+commit.c7e474f2.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.4",
+  "updatedAt": "2023-11-27T04:24:12.964Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "title": "Function for getting the current chain ID",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

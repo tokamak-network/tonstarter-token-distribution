@@ -5,7 +5,6 @@ require("hardhat-gas-reporter");
 
 require('dotenv').config()
 
-
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async () => {
@@ -66,18 +65,40 @@ module.exports = {
           ],
       gasMultiplier: 1.25,
       gasPrice: 35000000000
-    }
-  },
-  etherscan: {
-    apiKey: `${process.env.APIKey}`
+    },
+    holesky: {
+      url: `https://ethereum-holesky.publicnode.com`,
+      accounts: [
+          `${process.env.ACCOUNT0_PK}`,
+          `${process.env.ACCOUNT1_PK}`,
+          `${process.env.ACCOUNT2_PK}`
+          ],
+      chainId: 17000,
+      // gasMultiplier: 1.25,
+      // gasPrice: 10000000000,
+    },
   },
   // etherscan: {
-  //   apiKey: {
-  //       mainnet: `${process.env.APIKey}`,
-  //       rinkeby: `${process.env.APIKey}`,
-  //       goerli: `${process.env.APIKey}`,
-  //   }
+    // apiKey: `${process.env.APIKey}`,
   // },
+  etherscan: {
+    apiKey: {
+        mainnet: `${process.env.APIKey}`,
+        rinkeby: `${process.env.APIKey}`,
+        goerli: `${process.env.APIKey}`,
+        holesky: `${process.env.APIKey}`,
+    },
+    customChains: [
+      {
+        network: "holesky",
+        chainId: 17000,
+        urls: {
+          apiURL: "https://api-holesky.etherscan.io/api",
+          browserURL: "https://holesky.etherscan.io/"
+        }
+      }
+    ]
+  },
   solidity: {
     version: "0.8.4",
     settings: {
