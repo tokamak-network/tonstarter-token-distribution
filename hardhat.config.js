@@ -74,8 +74,13 @@ module.exports = {
           `${process.env.ACCOUNT2_PK}`
           ],
       chainId: 17000,
-      // gasMultiplier: 1.25,
-      // gasPrice: 10000000000,
+    },
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/${process.env.InfuraKey}`,
+      accounts: [
+          `${process.env.ACCOUNT0_PK}`
+          ],
+      chainId: 11155111,
     },
   },
   // etherscan: {
@@ -87,6 +92,7 @@ module.exports = {
         rinkeby: `${process.env.APIKey}`,
         goerli: `${process.env.APIKey}`,
         holesky: `${process.env.APIKey}`,
+        sepolia: `${process.env.APIKey}`,
     },
     customChains: [
       {
